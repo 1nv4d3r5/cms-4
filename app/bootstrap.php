@@ -28,7 +28,7 @@ $pages = Database::$current
 foreach ($pages as $page)
 {
     Route::Set('page_' . $page['page_id'],
-            '(?<page_title>' . Slug($page['title']) . ')', 
+            '(?<slug>' . Slug($page['title']) . ')', 
             'ControllerMain', 'ActionPage');
 }
 
