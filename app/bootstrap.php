@@ -20,6 +20,18 @@ Route::RegisterControllers(array(
 
 // Define routes
 
+// Generate routes for each dynamic page
+$pages = Database::$current
+            ->Query("SELECT * FROM `cms_pages`")
+            ->FetchArray();
+
+foreach ($pages as $page)
+{
+    Route::Set('page_' . $page['page_id'],
+            '(?<page_title>' . Slug($page['title']) . ')', 
+            'ControllerMain', 'ActionPage');
+}
+
 Route::Set('blogs_entry', 'blogs/entry/(?<entry_id>[1-9]{1}[0-9]*)', 'ControllerBlogs', 'ActionEntry');
 Route::Set('blogs_all', 'blogs/all', 'ControllerBlogs', 'ActionAll');
 Route::Set('blogs', 'blogs', 'ControllerBlogs');
