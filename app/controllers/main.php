@@ -22,10 +22,7 @@ class ControllerMain extends ControllerTemplate
                     ->Query("SELECT * FROM `cms_pages` WHERE `default`=1")
                     ->Fetch();
         
-        $this->template->Variables(array(
-            'page_title' => $page['title'], 
-            'content' => $page['content'],
-            ));
+        $this->request->Redirect($page['slug']);
     }
     
     public function ActionPage()
