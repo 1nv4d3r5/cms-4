@@ -1,9 +1,6 @@
 <?php if (!defined('INDIRECT')) die();
-class ControllerMain extends Controller
+class ControllerMain extends ControllerTemplate
 {
-    public function ActionIndex()
-    {
-        echo '<a href="blogs">Blogs</a>';
-    }
+    public $template = 'main';
 }
 ?>

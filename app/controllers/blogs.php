@@ -1,8 +1,10 @@
 <?php if (!defined('INDIRECT')) die();
-class ControllerBlogs extends ControllerTemplate
+
+// We're using the main template
+ControllerTemplate::Load('main');
+
+class ControllerBlogs extends ControllerMain
 {
-    public $template = 'main';
-    
     public function ActionEntry()
     {
         echo 'Blog entry #' . $this->request->parameter('entry_id');
