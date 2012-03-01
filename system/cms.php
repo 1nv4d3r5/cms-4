@@ -39,9 +39,8 @@ class CMS
             if (0 === strpos(Request::Initial()->uri(), CMS::$base_url . 'index' . EXT))
             {
                 $new_uri = ltrim(substr(Request::Initial()->uri(),
-                        strlen(CMS::$base_url . 'index' . EXT)), '/');
+                               strlen(CMS::$base_url . 'index' . EXT)), '/');
                 
-                exit($new_uri);
                 if (strlen($new_uri) > 0)
                     Request::Initial()->Redirect(CMS::$base_url . $new_uri);
                 else
