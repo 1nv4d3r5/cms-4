@@ -10,11 +10,13 @@ abstract class Controller
         $this->response = $response;
     }
     
+    // Before controller action is invoked.
     public function Before()
     {
         
     }
     
+    // After controller action is invoked.
     public function After()
     {
         
