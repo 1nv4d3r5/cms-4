@@ -21,6 +21,7 @@ class CMS
             }
             
             // Load system extensions
+            require_once SYSPATH . 'utilities' . EXT;
             require_once SYSPATH . 'request' . EXT;
             require_once SYSPATH . 'response' . EXT;
             require_once SYSPATH . 'route' . EXT;
