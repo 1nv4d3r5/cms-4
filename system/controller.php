@@ -29,5 +29,10 @@ abstract class ControllerTemplate extends Controller
     {
         $this->template = View::Factory($this->template);
     }
+    
+    public function After()
+    {
+        $this->response->body($this->template->Render());
+    }
 }
 ?>

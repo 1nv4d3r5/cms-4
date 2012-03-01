@@ -30,10 +30,16 @@ if ($route)
     // that extend Controller.
     
     $controller = new $route->controller(Request::Initial(), Response::Initial());
+    
+    // Template construction usually happens before the action is invoked.
     $controller->Before();
+    
+    // Invoke action
     $action = $route->Action();
     $controller->$action();
+    
     $controller->After();
+    
     echo Response::Initial()->Render();
 }
 else
