@@ -1,10 +1,12 @@
 <?php if (!defined('INDIRECT')) die();
 class URL
 {
-    public static function absolute($uri = '', $protocol = 'http')
+    public static function Absolute($uri = '', $protocol = 'http')
     {
-        return $protocol . '://' . $_SERVER['HTTP_HOST'] 
-                . CMS::base_url() . trim($uri, '/');
+        $hostname = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] 
+            : $_SERVER['SERVER_NAME'];
+        
+        return $protocol . '://' . $hostname . CMS::base_url() . trim($uri, '/');
     }
 }
 ?>
