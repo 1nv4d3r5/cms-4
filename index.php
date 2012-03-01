@@ -30,10 +30,10 @@ if ($route)
     // that extend Controller.
     
     $controller = new $route->controller(Request::Initial(), Response::Initial());
-
+    $controller->Before();
     $action = $route->Action();
     $controller->$action();
-    
+    $controller->After();
     echo Response::Initial()->Render();
 }
 else

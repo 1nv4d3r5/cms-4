@@ -25,6 +25,28 @@ class View
         return $this->Render();
     }
     
+    public function Variable($key, $value = null)
+    {
+        if ($value === null)
+            return $this->variables[$key];
+        
+        $this->variables[$key] = $value;
+        
+        return $this;
+    }
+    
+    public function Variables($variables = null)
+    {
+        if ($variables === null)
+            return $this->variables;
+        
+        // Merge data. If there are keys that exist in $this->variables,
+        // they will be overwritten by the newer values.
+        $this->variables = array_merge($this->variables, $variables);
+        
+        return $this;
+    }
+    
     public function Render()
     {
         // Start render buffer. This preserves all data from the view file.

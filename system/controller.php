@@ -9,5 +9,25 @@ abstract class Controller
         $this->request = $request;
         $this->response = $response;
     }
+    
+    public function Before()
+    {
+        
+    }
+    
+    public function After()
+    {
+        
+    }
+}
+
+abstract class ControllerTemplate extends Controller
+{
+    public $template;
+    
+    public function Before()
+    {
+        $this->template = View::Factory($this->template);
+    }
 }
 ?>

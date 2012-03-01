@@ -1,0 +1,245 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 0.8em;
+    font-family: Helvetica;
+    background: url('../img/bg_top.png') repeat-x;
+}
+
+img {
+    border: none;
+}
+
+a {
+    color: #93B300;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu_item {
+    font-size: 1.0em;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 12px 12px 18px;
+    display: block;
+}
+
+.menu_item:hover {
+    color: #000000;
+    background: #FFFFFF url('../img/bg_menu.png') no-repeat;
+}
+
+h2.page_title {
+    margin: 0;
+    font-family: 'Fugaz One';
+    font-size: 2em;
+}
+
+/* TODO: Because TinyMCE allows the user to create custom styled content,
+ * it creates one problem: The content could be inconsistent with the theme
+ * of the website. Right now, if the content is wrapped in p tags, we'll
+ * override the custom content to match the page. Later on, I need to add
+ * an option to allow the user to make the choice themselves (whether or not
+ * they want the theme to override the custom content)
+ */
+div.page_content p {
+    font-family: Helvetica;
+    font-size: 1.4em;
+}
+
+hr.page_content_spacer {
+    margin: 30px 0 30px 0;
+}
+
+a.blog_entry_title {
+    font-family: Share;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 1.8em;
+}
+
+a.blog_entry_title:hover {
+    color: #808080;
+}
+
+.blog_entry_date {
+    font-family: Share;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.blog_entry {
+    clear: left;
+    border-bottom: 1px dotted #BBBBBB;
+    padding-bottom: 20px;
+}
+
+div.blog_entry_content {
+    font-family: Helvetica;
+    font-size: 1.1em;
+}
+
+div.blog_entry_content p {
+    font-family: Helvetica;
+    font-size: 1.1em;
+}
+
+.wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    width: 900px;
+}
+
+.head_wrapper {
+    height: 88px;
+}
+
+.site_name {
+    margin: 0;
+    padding: 25px 0 0 15px;
+    width: 300px;
+    font-weight: normal;
+    float: left;
+}
+
+h1.site_name a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+h1.site_name a:hover {
+    color: #93B300;
+}
+
+.content_wrapper {
+    margin: 15px 0 0 0;
+    width: 630px;
+    float: right;
+}
+
+.menu_wrapper {
+    float: left;
+    width: 203px;
+    margin: 15px 5px 0 0;
+    padding: 15px 10px 15px 10px;
+    background-color: #F6F9FB;
+    border: 1px solid #EEEEEE;
+}
+
+a.button {
+    display: block;
+    width: 150px;
+    height: 29px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: #FFFFFF 0 0 2px;
+    background: #EEEEEE; /* Old browsers */
+    border: 1px solid #EEEEEE;
+    background: -moz-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #EEEEEE), color-stop(100%, #CCCCCC)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* IE10+ */
+    background: linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#EEEEEE', endColorstr = '#CCCCCC', GradientType = 0); /* IE6-9 */
+}
+
+a.button:active {
+    background: #EEEEEE; /* Old browsers */
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #dddddd 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#dddddd)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#dddddd 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #eeeeee 0%,#dddddd 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#dddddd 100%); /* IE10+ */
+    background: linear-gradient(top,  #eeeeee 0%,#dddddd 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+    outline: none;
+}
+
+a.button img {
+    float: left;
+    margin: 2px 5px 3px 5px;
+    width: 24px;
+    height: 24px;
+}
+
+a.button div {
+    float: left;
+    margin: 6px 0 3px 5px;
+}
+
+ul.page-list {
+    list-style: none;
+    margin: 0 0 10px 0;
+    padding: 0;
+    display: block;
+    width: 500px;
+}
+
+li.page-list-head {
+    width: 500px;
+}
+
+li.page-list-item, li.page-list-item-first, li.page-list-item-last {
+    display: block;
+    width: 500px;
+    clear: both;
+    padding: 9px 0 9px 0;
+}
+
+a.page-list-item-title {
+    display: inline-block;
+    width: 300px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+    overflow-x: hidden;
+    float: left;
+    margin: 3px 0 0 0;
+}
+
+a.page-list-item-action-down {
+    position: absolute;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    float: left;
+}
+
+a.page-list-item-action-up {
+    margin: 0 0 0 32px;
+    position: absolute;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    float: left;
+}
+
+a.page-list-item-action-delete {
+    margin: 0 0 0 64px;
+    position: absolute;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    float: left;
+}
+
+a.page-list-item-title:hover {
+    color: #808080;
+}
+
+input.page-list-item-action-default {
+    width: 15px;
+    height: 15px;
+    float: left;
+}
