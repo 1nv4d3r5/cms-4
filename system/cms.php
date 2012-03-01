@@ -28,6 +28,7 @@ class CMS
             require_once SYSPATH . 'controller' . EXT;
             require_once SYSPATH . 'database' . EXT;
             require_once SYSPATH . 'view' . EXT;
+            require_once SYSPATH . 'url' . EXT;
 
             Request::Init();
             Response::Init();
