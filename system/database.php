@@ -67,10 +67,14 @@ class Database
         if (strlen($this->current_sql) > 0)
         {
             $query = mysql_query($this->current_sql, $this->link);
-            $result_array = array();
-            while ($result = mysql_fetch_assoc($query))
-                $result_array[] = $result;
-            return $result_array;
+            
+            if ($query && mysql_num_rows($query) > 0)
+            {
+                $result_array = array();
+                while ($result = mysql_fetch_assoc($query))
+                    $result_array[] = $result;
+                return $result_array;
+            }
         }
         
         return null;
