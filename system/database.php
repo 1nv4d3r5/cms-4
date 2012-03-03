@@ -2,7 +2,7 @@
 
 class Database
 {
-    public static $current = null;
+    protected static $current = null;
     
     public $hostname = '';
     public $database = '';
