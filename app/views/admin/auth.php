@@ -19,6 +19,12 @@
                 text-align: center;
             }
             
+            div.page_status {
+                font-family: Helvetica;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
             label.auth_input_label {
                 font-family: Share, Helvetica;
                 display: block;
@@ -94,7 +100,11 @@
         <div class="wrapper">
             <h2 class="page_title"><?php echo $page_title; ?></h2>
             <div class="page_content">
-                <form action="." method="post" style="margin-left: auto; margin-right: auto; width: 450px;" id="login_form">
+                <?php if (isset($page_status)): ?>
+                    <div class="page_status"><?php echo $page_status; ?></div>
+                <?php endif; ?>
+                <form action="<?php echo URL::Absolute('admin/auth/login'); ?>"
+                    method="post" style="margin-left: auto; margin-right: auto; width: 450px;" id="login_form">
                     <div class="auth_input_wrapper">
                         <label class="auth_input_label">Username</label>
                         <input class="auth_input" type="text" name="username" value=""/>
