@@ -72,13 +72,12 @@ class Auth
                     // Check auth cookie
                     if (strlen($_COOKIE[$this->cookie_name]) == 80)
                     {
-                        $auth_query = Database::current()
+                        $this->user = Database::current()
                                           ->Query("SELECT `user_id` FROM `cms_auth` "
                                               . "WHERE `cookie`='" 
                                               . Database::current()->Escape($_COOKIE[$this->cookie_name])
-                                              . "' LIMIT 1", $db);
-                        
-                        $this->user = $auth_query->Fetch();
+                                              . "' LIMIT 1")
+                                          ->Fetch();
                         
                         if ($this->user)
                             // Update cookie to expire 24 hours from now
