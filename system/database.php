@@ -23,10 +23,20 @@ class Database
         }
     }
     
+    public static function current()
+    {
+        return Database::$current;
+    }
+    
     public static function Factory($parameters = array(), $connect = true)
     {
         Database::$current = new Database($parameters);
         return ($connect) ? Database::$current->Connect() : Database::$current;
+    }
+    
+    public function Escape($string)
+    {
+        return mysql_real_escape_string($string, $this->link);
     }
     
     public function Connect()
