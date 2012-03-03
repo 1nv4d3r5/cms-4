@@ -56,6 +56,15 @@ class Database
         return $this;
     }
     
+    public function Execute()
+    {
+        $query = null;
+        if (strlen($this->current_sql) > 0)
+            $query = mysql_query($this->current_sql, $this->link);
+        
+        return $query;
+    }
+    
     public function Fetch()
     {
         if (strlen($this->current_sql) > 0)
