@@ -68,7 +68,7 @@ class Database
         {
             $query = mysql_query($this->current_sql, $this->link);
             
-            if ($query && mysql_num_rows($query) > 0)
+            if ($query)
             {
                 $result_array = array();
                 while ($result = mysql_fetch_assoc($query))

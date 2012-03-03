@@ -29,7 +29,7 @@
                 <ul class="menu">
                     <?php foreach ($menu_items as $menu_item): ?>
                     <li>
-                        <a class="menu_item" href="<?php echo URL::Absolute(Slug($menu_item['title'])); ?>">
+                        <a class="menu_item" href="<?php echo URL::Absolute($menu_item['slug']); ?>">
                             <?php echo $menu_item['title']; ?>
                         </a>
                     </li>

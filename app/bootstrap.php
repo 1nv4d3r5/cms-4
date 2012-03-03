@@ -14,15 +14,29 @@ CMS::Init(array(
 
 Route::RegisterControllers(array(
         'ControllerMain'  => 'main',
-        'ControllerBlogs' => 'blogs',
+        'ControllerBlog'  => 'blog',
         'ControllerAdmin' => 'admin',
     ));
 
 // Define routes
 
-// Generate routes for each dynamic page
+// Remember to order routes based on importance first. Once a route has been
+// matched, the route is considered finished. No other routes will be attempted.
+
+// Define blog pages before dynamic page routes are generated. This prevents
+// any page from overriding any default route.
+Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionEntry');
+Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
+Route::Set('blog', 'blog', 'ControllerBlog');
+
+Route::Set('admin', 'admin', 'ControllerAdmin');
+
+// Generate routes for each dynamic page. Because non-deletable pages have
+// custom controllers (for example, blogs), their pages will NOT
+// be included in the dynamic route generation.
+
 $pages = Database::$current
-            ->Query('SELECT * FROM `cms_pages` WHERE `publisehd`=1')
+            ->Query('SELECT * FROM `cms_pages` WHERE `published`=1 AND deletable=1')
             ->FetchArray();
 
 if (count($pages) > 0)
@@ -33,16 +47,10 @@ if (count($pages) > 0)
         // identifies what page to select from the database. This is a much
         // more readable than using just a plain page_id.
         Route::Set('page_' . $page['page_id'], // Unique rule name based on page_id
-            '(?<slug>' . Slug($page['title']) . ')', 
+            '(?<slug>' . $page['slug'] . ')', 
             'ControllerMain', 'ActionPage'); // Our main controller will be responsible for displaying a page.
     }
 }
-
-Route::Set('blogs_entry', 'blogs/entry/(?<entry_id>[1-9]{1}[0-9]*)', 'ControllerBlogs', 'ActionEntry');
-Route::Set('blogs_all', 'blogs/all', 'ControllerBlogs', 'ActionAll');
-Route::Set('blogs', 'blogs', 'ControllerBlogs');
-
-Route::Set('admin', 'admin', 'ControllerAdmin');
 
 Route::Set('index', '', 'ControllerMain');
 
