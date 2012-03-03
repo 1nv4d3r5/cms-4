@@ -38,7 +38,12 @@ class ControllerAdmin extends Controller
     
     public function ActionAuthLogin()
     {
-        $this->request->Redirect('admin/auth/error/failed');
+        $this->user = $this->auth->Authenticate('username', 'password');
+        
+        if (!$this->user)
+            $this->request->Redirect('admin/auth/error/failed');
+        else
+            $this->request->Redirect('admin');
     }
     
     public function ActionAuthError()

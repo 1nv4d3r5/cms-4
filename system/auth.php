@@ -31,6 +31,35 @@ class Auth
         return $this;
     }
     
+    public function Authenticate($username, $password)
+    {
+        $username = Database::current()->Escape($username);
+        $password = sha1($password);
+        
+        $user = Database::current()
+                    ->Query("SELECT `user_id` FROM `cms_users` WHERE"
+                        . " `username`='$username' AND `password`='$password' LIMIT 1")
+                    ->Fetch();
+        
+        if ($user)
+        {
+            $cookie_value = sha1(rand()) . sha1(rand());
+            
+            if (Database::current()
+                    ->Query("INSERT INTO `cms_auth`(`user_id`,`cookie`)"
+                        . " VALUES({$user['user_id']}, '$cookie_value')"))
+            {
+                // Set auth session for 1 day (24 hours)
+                setcookie($this->cookie_name(), $cookie_value, time() + 36400);
+            }
+            else
+                // Database error occurred.
+                throw new Exception();
+        }
+        
+        return $user;
+    }
+    
     public function user($user = null)
     {
         if ($user === null)
