@@ -89,7 +89,10 @@ class Request
     
     public function Redirect($location)
     {
-        header('Location: ' . $location);
+        if (strpos($location, '://') !== false)
+            header('Location: ' . $location);
+        else
+            header('Location: ' . URL::Absolute($location));
         exit;
     }
 }
