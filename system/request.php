@@ -87,12 +87,12 @@ class Request
         return $this;
     }
     
-    public function Redirect($location)
+    public function Redirect($location, $protocol = 'http')
     {
         if (strpos($location, '://') !== false)
             header('Location: ' . $location);
         else
-            header('Location: ' . URL::Absolute($location));
+            header('Location: ' . URL::Absolute($location, $protocol));
         exit;
     }
 }
