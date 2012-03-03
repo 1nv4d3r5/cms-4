@@ -8,7 +8,7 @@ class ControllerBlog extends ControllerMain
     public function ActionEntry()
     {
         // echo 'Blog entry #' . $this->request->parameter('entry_id');
-        $entry = Database::$current
+        $entry = Database::current()
                      ->Query('SELECT * FROM `cms_blog_entries` WHERE `slug`=\''
                          . $this->request->parameter('slug') . '\' LIMIT 1')
                      ->Fetch();
@@ -24,7 +24,7 @@ class ControllerBlog extends ControllerMain
     
     public function ActionEntries()
     {
-        $entries = Database::$current
+        $entries = Database::current()
                        ->Query('SELECT * FROM `cms_blog_entries` ORDER BY `date_created` DESC')
                        ->FetchArray();
         

@@ -9,7 +9,7 @@ class ControllerMain extends ControllerTemplate
         
         // Generate menus for the page.
         $this->template->Variable('menu_items', 
-            Database::$current
+            Database::current()
                 ->Query("SELECT * FROM `cms_menu` JOIN `cms_pages` "
                     . "ON `cms_menu`.`page_id`=`cms_pages`.`page_id` "
                     . "ORDER BY `cms_menu`.`position` ASC;")
@@ -18,7 +18,7 @@ class ControllerMain extends ControllerTemplate
     
     public function ActionIndex()
     {
-        $page = Database::$current
+        $page = Database::current()
                     ->Query("SELECT * FROM `cms_pages` WHERE `default`=1")
                     ->Fetch();
         
@@ -28,7 +28,7 @@ class ControllerMain extends ControllerTemplate
     public function ActionPage()
     {
         // Select page based on slug name.
-        $page = Database::$current
+        $page = Database::current()
                     ->Query("SELECT * FROM `cms_pages` WHERE `slug`='"
                         . $this->request->parameter('slug') . "' LIMIT 1")
                     ->Fetch();

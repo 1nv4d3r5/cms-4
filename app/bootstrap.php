@@ -29,8 +29,8 @@ Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionE
 Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
 Route::Set('blog', 'blog', 'ControllerBlog');
 
-Route::Set('admin', 'admin', 'ControllerAdmin');
 Route::Set('admin_auth', 'admin/auth', 'ControllerAdmin', 'ActionAuth');
+Route::Set('admin', 'admin', 'ControllerAdmin');
 
 // Generate routes for each dynamic page. Because non-deletable pages have
 // custom controllers (for example, blogs), their pages will NOT
