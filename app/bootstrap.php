@@ -30,12 +30,13 @@ Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
 Route::Set('blog', 'blog', 'ControllerBlog');
 
 Route::Set('admin', 'admin', 'ControllerAdmin');
+Route::Set('admin_auth', 'admin/auth', 'ControllerAdmin', 'ActionAuth');
 
 // Generate routes for each dynamic page. Because non-deletable pages have
 // custom controllers (for example, blogs), their pages will NOT
 // be included in the dynamic route generation.
 
-$pages = Database::$current
+$pages = Database::current()
             ->Query('SELECT * FROM `cms_pages` WHERE `published`=1 AND deletable=1')
             ->FetchArray();
 
