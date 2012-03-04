@@ -8,9 +8,13 @@ class ControllerAdmin extends Controller
     {
         parent::Before();
         
+        // Get auth information
         $this->auth = Auth::Factory();
         $this->user = $this->auth->user();
         
+        // If the user isn't authenticated, and the user isn't already
+        // making some type of auth request, redirect to the auth page
+        // notifying them that they must be authenticated.
         if (!$this->user && !preg_match(',^' . CMS::base_url()
             . 'admin/auth(/(.*))?$,', $this->request->uri()))
             $this->request->Redirect('admin/auth/status/access');
@@ -18,9 +22,10 @@ class ControllerAdmin extends Controller
     
     public function ActionIndex()
     {
-        $this->response->body(View::Factory('admin', array(
+        $this->response->body(View::Factory('admin/main', array(
                 'page_title' => 'Admin',
                 'content' => 'Admin section',
+                'user' => $this->user,
             )));
     }
     

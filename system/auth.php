@@ -92,8 +92,10 @@ class Auth
                     if (strlen($_COOKIE[$this->cookie_name]) == 80)
                     {
                         $this->user = Database::current()
-                                          ->Query("SELECT `user_id` FROM `cms_auth` "
-                                              . "WHERE `cookie`='" 
+                                          ->Query("SELECT * FROM `cms_auth` "
+                                              . "JOIN `cms_users` "
+                                              . "ON `cms_auth`.`user_id`=`cms_users`.`user_id` "
+                                              . "WHERE `cms_auth`.`cookie`='" 
                                               . Database::current()->Escape($_COOKIE[$this->cookie_name])
                                               . "' LIMIT 1")
                                           ->Fetch();
