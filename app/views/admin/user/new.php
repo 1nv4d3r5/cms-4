@@ -85,7 +85,7 @@
         <tr>
             <td colspan="2">
                 <a href="javascript:void(0);" class="button" style="width: 90px;"
-                    onclick="document.getElementById('edit_form').submit(); return false;">
+                    onclick="document.getElementById('save_form').submit(); return false;">
                     <img src="<?php echo URL::Absolute('media/img/user-add.png'); ?>"/>
                     <div>Save</div>
                 </a>

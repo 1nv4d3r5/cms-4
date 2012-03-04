@@ -25,7 +25,6 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionNew()
     {
-        
         $this->template->Variables(array(
                 'page_title' => 'Add New User',
                 'content' => View::Factory('admin/user/new'),
@@ -34,7 +33,66 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionNewSave()
     {
+        if (!$this->request->post('save'))
+            $this->request->Redirect('admin/user/new');
         
+        $username = $this->request->post('username');
+        $password = $this->request->post('password');
+        $confirm_password = $this->request->post('confirm_password');
+        $email = $this->request->post('email');
+        $first_name = $this->request->post('first_name');
+        $last_name = $this->request->post('last_name');
+        $permission_manage_users = $this->request->post('permission_manage_users');
+        $permission_pages_edit = $this->request->post('permission_pages_edit');
+        $permission_pages_add = $this->request->post('permission_pages_add');
+        $permission_blog_entry_edit = $this->request->post('permission_blog_entry_edit');
+        $permission_blog_entry_add = $this->request->post('permission_blog_entry_add');
+        $permission_blog_entry_credit_users = $this->request->post('permission_blog_entry_credit_users');
+        
+        // TODO: Check for valid input
+        $error = false;
+        
+        if (strlen($username) <= 0)
+            $error = true;
+        
+        if (strlen($password) <= 0 || strlen($confirm_password) <= 0 ||
+            $password != $confirm_password)
+            $error = true;
+        
+        // Check if user exists
+        $user = Database::current()
+                    ->Query('SELECT * FROM `cms_users` WHERE '
+                        . '`username`=\'' . Database::current()->Escape($username) . '\' OR '
+                        . '`email`=\'' . Database::current()->Escape($email) . '\'')
+                    ->Fetch();
+        
+        if (!$error && !$user)
+        {
+            Database::current()
+                ->Query('INSERT INTO `cms_users`(`username`,`password`,`email`,'
+                    . '`first_name`,`last_name`,`permission_manage_users`,'
+                    . '`permission_pages_edit`,`permission_pages_add`,'
+                    . '`permission_blog_entry_edit`,`permission_blog_entry_add`,'
+                    . '`permission_blog_entry_credit_users`)'
+                    . 'VALUES('
+                    . '\'' . Database::current()->Escape($username) . '\', '
+                    . '\'' . sha1($password) . '\', '
+                    . '\'' . Database::current()->Escape($email) . '\', '
+                    . '\'' . Database::current()->Escape($first_name) . '\', '
+                    . '\'' . Database::current()->Escape($last_name) . '\', '
+                    . (('true' == $permission_manage_users) ? 1 : 0) . ', '
+                    . (('true' == $permission_pages_edit) ? 1 : 0) . ', '
+                    . (('true' == $permission_pages_add) ? 1 : 0) . ', '
+                    . (('true' == $permission_blog_entry_edit) ? 1 : 0) . ', '
+                    . (('true' == $permission_blog_entry_add) ? 1 : 0) . ', '
+                    . (('true' == $permission_blog_entry_credit_users) ? 1 : 0)
+                    . ')')
+                ->Execute();
+            
+            $this->request->Redirect('admin/user');
+        }
+        
+        $this->request->Redirect('admin/user/new');
     }
     
     public function ActionEdit()
