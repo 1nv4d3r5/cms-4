@@ -133,11 +133,26 @@ class ControllerAdminUser extends ControllerAdmin
         if (!$user)
             $this->request->Redirect('admin/user/list/status/not-found');
         
+        $edit_view = View::Factory('admin/user/edit', array('edit_user' => $user));
+        
+        switch ($this->request->parameter('status'))
+        {
+            case 'saved':
+                $edit_view->Variable('status_message', 'Changes has been successfully saved.');
+                break;
+            
+            case 'username':
+                $edit_view->Variable('status_message', 'Username is invalid.');
+                break;
+            
+            case 'password':
+                $edit_view->Variable('status_message', 'Passwords do not match.');
+                break;
+        }
+        
         $this->template->Variables(array(
                 'page_title' => 'Managing User ' . $user['username'],
-                'content' => View::Factory('admin/user/edit', array(
-                        'edit_user' => $user,
-                    )),
+                'content' => $edit_view,
             ));
     }
     
@@ -168,11 +183,11 @@ class ControllerAdminUser extends ControllerAdmin
         $update_password = false;
         
         if (strlen($username) <= 0)
-            $error = true;
+            $this->request->Redirect('admin/user/edit/' . $user_id . '/status/username');
         
         if (strlen($password) > 0 && strlen($confirm_password) > 0)
             if ($password != $confirm_password)
-                $error = true;
+                $this->request->Redirect('admin/user/edit/' . $user_id . '/status/password');
             else
                 $update_password = true;
         
@@ -195,7 +210,7 @@ class ControllerAdminUser extends ControllerAdmin
                 ->Execute();
         }
         
-        $this->request->Redirect('admin/user/edit/' . $user_id);
+        $this->request->Redirect('admin/user/edit/' . $user_id . '/status/saved');
     }
     
     public function ActionDelete()
