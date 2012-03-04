@@ -19,6 +19,8 @@ Route::RegisterControllers(array(
         'ControllerAdmin'  => 'admin/admin',
         'ControllerAdminAuth' => 'admin/auth',
         'ControllerAdminUser' => 'admin/user',
+        'ControllerAdminPage' => 'admin/page',
+        'ControllerAdminBlog' => 'admin/blog',
     ));
 
 // Define routes
@@ -39,6 +41,14 @@ Route::Set('admin_user_edit', 'admin/user/edit/(?<user_id>[1-9]{1}[0-9]*)(/statu
 Route::Set('admin_user_edit_save', 'admin/user/edit/(?<user_id>[1-9]{1}[0-9]*)/save', 'ControllerAdminUser', 'ActionEditSave');
 Route::Set('admin_user_new', 'admin/user/new', 'ControllerAdminUser', 'ActionNew');
 Route::Set('admin_user_new_save', 'admin/user/new/save', 'ControllerAdminUser', 'ActionNewSave');
+
+// admin/page routes
+Route::Set('admin_page', 'admin/page', 'ControllerAdminPage');
+Route::Set('admin_page_list', 'admin/page/list', 'ControllerAdminPage', 'ActionList');
+
+// admin/blog routes
+Route::Set('admin_blog', 'admin/blog', 'ControllerAdminBlog');
+Route::Set('admin_blog_list', 'admin/blog/list', 'ControllerAdminBlog', 'ActionList');
 
 // admin/auth routes
 Route::Set('admin_auth_status', 'admin/auth/status(/(?<auth_status>.+))?', 'ControllerAdminAuth', 'ActionAuthStatus');
