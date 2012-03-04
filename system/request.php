@@ -19,6 +19,10 @@ class Request
             }
             
             Request::$initial = new Request($uri);
+            
+            // TODO: Clean super globals.
+            Request::$initial->_post = $_POST;
+            unset($_POST);
         }
         
         return Request::$initial;
@@ -42,7 +46,8 @@ class Request
     }
     
     protected $uri;
-    protected $parameters = array();
+    protected $_parameters = array();
+    protected $_post = array();
     
     function __construct($uri)
     {
@@ -59,17 +64,24 @@ class Request
         return $this;
     }
     
+    public function post($key)
+    {
+        if (array_key_exists($key, $this->_post))
+            return $this->_post[$key];
+        return null;
+    }
+    
     public function parameter($key, $value = null)
     {
         if ($value === null)
         {
-            if (key_exists($key, $this->parameters))
-                return $this->parameters[$key];
+            if (array_key_exists($key, $this->_parameters))
+                return $this->_parameters[$key];
             else
                 return null;
         }
 
-        $this->parameters[$key] = $value;
+        $this->_parameters[$key] = $value;
         
         return $this;
     }
@@ -77,12 +89,12 @@ class Request
     public function parameters($parameters = null, $merge = true)
     {
         if ($parameters === null)
-            return $this->parameters;
+            return $this->_parameters;
         
         if ($merge)
-            $this->parameters = array_merge($this->parameters, $parameters);
+            $this->_parameters = array_merge($this->_parameters, $parameters);
         else
-            $this->parameters = $parameters;
+            $this->_parameters = $parameters;
         
         return $this;
     }
