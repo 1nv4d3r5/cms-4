@@ -61,6 +61,24 @@ class Auth
         return $user;
     }
     
+    public function Deauthenticate()
+    {
+        if ($this->user())
+        {
+            $user = $this->user();
+            if (!Database::current()
+                     ->Query("DELETE FROM `cms_auth` WHERE `user_id`='"
+                        . $user['user_id'] . "'")
+                     ->Execute())
+                // MySQL error
+                throw new Exception();
+            
+            setcookie($this->cookie_name, '', time() - 86400);
+            
+            $this->user = null;
+        }
+    }
+    
     public function user($user = null)
     {
         if ($user === null)

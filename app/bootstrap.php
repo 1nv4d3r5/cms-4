@@ -29,7 +29,8 @@ Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionE
 Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
 Route::Set('blog', 'blog', 'ControllerBlog');
 
-Route::Set('admin_auth_status', 'admin/auth/error(/(?<auth_status>.*))?', 'ControllerAdmin', 'ActionAuthStatus');
+Route::Set('admin_auth_status', 'admin/auth/status(/(?<auth_status>.*))?', 'ControllerAdmin', 'ActionAuthStatus');
+Route::Set('admin_auth_logout', 'admin/auth/logout', 'ControllerAdmin', 'ActionAuthLogout');
 Route::Set('admin_auth_login', 'admin/auth/login', 'ControllerAdmin', 'ActionAuthLogin');
 Route::Set('admin_auth', 'admin/auth', 'ControllerAdmin', 'ActionAuth');
 Route::Set('admin', 'admin', 'ControllerAdmin');

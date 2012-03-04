@@ -19,7 +19,7 @@
                 text-align: center;
             }
             
-            div.page_status {
+            div.auth_status {
                 font-family: Helvetica;
                 text-align: center;
                 margin-bottom: 10px;

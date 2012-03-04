@@ -13,14 +13,11 @@ class ControllerAdmin extends Controller
         
         if (!$this->user && !preg_match(',^' . CMS::base_url()
             . 'admin/auth(/(.*))?$,', $this->request->uri()))
-            $this->request->Redirect('admin/auth');
+            $this->request->Redirect('admin/auth/status/access');
     }
     
     public function ActionIndex()
     {
-        if (!$this->user)
-            $this->request->Redirect('admin/auth');
-        
         $this->response->body(View::Factory('admin', array(
                 'page_title' => 'Admin',
                 'content' => 'Admin section',
@@ -62,19 +59,19 @@ class ControllerAdmin extends Controller
         if ($this->user)
             $this->request->Redirect('admin');
         
-        $auth_status = 'Unknown error. Please try again later.';
+        $auth_status = 'Unknown error. Please try again later. [' . $this->request->parameter('auth_status') . ']';
         switch ($this->request->parameter('auth_status'))
         {
             case 'failed':
-                $page_status = 'Username or password is incorrect. Please try again.';
+                $auth_status = 'Username or password is incorrect. Please try again.';
                 break;
             
             case 'access':
-                $page_status = 'You must be authenticated to proceed.';
+                $auth_status = 'You must be authenticated to proceed.';
                 break;
             
             case 'logged-out':
-                $page_status = 'You have been successfully logged out.';
+                $auth_status = 'You have been successfully logged out.';
                 break;
         }
         
