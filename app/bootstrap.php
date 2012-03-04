@@ -32,10 +32,16 @@ Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionE
 Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
 Route::Set('blog', 'blog', 'ControllerBlog');
 
-Route::Set('admin_user', 'admin/user', 'ControllerAdminUser', 'ActionIndex');
+// admin/user routes
+Route::Set('admin_user', 'admin/user', 'ControllerAdminUser');
 Route::Set('admin_user_list', 'admin/user/list', 'ControllerAdminUser', 'ActionList');
+Route::Set('admin_user_edit', 'admin/user/edit/(?<user_id>[1-9]{1}[0-9]*)(/status/(?<edit_status>.+))?', 'ControllerAdminUser', 'ActionEdit');
+Route::Set('admin_user_edit_save', 'admin/user/edit/(?<user_id>[1-9]{1}[0-9]*)/save', 'ControllerAdminUser', 'ActionEditSave');
+Route::Set('admin_user_new', 'admin/user/new', 'ControllerAdminUser', 'ActionNew');
+Route::Set('admin_user_new_save', 'admin/user/new/save', 'ControllerAdminUser', 'ActionNewSave');
 
-Route::Set('admin_auth_status', 'admin/auth/status(/(?<auth_status>.*))?', 'ControllerAdminAuth', 'ActionAuthStatus');
+// admin/auth routes
+Route::Set('admin_auth_status', 'admin/auth/status(/(?<auth_status>.+))?', 'ControllerAdminAuth', 'ActionAuthStatus');
 Route::Set('admin_auth_logout', 'admin/auth/logout', 'ControllerAdminAuth', 'ActionAuthLogout');
 Route::Set('admin_auth_login', 'admin/auth/login', 'ControllerAdminAuth', 'ActionAuthLogin');
 Route::Set('admin_auth', 'admin/auth', 'ControllerAdminAuth', 'ActionAuth');

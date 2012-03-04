@@ -12,7 +12,7 @@
         <div class="wrapper">
             <div class="head_wrapper">
                 <h1 class="site_name">
-                    <a href="./">
+                    <a href="<?php echo URL::Absolute('admin'); ?>">
                         CMS Administration
                     </a>
                 </h1>

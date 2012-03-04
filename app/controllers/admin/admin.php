@@ -19,6 +19,8 @@ class ControllerAdmin extends ControllerTemplate
         if (!$this->user && !preg_match(',^' . CMS::base_url()
             . 'admin/auth(/(.*))?$,', $this->request->uri()))
             $this->request->Redirect('admin/auth/status/access');
+        
+        $this->template->Variable('user', $this->user);
     }
     
     public function ActionIndex()
