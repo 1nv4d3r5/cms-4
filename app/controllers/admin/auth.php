@@ -1,5 +1,5 @@
 <?php if (!defined('INDIRECT')) die();
-class ControllerAdmin extends Controller
+class ControllerAdminAuth extends Controller
 {
     public $user = null;
     public $auth = null;
@@ -12,39 +12,20 @@ class ControllerAdmin extends Controller
         $this->auth = Auth::Factory();
         $this->user = $this->auth->user();
         
-        // If the user isn't authenticated, and the user isn't already
-        // making some type of auth request, redirect to the auth page
-        // notifying them that they must be authenticated.
-        if (!$this->user && !preg_match(',^' . CMS::base_url()
-            . 'admin/auth(/(.*))?$,', $this->request->uri()))
-            $this->request->Redirect('admin/auth/status/access');
+        // Redirect to admin if the user is already authenticated and not logging out
+        if ($this->user && $this->request->uri() != CMS::base_url() . 'admin/auth/logout')
+            $this->request->Redirect('admin');
     }
     
     public function ActionIndex()
     {
-        $this->response->body(View::Factory('admin/main', array(
-                'page_title' => 'Admin',
-                'content' => 'Welcome to the administration section.',
-                'user' => $this->user,
-            )));
-    }
-    
-    public function ActionAuth()
-    {
-        if ($this->user)
-            $this->request->Redirect('admin');
-        
         $this->response->body(View::Factory('admin/auth', array(
                 'page_title' => 'Authentication',
-                'content' => 'You must authenticate before proceeding.',
             )));
     }
     
     public function ActionAuthLogin()
     {
-        if ($this->user)
-            $this->request->Redirect('admin');
-        
         $this->user = $this->auth->Authenticate($this->request->post('username'), 
                           $this->request->post('password'));
         
@@ -62,9 +43,6 @@ class ControllerAdmin extends Controller
     
     public function ActionAuthStatus()
     {
-        if ($this->user)
-            $this->request->Redirect('admin');
-        
         $auth_status = 'Unknown error. Please try again later.';
         switch ($this->request->parameter('auth_status'))
         {

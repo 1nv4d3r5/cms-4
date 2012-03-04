@@ -1,5 +1,8 @@
 <?php if (!defined('INDIRECT')) die();
-class ControllerAdminUser extends Controller
+
+ControllerTemplate::Load('admin/admin');
+
+class ControllerAdminUser extends ControllerAdmin
 {
     public function ActionIndex()
     {
@@ -8,7 +11,12 @@ class ControllerAdminUser extends Controller
     
     public function ActionList()
     {
-        $this->response->body('User list');
+        // $this->response->body('User list');
+        $this->template->Variables(array(
+                'page_title' => 'Manage Users',
+                'content' => 'User list.',
+                'user' => $this->user,
+            ));
     }
 }
 ?>
