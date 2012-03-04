@@ -14,7 +14,6 @@ class ControllerAdmin extends Controller
         if (!$this->user && !preg_match(',^' . CMS::base_url()
             . 'admin/auth(/(.*))?$,', $this->request->uri()))
             $this->request->Redirect('admin/auth');
-            
     }
     
     public function ActionIndex()
@@ -30,6 +29,9 @@ class ControllerAdmin extends Controller
     
     public function ActionAuth()
     {
+        if ($this->user)
+            $this->request->Redirect('admin');
+        
         $this->response->body(View::Factory('admin/auth', array(
                 'page_title' => 'Authentication',
                 'content' => 'You must authenticate before proceeding.',
@@ -38,18 +40,30 @@ class ControllerAdmin extends Controller
     
     public function ActionAuthLogin()
     {
+        if ($this->user)
+            $this->request->Redirect('admin');
+        
         $this->user = $this->auth->Authenticate('admin', 'password');
         
         if (!$this->user)
-            $this->request->Redirect('admin/auth/error/failed');
+            $this->request->Redirect('admin/auth/status/failed');
         else
             $this->request->Redirect('admin');
     }
     
-    public function ActionAuthError()
+    public function ActionAuthLogout()
     {
-        $page_status = 'Unknown error. Please try again later.';
-        switch ($this->request->parameter('error_status'))
+        $this->auth->Deauthenticate();
+        $this->request->Redirect('admin/auth/status/logged-out');
+    }
+    
+    public function ActionAuthStatus()
+    {
+        if ($this->user)
+            $this->request->Redirect('admin');
+        
+        $auth_status = 'Unknown error. Please try again later.';
+        switch ($this->request->parameter('auth_status'))
         {
             case 'failed':
                 $page_status = 'Username or password is incorrect. Please try again.';
@@ -58,11 +72,15 @@ class ControllerAdmin extends Controller
             case 'access':
                 $page_status = 'You must be authenticated to proceed.';
                 break;
+            
+            case 'logged-out':
+                $page_status = 'You have been successfully logged out.';
+                break;
         }
         
         $this->response->body(View::Factory('admin/auth', array(
                 'page_title' => 'Authentication',
-                'page_status' => $page_status,
+                'auth_status' => $auth_status,
             )));
     }
 }

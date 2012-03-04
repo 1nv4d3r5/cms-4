@@ -100,8 +100,8 @@
         <div class="wrapper">
             <h2 class="page_title"><?php echo $page_title; ?></h2>
             <div class="page_content">
-                <?php if (isset($page_status)): ?>
-                    <div class="page_status"><?php echo $page_status; ?></div>
+                <?php if (isset($auth_status)): ?>
+                    <div class="auth_status"><?php echo $auth_status; ?></div>
                 <?php endif; ?>
                 <form action="<?php echo URL::Absolute('admin/auth/login'); ?>"
                     method="post" style="margin-left: auto; margin-right: auto; width: 450px;" id="login_form">
