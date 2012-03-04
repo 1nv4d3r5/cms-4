@@ -13,7 +13,7 @@ class Request
         if (!Request::$initial)
         {
             $uri = null;
-            if (array_key_exsists('REQUEST_URI', $request))
+            if (array_key_exists('REQUEST_URI', $request))
             {
                 $uri = $request['REQUEST_URI'];
             }
