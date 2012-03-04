@@ -2,7 +2,7 @@
 // TODO: Make a table-less layout for editing a user.
 ?>
 
-<form action="<?php echo URL::Absolute('admin/user/edit/' . $edit_user['user_id'] . '/save'); ?>" method="post">
+<form action="<?php echo URL::Absolute('admin/user/edit/' . $edit_user['user_id'] . '/save'); ?>" method="post" id="edit_form">
     <table>
         <tr>
             <td>Username</td>
@@ -71,7 +71,13 @@
                 ?>/></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Save Changes"/></td>
+            <td colspan="2">
+                <a href="javascript:void(0);" class="button login_button" 
+                    onclick="document.getElementById('edit_form').submit(); return false;">
+                    <img src="<?php echo URL::Absolute('media/img/user-edit.png'); ?>"/>
+                    <div>Save Changes</div>
+                </a>
+            </td>
         </tr>
     </table>
     <input type="hidden" name="save" value="true"/>
