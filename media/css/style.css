@@ -263,3 +263,7 @@ input.page-list-item-action-default {
     height: 15px;
     float: left;
 }
+
+div.user-menu {
+    margin-top: 10px;
+}

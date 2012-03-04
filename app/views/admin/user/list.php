@@ -42,3 +42,10 @@
 <?php else: ?>
     <h3>No users.</h3>
 <?php endif; ?>
+    <div class="user-menu">
+        <a href="<?php echo URL::Absolute('admin/user/new');?>"
+            class="button" style="float: left; width: 90px;">
+            <img src="<?php echo URL::Absolute('media/img/user-add.png'); ?>"/>
+            <div>New</div>
+        </a>
+    </div>

@@ -23,6 +23,19 @@ class ControllerAdminUser extends ControllerAdmin
             ));
     }
     
+    public function ActionNew()
+    {
+        $this->template->Variables(array(
+                'page_title' => 'Add New User',
+                'content' => View::Factory('admin/user/new'),
+            ));
+    }
+    
+    public function ActionNewSave()
+    {
+        
+    }
+    
     public function ActionEdit()
     {
         $user_id = $this->request->parameter('user_id');
