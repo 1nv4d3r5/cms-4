@@ -32,6 +32,7 @@ class ControllerAdminUser extends ControllerAdmin
                          . Database::current()->Escape($user_id) . '\' LIMIT 1')
                      ->Fetch();
         
+        // TODO: Redirect to a status saying user doesn't exist
         if (!$user)
             $this->request->Redirect('admin/user');
         
@@ -102,10 +103,52 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionDelete()
     {
+        $user_id = $this->request->parameter('user_id');
+        
+        $user = Database::current()
+                     ->Query('SELECT * FROM `cms_users` WHERE `user_id`=\''
+                         . Database::current()->Escape($user_id) . '\' LIMIT 1')
+                     ->Fetch();
+        
+        // TODO: Redirect to a status saying user doesn't exist
+        if (!$user)
+            $this->request->Redirect('admin/user');
+        
         $this->template->Variables(array(
-                'page_title' => 'Deleting User ' . $user_id,
-                'content' => 'Deleting User ' . $user_id,
+                'page_title' => 'Confirm Deletion of ' . $user['username'],
+                'content' => View::Factory('admin/user/delete', array(
+                        'delete_user' => $user,
+                    )),
             ));
+    }
+    
+    public function ActionDeleteConfirmed()
+    {
+        $user_id = $this->request->parameter('user_id');
+        
+        // Check if user exists
+        $user = Database::current()
+                     ->Query('SELECT * FROM `cms_users` WHERE `user_id`=\''
+                         . Database::current()->Escape($user_id) . '\' LIMIT 1')
+                     ->Fetch();
+        
+        // TODO: Redirect to a status saying user doesn't exist
+        if (!$user)
+            $this->request->Redirect('admin/user');
+        
+        // TODO: Redirect to a status saying the user can't delete themselves.
+        if ($user_id == $this->user['user_id'])
+            $this->request->Redirect('admin/user');
+        
+        // TODO: Delete not only the user, but all information they are tied to.
+        // TODO: Check for MySQL errors.
+        Database::current()
+            ->Query('DELETE FROM `cms_users` WHERE `user_id`=\''
+                . Database::current()->Escape($user_id) . '\'')
+            ->Execute();
+        
+        // TODO: Redirect to a status saying user deletion is successful
+        $this->request->Redirect('admin/user');
     }
 }
 ?>

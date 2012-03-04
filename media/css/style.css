@@ -134,6 +134,26 @@ h1.site_name a:hover {
     border: 1px solid #EEEEEE;
 }
 
+button.button {
+    display: block;
+    width: 150px;
+    height: 25px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    text-shadow: #FFFFFF 0 0 2px;
+    background: #EEEEEE; /* Old browsers */
+    border: 1px solid #EEEEEE;
+    background: -moz-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #EEEEEE), color-stop(100%, #CCCCCC)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* IE10+ */
+    background: linear-gradient(top, #EEEEEE 0%, #CCCCCC 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#EEEEEE', endColorstr = '#CCCCCC', GradientType = 0); /* IE6-9 */
+}
+
 a.button {
     display: block;
     width: 150px;

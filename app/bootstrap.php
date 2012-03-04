@@ -44,6 +44,7 @@ Route::Set('admin_user_edit_save', 'admin/user/edit/(?<user_id>[1-9]{1}[0-9]*)/s
 Route::Set('admin_user_new', 'admin/user/new', 'ControllerAdminUser', 'ActionNew');
 Route::Set('admin_user_new_save', 'admin/user/new/save', 'ControllerAdminUser', 'ActionNewSave');
 Route::Set('admin_user_delete', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionDelete');
+Route::Set('admin_user_delete_confirmed', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminUser', 'ActionDeleteConfirmed');
 
 // admin/page routes
 Route::Set('admin_page', 'admin/page', 'ControllerAdminPage');
