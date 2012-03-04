@@ -64,8 +64,10 @@ class Request
         return $this;
     }
     
-    public function post($key)
+    public function post($key = null)
     {
+        if ($key === null)
+            return $this->_post;
         if (array_key_exists($key, $this->_post))
             return $this->_post[$key];
         return null;

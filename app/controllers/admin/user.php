@@ -25,6 +25,7 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionNew()
     {
+        
         $this->template->Variables(array(
                 'page_title' => 'Add New User',
                 'content' => View::Factory('admin/user/new'),
