@@ -15,9 +15,34 @@ class ControllerAdminUser extends ControllerAdmin
                      ->Query('SELECT * FROM `cms_users`')
                      ->FetchArray();
         
+        $status_message = null;
+        switch ($this->request->parameter('status'))
+        {
+            case 'added':
+                $status_message = 'User has been successfully added.';
+                break;
+            
+            case 'deleted':
+                $status_message = 'User has been successfully deleted.';
+                break;
+            
+            case 'delete-current':
+                $status_message = 'Users cannot delete themselves.';
+                break;
+            
+            case 'not-found':
+                $status_message = 'User cannot be found.';
+                break;
+            
+            default:
+                $status_message = $this->request->parameter('status');
+                break;
+        }
+        
         $this->template->Variables(array(
                 'page_title' => 'Manage Users',
                 'content' => View::Factory('admin/user/list', array(
+                        'status_message' => $status_message,
                         'users' => $users,
                     )),
             ));
@@ -89,7 +114,7 @@ class ControllerAdminUser extends ControllerAdmin
                     . ')')
                 ->Execute();
             
-            $this->request->Redirect('admin/user');
+            $this->request->Redirect('admin/user/list/status/added');
         }
         
         $this->request->Redirect('admin/user/new');
@@ -106,7 +131,7 @@ class ControllerAdminUser extends ControllerAdmin
         
         // TODO: Redirect to a status saying user doesn't exist
         if (!$user)
-            $this->request->Redirect('admin/user');
+            $this->request->Redirect('admin/user/list/status/not-found');
         
         $this->template->Variables(array(
                 'page_title' => 'Managing User ' . $user['username'],
@@ -177,6 +202,7 @@ class ControllerAdminUser extends ControllerAdmin
     {
         $user_id = $this->request->parameter('user_id');
         
+        // Check if user exists
         $user = Database::current()
                      ->Query('SELECT * FROM `cms_users` WHERE `user_id`=\''
                          . Database::current()->Escape($user_id) . '\' LIMIT 1')
@@ -184,7 +210,11 @@ class ControllerAdminUser extends ControllerAdmin
         
         // TODO: Redirect to a status saying user doesn't exist
         if (!$user)
-            $this->request->Redirect('admin/user');
+            $this->request->Redirect('admin/user/list/status/not-found');
+        
+        // TODO: Redirect to a status saying the user can't delete themselves.
+        if ($user_id == $this->user['user_id'])
+            $this->request->Redirect('admin/user/list/status/delete-current');
         
         $this->template->Variables(array(
                 'page_title' => 'Confirm Deletion of ' . $user['username'],
@@ -206,11 +236,11 @@ class ControllerAdminUser extends ControllerAdmin
         
         // TODO: Redirect to a status saying user doesn't exist
         if (!$user)
-            $this->request->Redirect('admin/user');
+            $this->request->Redirect('admin/user/list/status/not-found');
         
         // TODO: Redirect to a status saying the user can't delete themselves.
         if ($user_id == $this->user['user_id'])
-            $this->request->Redirect('admin/user');
+            $this->request->Redirect('admin/user/list/status/delete-current');
         
         // TODO: Delete not only the user, but all information they are tied to.
         // TODO: Check for MySQL errors.
@@ -220,7 +250,7 @@ class ControllerAdminUser extends ControllerAdmin
             ->Execute();
         
         // TODO: Redirect to a status saying user deletion is successful
-        $this->request->Redirect('admin/user');
+        $this->request->Redirect('admin/user/list/status/deleted');
     }
 }
 ?>

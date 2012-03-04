@@ -1,4 +1,7 @@
 <?php if (!defined('INDIRECT')) die(); ?>
+<?php if (isset($status_message)): ?>
+    <h3><?php echo $status_message; ?></h3>
+<?php endif; ?>
 <?php if (count($users) > 0): ?>
     <table style="width: 100%; margin-top: 15px;">
         <!--tr>
