@@ -9,13 +9,14 @@ setlocale(LC_ALL, 'en_US.utf-8');
 require_once SYSPATH . 'cms' . EXT;
 
 CMS::Init(array(
-        'base_url' => '/cms'
+        'base_url' => '/'
     ));
 
 Route::RegisterControllers(array(
-        'ControllerMain'  => 'main',
-        'ControllerBlog'  => 'blog',
-        'ControllerAdmin' => 'admin',
+        'ControllerMain'   => 'main',
+        'ControllerStatus' => 'status',
+        'ControllerBlog'   => 'blog',
+        'ControllerAdmin'  => 'admin',
     ));
 
 // Define routes
@@ -34,6 +35,8 @@ Route::Set('admin_auth_logout', 'admin/auth/logout', 'ControllerAdmin', 'ActionA
 Route::Set('admin_auth_login', 'admin/auth/login', 'ControllerAdmin', 'ActionAuthLogin');
 Route::Set('admin_auth', 'admin/auth', 'ControllerAdmin', 'ActionAuth');
 Route::Set('admin', 'admin', 'ControllerAdmin');
+
+Route::Set('status_404', '404', 'ControllerStatus', 'Action404');
 
 // Generate routes for each dynamic page. Because non-deletable pages have
 // custom controllers (for example, blogs), their pages will NOT

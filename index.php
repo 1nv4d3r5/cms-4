@@ -19,6 +19,8 @@ define('INDIRECT', true);
 
 require_once APPPATH . 'bootstrap' . EXT;
 
+// TODO: Rework how routing is determined to make the process less error prone
+// and easier to understand.
 $route = Route::Find(Request::Initial()->uri());
 
 if ($route)
@@ -39,12 +41,8 @@ if ($route)
     $controller->$action();
     
     $controller->After();
-    
-    echo Response::Initial()->Render();
 }
-else
-{
-    // Page not found
-    echo 'No controller found. ' . Request::Initial()->uri();
-}
+else Request::Initial()->Redirect('404');
+
+echo Response::Initial()->Render();
 ?>
