@@ -32,6 +32,9 @@ class ControllerAdminUser extends ControllerAdmin
                          . Database::current()->Escape($user_id) . '\' LIMIT 1')
                      ->Fetch();
         
+        if (!$user)
+            $this->request->Redirect('admin/user');
+        
         $this->template->Variables(array(
                 'page_title' => 'Managing User ' . $user['username'],
                 'content' => View::Factory('admin/user/edit', array(
@@ -77,21 +80,6 @@ class ControllerAdminUser extends ControllerAdmin
         
         if (!$error)
         {
-            /*
-            exit('UPDATE `cms_users` SET '
-                . '`username`=\'' . Database::current()->Escape($username) . '\', '
-                . (($update_password) ? '`password`=\'' . sha1($password) . '\', ' : '')
-                . '`email`=\'' . Database::current()->Escape($email) . '\', '
-                . '`first_name`=\'' . Database::current()->Escape($first_name) . '\', '
-                . '`last_name`=\'' . Database::current()->Escape($last_name) . '\', '
-                . '`permission_manage_users`=' . (($permission_manage_users == 'true') ? 1 : 0) . ', '
-                . '`permission_pages_edit`=' . (($permission_pages_edit == 'true') ? 1 : 0) . ', '
-                . '`permission_pages_add`=' . (($permission_pages_add == 'true') ? 1 : 0) . ', '
-                . '`permission_blog_entry_edit`=' . (($permission_blog_entry_edit == 'true') ? 1 : 0) . ', '
-                . '`permission_blog_entry_add`=' . (($permission_blog_entry_add == 'true') ? 1 : 0) . ', '
-                . '`permission_blog_entry_credit_users`=' . (($permission_blog_entry_credit_users == 'true') ? 1 : 0) . ' '
-                . 'WHERE `user_id`=\'' . Database::current()->Escape($user_id) . '\'');
-            */
             Database::current()
                 ->Query('UPDATE `cms_users` SET '
                     . '`username`=\'' . Database::current()->Escape($username) . '\', '
@@ -108,10 +96,8 @@ class ControllerAdminUser extends ControllerAdmin
                     . 'WHERE `user_id`=\'' . Database::current()->Escape($user_id) . '\'')
                 ->Execute();
         }
-        else
-            $this->request->Redirect('admin/user/edit/' . $user_id);
         
-        $this->request->Redirect('admin/user');
+        $this->request->Redirect('admin/user/edit/' . $user_id);
     }
     
     public function ActionDelete()
