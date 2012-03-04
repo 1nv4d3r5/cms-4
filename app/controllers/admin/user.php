@@ -11,9 +11,26 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionList()
     {
+        $users = Database::current()
+                     ->Query('SELECT * FROM `cms_users`')
+                     ->FetchArray();
+        
+        $content = '<table>';
+        foreach ($users as $user)
+        {
+            $content .=
+                '<tr>'
+                    . '<td>' . $user['user_id'] . '</td>'
+                    . '<td><a href="' . URL::Absolute('admin/user/edit/' . $user['user_id']) . '">'
+                        . $user['username'] . '</a></td>'
+                    . '<td><a href="' . URL::Absolute('admin/user/delete/' . $user['user_id']) . '">Delete</a></td>'
+                . '</tr>';
+        }
+        $content .= '</table>';
+        
         $this->template->Variables(array(
                 'page_title' => 'Manage Users',
-                'content' => 'User list.',
+                'content' => 'User list.<br/>' . $content,
             ));
     }
     
@@ -30,6 +47,9 @@ class ControllerAdminUser extends ControllerAdmin
     public function ActionEditSave()
     {
         $user_id = $this->request->parameter('user_id');
+        
+        // Don't continue to save if the user didn't initiate submission of save
+        // data for the specific user.
         if (!$this->request->post('edit_save'))
             $this->request->Redirect('admin/user/edit/' . $user_id);
         
@@ -41,7 +61,10 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionDelete()
     {
-        
+        $this->template->Variables(array(
+                'page_title' => 'Deleting User ' . $user_id,
+                'content' => 'Deleting User ' . $user_id,
+            ));
     }
 }
 ?>
