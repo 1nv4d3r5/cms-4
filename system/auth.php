@@ -22,8 +22,8 @@ class Auth
             // not actually be set here. To fix this, a cookie library must be
             // made that will come into play when the response is being rendered.
             $old_cookie = $_COOKIE[$this->cookie_name];
-            setcookie($this->cookie_name, '', time() - 86400);
-            setcookie($cookie_name, $old_cookie, time() + 86400);
+            setcookie($this->cookie_name, '', time() - 86400, CMS::base_url());
+            setcookie($cookie_name, $old_cookie, time() + 86400, CMS::base_url());
         }
         
         $this->cookie_name = $cookie_name;
@@ -51,7 +51,7 @@ class Auth
                     ->Execute())
             {
                 // Set auth session for 1 day (24 hours)
-                setcookie($this->cookie_name(), $cookie_value, time() + 36400);
+                setcookie($this->cookie_name(), $cookie_value, time() + 36400, CMS::base_url());
             }
             else
                 // Database error occurred.
@@ -73,7 +73,7 @@ class Auth
                 // MySQL error
                 throw new Exception();
             
-            setcookie($this->cookie_name, '', time() - 86400);
+            setcookie($this->cookie_name, '', time() - 86400, CMS::base_url());
             
             $this->user = null;
         }
@@ -98,18 +98,16 @@ class Auth
                                               . "' LIMIT 1")
                                           ->Fetch();
                         
-                        
-                        
                         if ($this->user)
                             // Update cookie to expire 24 hours from now
-                            setcookie($this->cookie_name, $_COOKIE[$this->cookie_name], time() + 36400);
+                            setcookie($this->cookie_name, $_COOKIE[$this->cookie_name], time() + 36400, CMS::base_url());
                         else
-                            setcookie($this->cookie_name, '', time() - 86400);
+                            setcookie($this->cookie_name, '', time() - 86400, CMS::base_url());
                     }
                     else
                     {
                         // Remove cms_auth cookie since it's invalid.
-                        setcookie($this->cookie_name, '', time() - 86400);
+                        setcookie($this->cookie_name, '', time() - 86400, CMS::base_url());
                     }
                 }
             }
