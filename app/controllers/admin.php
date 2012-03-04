@@ -64,7 +64,7 @@ class ControllerAdmin extends Controller
         if ($this->user)
             $this->request->Redirect('admin');
         
-        $auth_status = 'Unknown error. Please try again later. [' . $this->request->parameter('auth_status') . ']';
+        $auth_status = 'Unknown error. Please try again later.';
         switch ($this->request->parameter('auth_status'))
         {
             case 'failed':
