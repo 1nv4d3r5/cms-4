@@ -42,7 +42,8 @@ if ($route)
     
     $controller->After();
 }
-else Request::Initial()->Redirect('404');
+else //Request::Initial()->Redirect('404');
+    exit('Unknown controller for ' . Request::Initial()->uri());
 
 echo Response::Initial()->Render();
 ?>

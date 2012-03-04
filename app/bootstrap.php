@@ -60,7 +60,7 @@ Route::Set('admin_auth_login', 'admin/auth/login', 'ControllerAdminAuth', 'Actio
 Route::Set('admin_auth', 'admin/auth', 'ControllerAdminAuth', 'ActionAuth');
 Route::Set('admin', 'admin', 'ControllerAdmin');
 
-Route::Set('status_404', '404', 'ControllerStatus', 'Action404');
+//Route::Set('status_404', '404', 'ControllerStatus', 'Action404');
 
 // Generate routes for each dynamic page. Because non-deletable pages have
 // custom controllers (for example, blogs), their pages will NOT
