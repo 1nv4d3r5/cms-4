@@ -24,7 +24,7 @@ class ControllerAdmin extends Controller
     {
         $this->response->body(View::Factory('admin/main', array(
                 'page_title' => 'Admin',
-                'content' => 'Admin section',
+                'content' => 'Welcome to the administration section.',
                 'user' => $this->user,
             )));
     }

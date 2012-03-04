@@ -17,6 +17,7 @@ Route::RegisterControllers(array(
         'ControllerStatus' => 'status',
         'ControllerBlog'   => 'blog',
         'ControllerAdmin'  => 'admin',
+        'ControllerAdminUser' => 'admin/user'
     ));
 
 // Define routes
@@ -29,6 +30,9 @@ Route::RegisterControllers(array(
 Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionEntry');
 Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
 Route::Set('blog', 'blog', 'ControllerBlog');
+
+Route::Set('admin_user', 'admin/user', 'ControllerAdminUser', 'ActionIndex');
+Route::Set('admin_user_list', 'admin/user/list', 'ControllerAdminUser', 'ActionList');
 
 Route::Set('admin_auth_status', 'admin/auth/status(/(?<auth_status>.*))?', 'ControllerAdmin', 'ActionAuthStatus');
 Route::Set('admin_auth_logout', 'admin/auth/logout', 'ControllerAdmin', 'ActionAuthLogout');

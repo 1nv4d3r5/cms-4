@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>404 - Page not found</title>
+        <title>404: Page not found</title>
     </head>
     <body>
-        <h2>404 - Page Not Found</h2>
+        <h2>404: Page Not Found</h2>
     </body>
 </html>

@@ -31,8 +31,8 @@
             </div>
             <div class="menu_wrapper">
                 <ul class="menu">
-                    <li><a href="<?php echo URL::Absolute('admin/users'); ?>" class="menu_item">Users</a></li>
-                    <li><a href="<?php echo URL::Absolute('admin/pages'); ?>" class="menu_item">Pages</a></li>
+                    <li><a href="<?php echo URL::Absolute('admin/user'); ?>" class="menu_item">Users</a></li>
+                    <li><a href="<?php echo URL::Absolute('admin/page'); ?>" class="menu_item">Pages</a></li>
                     <li><a href="<?php echo URL::Absolute('admin/blog'); ?>" class="menu_item">Blog</a></li>
                 </ul>
             </div>
