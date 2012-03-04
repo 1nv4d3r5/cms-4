@@ -47,7 +47,8 @@ class Auth
             
             if (Database::current()
                     ->Query("INSERT INTO `cms_auth`(`user_id`,`cookie`)"
-                        . " VALUES({$user['user_id']}, '$cookie_value')"))
+                        . " VALUES({$user['user_id']}, '$cookie_value')")
+                    ->Execute())
             {
                 // Set auth session for 1 day (24 hours)
                 setcookie($this->cookie_name(), $cookie_value, time() + 36400);
@@ -79,16 +80,18 @@ class Auth
                                               . "' LIMIT 1")
                                           ->Fetch();
                         
+                        
+                        
                         if ($this->user)
                             // Update cookie to expire 24 hours from now
                             setcookie($this->cookie_name, $_COOKIE[$this->cookie_name], time() + 36400);
                         else
-                            setcookie($this->cookie_name, '', time() - 86400, "/");
+                            setcookie($this->cookie_name, '', time() - 86400);
                     }
                     else
                     {
                         // Remove cms_auth cookie since it's invalid.
-                        setcookie($this->cookie_name, '', time() - 86400, "/");
+                        setcookie($this->cookie_name, '', time() - 86400);
                     }
                 }
             }
