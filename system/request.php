@@ -13,7 +13,7 @@ class Request
         if (!Request::$initial)
         {
             $uri = null;
-            if (isset($request['REQUEST_URI']))
+            if (array_key_exsists('REQUEST_URI', $request))
             {
                 $uri = $request['REQUEST_URI'];
             }
@@ -45,21 +45,21 @@ class Request
         return new Request($uri);
     }
     
-    protected $uri;
+    protected $_uri;
     protected $_parameters = array();
     protected $_post = array();
     
     function __construct($uri)
     {
-        $this->uri = $uri;
+        $this->_uri = $uri;
     }
     
     public function uri($uri = null)
     {
         if ($uri === null)
-            return $this->uri;
+            return $this->_uri;
         
-        $this->uri = $uri;
+        $this->_uri = $uri;
 
         return $this;
     }

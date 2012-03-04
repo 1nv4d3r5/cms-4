@@ -45,7 +45,8 @@ class ControllerAdmin extends Controller
         if ($this->user)
             $this->request->Redirect('admin');
         
-        $this->user = $this->auth->Authenticate('admin', 'password');
+        $this->user = $this->auth->Authenticate($this->request->post('username'), 
+                          $this->request->post('password'));
         
         if (!$this->user)
             $this->request->Redirect('admin/auth/status/failed');
