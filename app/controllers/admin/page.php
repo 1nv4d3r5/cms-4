@@ -83,8 +83,8 @@ class ControllerAdminPage extends ControllerAdmin
         $page_id = $this->request->parameter('page_id');
         
         $page = Database::current()
-                    ->Query('SELECT * FROM `cms_pages` WHERE `page_id`=\''
-                        . Database::current()->Escape($page_id) . '\'')
+                    ->Query('SELECT * FROM `cms_pages` WHERE '
+                        . '`page_id`=\'' . Database::current()->Escape($page_id) . '\'')
                     ->Fetch();
         
         // Page does not exist
@@ -94,7 +94,7 @@ class ControllerAdminPage extends ControllerAdmin
         // Page cannot be edited
         if (!$page['editable'])
             $this->request->Redirect('admin/page/list/status/not-editable');
-            
+        
         $head_view = View::Factory('admin/page/head');
         $edit_view = View::Factory('admin/page/edit', array(
                 'page' => $page,
@@ -107,6 +107,10 @@ class ControllerAdminPage extends ControllerAdmin
         {
             case 'title':
                 $edit_view->Variable('status_message', 'Invalid title.');
+                break;
+            
+            case 'saved':
+                $edit_view->Variable('status_message', 'Changes has been successfully saved.');
                 break;
         }
         
@@ -122,7 +126,7 @@ class ControllerAdminPage extends ControllerAdmin
         $page_id = $this->request->parameter('page_id');
         
         $page = Database::current()
-                    ->Query('SELECT `page_id` FROM `cms_pages` WHERE `page_id`=\''
+                    ->Query('SELECT `page_id`,`editable` FROM `cms_pages` WHERE `page_id`=\''
                         . Database::current()->Escape($page_id) . '\'')
                     ->Fetch();
         
@@ -149,6 +153,8 @@ class ControllerAdminPage extends ControllerAdmin
                 . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\' '
                 . 'WHERE `page_id`=\'' . Database::current()->Escape($page_id) . '\'')
             ->Execute();
+        
+        $this->request->Redirect('admin/page/edit/' . $page_id . '/status/saved');
     }
     
     public function ActionPublish()
