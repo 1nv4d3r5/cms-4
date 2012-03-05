@@ -15,36 +15,37 @@ class ControllerAdminUser extends ControllerAdmin
                      ->Query('SELECT * FROM `cms_users`')
                      ->FetchArray();
         
-        $status_message = null;
-        switch ($this->request->parameter('status'))
+        $list_view = View::Factory('admin/user/list', array('users' => $users));
+        
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
         {
             case 'added':
-                $status_message = 'User has been successfully added.';
+                $list_view->Variable('status_message', 'User has been successfully added.');
                 break;
             
             case 'deleted':
-                $status_message = 'User has been successfully deleted.';
+                $list_view->Variable('status_message', 'User has been successfully deleted.');
                 break;
             
             case 'delete-current':
-                $status_message = 'Users cannot delete themselves.';
+                $list_view->Variable('status_message', 'Users cannot delete themselves.');
                 break;
             
             case 'not-found':
-                $status_message = 'User cannot be found.';
+                $list_view->Variable('status_message', 'User cannot be found.');
                 break;
             
             default:
-                $status_message = $this->request->parameter('status');
+                if ($status !== null)
+                    $list_view->Variable('status_message', 'Unknown status: ' . $status);
                 break;
         }
         
         $this->template->Variables(array(
                 'page_title' => 'Manage Users',
-                'content' => View::Factory('admin/user/list', array(
-                        'status_message' => $status_message,
-                        'users' => $users,
-                    )),
+                'content' => $list_view,
             ));
     }
     
@@ -52,7 +53,9 @@ class ControllerAdminUser extends ControllerAdmin
     {
         $new_view = View::Factory('admin/user/new');
         
-        switch ($this->request->parameter('status'))
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
         {
             case 'username':
                 $new_view->Variable('status_message', 'Invalid username.');
@@ -68,6 +71,11 @@ class ControllerAdminUser extends ControllerAdmin
             
             case 'exists':
                 $new_view->Variable('status_message', 'Username or email is already in use.');
+                break;
+            
+            default:
+                if ($status !== null)
+                    $new_view->Variable('status_message', 'Unknown status: ' . status);
                 break;
         }
         
@@ -162,7 +170,8 @@ class ControllerAdminUser extends ControllerAdmin
         
         $edit_view = View::Factory('admin/user/edit', array('edit_user' => $user));
         
-        switch ($this->request->parameter('status'))
+        $status = $this->request->parameter('status');
+        switch ($status)
         {
             case 'saved':
                 $edit_view->Variable('status_message', 'Changes has been successfully saved.');
@@ -174,6 +183,11 @@ class ControllerAdminUser extends ControllerAdmin
             
             case 'password':
                 $edit_view->Variable('status_message', 'Passwords do not match.');
+                break;
+            
+            default:
+                if ($status !== null)
+                    $edit_view->Variable('status_message', 'Unknown status: ' . $status);
                 break;
         }
         
