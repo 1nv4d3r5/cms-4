@@ -41,6 +41,10 @@ class ControllerAdminUser extends ControllerAdmin
                 $list_view->Variable('status_message', 'Users cannot archive themselves.');
                 break;
             
+            case 'unarchived':
+                $list_view->Variable('status_message', 'User has been successfully unarchived.');
+                break;
+            
             case 'not-found':
                 $list_view->Variable('status_message', 'User cannot be found.');
                 break;
@@ -346,7 +350,25 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionUnarchive()
     {
+        $user_id = $this->request->parameter('user_id');
         
+        // Check if user exists
+        $user = Database::current()
+                     ->Query('SELECT * FROM `cms_users` WHERE `user_id`=\''
+                         . Database::current()->Escape($user_id) . '\' LIMIT 1')
+                     ->Fetch();
+        
+        // User doesn't exist
+        if (!$user)
+            $this->request->Redirect('admin/user/list/status/not-found');
+        
+        // TODO: Check for database error.
+        Database::current()
+            ->Query('UPDATE `cms_users` SET `archived`=0 WHERE `user_id`=\''
+                . Database::current()->Escape($user_id) . '\'')
+            ->Execute();
+        
+        $this->request->Redirect('admin/user/list/status/unarchived');
     }
 }
 ?>

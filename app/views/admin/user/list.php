@@ -21,11 +21,20 @@
                         <img src="<?php echo URL::Absolute('media/img/user-delete.png'); ?>"/>
                         <div>Delete</div>
                     </a>
-                    <a href="<?php echo URL::Absolute('admin/user/archive/' . $user['user_id']);?>"
-                        class="button" style="float: left; width: 100px;">
-                        <img src="<?php echo URL::Absolute('media/img/user-archive.png'); ?>"/>
-                        <div>Archive</div>
-                    </a>
+                    
+                    <?php if ($user['archived']): ?>
+                        <a href="<?php echo URL::Absolute('admin/user/unarchive/' . $user['user_id']);?>"
+                            class="button" style="float: left; width: 115px;">
+                            <img src="<?php echo URL::Absolute('media/img/user-unarchive.png'); ?>"/>
+                            <div>Unarchive</div>
+                        </a>
+                    <?php else: ?>
+                        <a href="<?php echo URL::Absolute('admin/user/archive/' . $user['user_id']);?>"
+                            class="button" style="float: left; width: 100px;">
+                            <img src="<?php echo URL::Absolute('media/img/user-archive.png'); ?>"/>
+                            <div>Archive</div>
+                        </a>
+                    <?php endif ?>
                 </div>
             </li>
         <?php endforeach; ?>
