@@ -224,6 +224,16 @@ class ControllerAdminUser extends ControllerAdmin
     {
         $user_id = $this->request->parameter('user_id');
         
+        // Check if user exists
+        $user = Database::current()
+                    ->Query('SELECT `user_id` FROM `cms_users` WHERE '
+                        . '`user_id`=\'' . Database::current()->Escape($user_id) . '\'')
+                    ->Fetch();
+        
+        // User doesn't exist
+        if (!$user)
+            $this->request->Redirect('admin/user/list/status/not-found');
+        
         // Don't continue to save if the user didn't initiate submission of save
         // data for the specific user.
         if (!$this->request->post('save'))
