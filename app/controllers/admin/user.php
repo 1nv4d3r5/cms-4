@@ -50,9 +50,30 @@ class ControllerAdminUser extends ControllerAdmin
     
     public function ActionNew()
     {
+        $new_view = View::Factory('admin/user/new');
+        
+        switch ($this->request->parameter('status'))
+        {
+            case 'username':
+                $new_view->Variable('status_message', 'Invalid username.');
+                break;
+            
+            case 'password':
+                $new_view->Variable('status_message', 'Passwords do not match.');
+                break;
+            
+            case 'email':
+                $new_view->Variable('status_message', 'Invalid email.');
+                break;
+            
+            case 'exists':
+                $new_view->Variable('status_message', 'Username or email is already in use.');
+                break;
+        }
+        
         $this->template->Variables(array(
                 'page_title' => 'Add New User',
-                'content' => View::Factory('admin/user/new'),
+                'content' => $new_view,
             ));
     }
     
@@ -78,11 +99,14 @@ class ControllerAdminUser extends ControllerAdmin
         $error = false;
         
         if (strlen($username) <= 0)
-            $error = true;
+            $this->request->Redirect('admin/user/new/status/username');
         
         if (strlen($password) <= 0 || strlen($confirm_password) <= 0 ||
             $password != $confirm_password)
-            $error = true;
+            $this->request->Redirect('admin/user/new/status/password');
+        
+        if (strlen($email) <= 0)
+            $this->request->Redirect('admin/user/new/status/email');
         
         // Check if user exists
         $user = Database::current()
@@ -90,6 +114,9 @@ class ControllerAdminUser extends ControllerAdmin
                         . '`username`=\'' . Database::current()->Escape($username) . '\' OR '
                         . '`email`=\'' . Database::current()->Escape($email) . '\'')
                     ->Fetch();
+        
+        if ($user)
+            $this->request->Redirect('admin/user/new/status/exists');
         
         if (!$error && !$user)
         {

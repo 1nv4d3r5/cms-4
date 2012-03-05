@@ -2,6 +2,10 @@
 // TODO: Make a table-less layout for editing a user.
 ?>
 
+<?php if (isset($status_message)): ?>
+    <h3><?php echo $status_message; ?></h3>
+<?php endif; ?>
+
 <form action="<?php echo URL::Absolute('admin/user/new/save'); ?>" method="post" id="save_form">
     <table>
         <tr>
