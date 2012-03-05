@@ -12,16 +12,42 @@ class ControllerAdminAuth extends Controller
         $this->auth = Auth::Factory();
         $this->user = $this->auth->user();
         
-        // Redirect to admin if the user is already authenticated and not logging out
-        if ($this->user && $this->request->uri() != CMS::base_url() . 'admin/auth/logout')
+        // Redirect to admin if the user is already authenticated, not logging out,
+        // and not archived.
+        if ($this->user
+            && ($this->request->uri() != CMS::base_url() . 'admin/auth/logout')
+            && (!$this->user['archived']))
             $this->request->Redirect('admin');
     }
     
     public function ActionIndex()
     {
-        $this->response->body(View::Factory('admin/auth', array(
+        $auth_view = View::Factory('admin/auth', array(
                 'page_title' => 'Authentication',
-            )));
+            ));
+        
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
+        {
+            case 'failed':
+                $auth_view->Variable('auth_status', 'Username or password is incorrect. Please try again.');
+                break;
+            
+            case 'archived':
+                $auth_view->Variable('auth_status', 'Archived accounts cannot be used to authenticate.');
+                break;
+            
+            case 'access':
+                $auth_view->Variable('auth_status', 'You must be authenticated to proceed.');
+                break;
+            
+            case 'logged-out':
+                $auth_view->Variable('auth_status', 'You have been successfully logged out.');
+                break;
+        }
+        
+        $this->response->body($auth_view);
     }
     
     public function ActionAuthLogin()
@@ -31,38 +57,17 @@ class ControllerAdminAuth extends Controller
         
         if (!$this->user)
             $this->request->Redirect('admin/auth/status/failed');
-        else
-            $this->request->Redirect('admin');
+        
+        if ($this->user['archived'])
+            $this->request->Redirect('admin/auth/status/archived');
+        
+        $this->request->Redirect('admin');
     }
     
     public function ActionAuthLogout()
     {
         $this->auth->Deauthenticate();
         $this->request->Redirect('admin/auth/status/logged-out');
-    }
-    
-    public function ActionAuthStatus()
-    {
-        $auth_status = 'Unknown error. Please try again later.';
-        switch ($this->request->parameter('auth_status'))
-        {
-            case 'failed':
-                $auth_status = 'Username or password is incorrect. Please try again.';
-                break;
-            
-            case 'access':
-                $auth_status = 'You must be authenticated to proceed.';
-                break;
-            
-            case 'logged-out':
-                $auth_status = 'You have been successfully logged out.';
-                break;
-        }
-        
-        $this->response->body(View::Factory('admin/auth', array(
-                'page_title' => 'Authentication',
-                'auth_status' => $auth_status,
-            )));
     }
 }
 ?>

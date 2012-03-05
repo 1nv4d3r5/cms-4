@@ -37,7 +37,7 @@ class Auth
         $password = sha1($password);
         
         $user = Database::current()
-                    ->Query("SELECT `user_id` FROM `cms_users` WHERE"
+                    ->Query("SELECT * FROM `cms_users` WHERE"
                         . " `username`='$username' AND `password`='$password' LIMIT 1")
                     ->Fetch();
         

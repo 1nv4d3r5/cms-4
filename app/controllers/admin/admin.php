@@ -20,6 +20,10 @@ class ControllerAdmin extends ControllerTemplate
             . 'admin/auth(/(.*))?$,', $this->request->uri()))
             $this->request->Redirect('admin/auth/status/access');
         
+        // Users that are archived don't have access to the admin panel.
+        if ($this->user['archived'])
+            $this->request->Redirect('admin/auth/status/archived');
+        
         $this->template->Variable('user', $this->user);
     }
     
