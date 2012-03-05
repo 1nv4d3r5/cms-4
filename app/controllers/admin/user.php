@@ -134,8 +134,8 @@ class ControllerAdminUser extends ControllerAdmin
         // Check if user exists
         $user = Database::current()
                     ->Query('SELECT * FROM `cms_users` WHERE '
-                        . '`username`=\'' . Database::current()->Escape($username) . '\' OR '
-                        . '`email`=\'' . Database::current()->Escape($email) . '\'')
+                        . '`username`=\'' . Database::current()->Escape(strtolower($username)) . '\' OR '
+                        . '`email`=\'' . Database::current()->Escape(strtolower($email)) . '\'')
                     ->Fetch();
         
         if ($user)

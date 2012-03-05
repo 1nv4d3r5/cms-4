@@ -33,7 +33,7 @@ class Auth
     
     public function Authenticate($username, $password)
     {
-        $username = Database::current()->Escape($username);
+        $username = Database::current()->Escape(strtolower($username));
         $password = sha1($password);
         
         $user = Database::current()
