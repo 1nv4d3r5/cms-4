@@ -50,7 +50,7 @@ Route::Set('admin_user_unarchive', 'admin/user/unarchive/(?<user_id>[1-9]{1}[0-9
 
 // admin/page routes
 Route::Set('admin_page', 'admin/page', 'ControllerAdminPage');
-Route::Set('admin_page_list', 'admin/page/list', 'ControllerAdminPage', 'ActionList');
+Route::Set('admin_page_list', 'admin/page/list(/status/(?<status>[^/]+))?', 'ControllerAdminPage', 'ActionList');
 Route::Set('admin_page_new', 'admin/page/new(/status/(?<status>[^/]+))?', 'ControllerAdminPage', 'ActionNew');
 Route::Set('admin_page_new_save', 'admin/page/new/save', 'ControllerAdminPage', 'ActionNewSave');
 Route::Set('admin_page_edit', 'admin/page/edit/(?<page_id>[1-9]{1}[0-9]*)(/status/(?<status>.+))?', 'ControllerAdminPage', 'ActionEdit');
