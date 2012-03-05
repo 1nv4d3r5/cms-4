@@ -21,7 +21,7 @@
                         <img src="<?php echo URL::Absolute('media/img/user-delete.png'); ?>"/>
                         <div>Delete</div>
                     </a>
-                    <a href="<?php echo URL::Absolute('admin/user/arcive/' . $user['user_id']);?>"
+                    <a href="<?php echo URL::Absolute('admin/user/archive/' . $user['user_id']);?>"
                         class="button" style="float: left; width: 100px;">
                         <img src="<?php echo URL::Absolute('media/img/user-archive.png'); ?>"/>
                         <div>Archive</div>

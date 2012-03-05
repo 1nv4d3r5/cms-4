@@ -33,6 +33,14 @@ class ControllerAdminUser extends ControllerAdmin
                 $list_view->Variable('status_message', 'Users cannot delete themselves.');
                 break;
             
+            case 'archived':
+                $list_view->Variable('status_message', 'User has been successfully archived.');
+                break;
+            
+            case 'archive-current':
+                $list_view->Variable('status_message', 'Users cannot archive themselves.');
+                break;
+            
             case 'not-found':
                 $list_view->Variable('status_message', 'User cannot be found.');
                 break;
@@ -290,11 +298,11 @@ class ControllerAdminUser extends ControllerAdmin
                          . Database::current()->Escape($user_id) . '\' LIMIT 1')
                      ->Fetch();
         
-        // TODO: Redirect to a status saying user doesn't exist
+        // User can't be found
         if (!$user)
             $this->request->Redirect('admin/user/list/status/not-found');
         
-        // TODO: Redirect to a status saying the user can't delete themselves.
+        // User is trying to delete themselves
         if ($user_id == $this->user['user_id'])
             $this->request->Redirect('admin/user/list/status/delete-current');
         
@@ -307,6 +315,38 @@ class ControllerAdminUser extends ControllerAdmin
         
         // TODO: Redirect to a status saying user deletion is successful
         $this->request->Redirect('admin/user/list/status/deleted');
+    }
+    
+    public function ActionArchive()
+    {
+        $user_id = $this->request->parameter('user_id');
+        
+        // Check if user exists
+        $user = Database::current()
+                     ->Query('SELECT * FROM `cms_users` WHERE `user_id`=\''
+                         . Database::current()->Escape($user_id) . '\' LIMIT 1')
+                     ->Fetch();
+        
+        // User doesn't exist
+        if (!$user)
+            $this->request->Redirect('admin/user/list/status/not-found');
+        
+        // User is trying to archive themselves
+        if ($user['user_id'] == $this->user['user_id'])
+            $this->request->Redirect('admin/user/list/status/archive-current');
+        
+        // TODO: Check for database error.
+        Database::current()
+            ->Query('UPDATE `cms_users` SET `archived`=1 WHERE `user_id`=\''
+                . Database::current()->Escape($user_id) . '\'')
+            ->Execute();
+        
+        $this->request->Redirect('admin/user/list/status/archived');
+    }
+    
+    public function ActionUnarchive()
+    {
+        
     }
 }
 ?>
