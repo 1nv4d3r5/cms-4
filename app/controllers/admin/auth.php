@@ -35,6 +35,7 @@ class ControllerAdminAuth extends Controller
                 break;
             
             case 'archived':
+                $this->auth->Deauthenticate();
                 $auth_view->Variable('auth_status', 'Archived accounts cannot be used to authenticate.');
                 break;
             
