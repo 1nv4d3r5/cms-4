@@ -52,6 +52,10 @@ class ControllerAdminPage extends ControllerAdmin
                 $list_view->Variable('status_message', 'Page cannot be found.');
                 break;
             
+            case 'not-editable':
+                $list_view->Variable('status_message', 'Page cannot be edited.');
+                break;
+            
             default:
                 if ($status !== null)
                     $list_view->Variable('status_message', 'Unknown status: ' . $status);
@@ -87,11 +91,16 @@ class ControllerAdminPage extends ControllerAdmin
         if (!$page)
             $this->request->Redirect('admin/page/list/status/not-found');
         
+        // Page cannot be edited
+        if (!$page['editable'])
+            $this->request->Redirect('admin/page/list/status/not-editable');
+            
         $head_view = View::Factory('admin/page/head');
         $edit_view = View::Factory('admin/page/edit', array(
                 'page' => $page,
             ));
         
+        // Handle possible status messages
         $status = $this->request->parameter('status');
         
         switch ($status)
@@ -120,6 +129,10 @@ class ControllerAdminPage extends ControllerAdmin
         // Page does not exist
         if (!$page)
             $this->request->Redirect('admin/page/list/status/not-found');
+        
+        // Page is not editable
+        if (!$page['editable'])
+            $this->request->Redirect('admin/page/list/status/not-editable');
         
         $title = $this->request->post('title');
         $content = $this->request->post('content');

@@ -17,11 +17,13 @@
                     </a>
                 </div>
                 <div style="display: inline-block;">
-                    <a href="<?php echo URL::Absolute('admin/page/edit/' . $list_page['page_id']);?>"
-                        class="button" style="float: left; width: 80px;">
-                        <img src="<?php echo URL::Absolute('media/img/page-edit.png'); ?>"/>
-                        <div>Edit</div>
-                    </a>
+                    <?php if ($list_page['editable']): ?>
+                        <a href="<?php echo URL::Absolute('admin/page/edit/' . $list_page['page_id']);?>"
+                            class="button" style="float: left; width: 80px;">
+                            <img src="<?php echo URL::Absolute('media/img/page-edit.png'); ?>"/>
+                            <div>Edit</div>
+                        </a>
+                    <?php endif; ?>
                     <?php if ($list_page['published']): ?>
                         <a href="<?php echo URL::Absolute('admin/page/unpublish/' . $list_page['page_id']);?>"
                             class="button" style="float: left; width: 115px;">
