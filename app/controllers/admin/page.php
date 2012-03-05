@@ -41,11 +41,11 @@ class ControllerAdminPage extends ControllerAdmin
                 break;
             
             case 'published':
-                $list_view->Variable('status_message', 'Page has been successfully archived.');
+                $list_view->Variable('status_message', 'Page has been successfully published.');
                 break;
             
             case 'unpublished':
-                $list_view->Variable('status_message', 'Page has been successfully unarchived.');
+                $list_view->Variable('status_message', 'Page has been successfully unpublished.');
                 break;
             
             case 'not-found':
@@ -141,6 +141,7 @@ class ControllerAdminPage extends ControllerAdmin
         $title = $this->request->post('title');
         $content = $this->request->post('content');
         
+        // Our only limitation is that the title has a length > 0
         if (strlen($title) <= 0)
             $this->request->Redirect('admin/page/edit/'
                 . $page_id . '/status/title');
@@ -159,22 +160,56 @@ class ControllerAdminPage extends ControllerAdmin
     
     public function ActionPublish()
     {
+        $page_id = $this->request->parameter('page_id');
         
+        $page = Database::current()
+                    ->Query('SELECT `page_id` FROM `cms_pages` WHERE `page_id`=\''
+                        . Database::current()->Escape($page_id) . '\'')
+                    ->Fetch();
+        
+        // Page does not exist
+        if (!$page)
+            $this->request->Redirect('admin/page/list/status/not-found');
+        
+        Database::current()
+            ->Query('UPDATE `cms_pages` SET `published`=1 WHERE `page_id`=\''
+                . Database::current()->Escape($page_id) . '\'')
+            ->Execute();
+        
+        $this->request->Redirect('admin/page/list/status/published');
     }
     
     public function ActionUnpublish()
     {
+        $page_id = $this->request->parameter('page_id');
         
+        $page = Database::current()
+                    ->Query('SELECT `page_id` FROM `cms_pages` WHERE `page_id`=\''
+                        . Database::current()->Escape($page_id) . '\'')
+                    ->Fetch();
+        
+        // Page does not exist
+        if (!$page)
+            $this->request->Redirect('admin/page/list/status/not-found');
+        
+        Database::current()
+            ->Query('UPDATE `cms_pages` SET `published`=0 WHERE `page_id`=\''
+                . Database::current()->Escape($page_id) . '\'')
+            ->Execute();
+        
+        $this->request->Redirect('admin/page/list/status/unpublished');
     }
     
     public function ActionDelete()
     {
+        $page_id = $this->request->parameter('page_id');
         
+        $this->request->Redirect('admin/page/delete/' . $page_id . '/confirm');
     }
     
     public function ActionDeleteConfirmed()
     {
-        
+        $this->request->Redirect('admin/page/list/status/deleted');
     }
 }
 ?>

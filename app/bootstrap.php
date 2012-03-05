@@ -16,7 +16,7 @@ Route::RegisterControllers(array(
         'ControllerMain'   => 'main',
         'ControllerStatus' => 'status',
         'ControllerBlog'   => 'blog',
-    
+
         // Admin Controllers
         'ControllerAdmin'  => 'admin/admin',
         'ControllerAdminAuth' => 'admin/auth',
@@ -55,6 +55,8 @@ Route::Set('admin_page_new', 'admin/page/new(/status/(?<status>[^/]+))?', 'Contr
 Route::Set('admin_page_new_save', 'admin/page/new/save', 'ControllerAdminPage', 'ActionNewSave');
 Route::Set('admin_page_edit', 'admin/page/edit/(?<page_id>[1-9]{1}[0-9]*)(/status/(?<status>.+))?', 'ControllerAdminPage', 'ActionEdit');
 Route::Set('admin_page_edit_save', 'admin/page/edit/(?<page_id>[1-9]{1}[0-9]*)/save', 'ControllerAdminPage', 'ActionEditSave');
+Route::Set('admin_page_publish', 'admin/page/publish/(?<page_id>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionPublish');
+Route::Set('admin_page_unpublish', 'admin/page/unpublish/(?<page_id>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionUnpublish');
 /*
 Route::Set('admin_user_delete', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionDelete');
 Route::Set('admin_user_delete_confirmed', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminUser', 'ActionDeleteConfirmed');
