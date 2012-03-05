@@ -15,7 +15,10 @@ class ControllerAdminUser extends ControllerAdmin
                      ->Query('SELECT * FROM `cms_users`')
                      ->FetchArray();
         
-        $list_view = View::Factory('admin/user/list', array('users' => $users));
+        $list_view = View::Factory('admin/user/list', array(
+                'user'  => $this->user,
+                'users' => $users,
+            ));
         
         $status = $this->request->parameter('status');
         

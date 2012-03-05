@@ -1,6 +1,9 @@
 <?php if (!defined('INDIRECT')) die(); ?>
 
-<h4>Delete user <?php echo $delete_user['username']; ?>?</h4>
+<h3>
+    Delete user <?php echo $delete_user['username']; ?>? All user data belonging to this user will be
+    deleted (blog entries, pages, history, etc.) This action cannot be undone.
+</h3>
 <a href="<?php echo URL::Absolute('admin/user');?>"
     class="button" style="float: left; width: 100px;">
     <img src="<?php echo URL::Absolute('media/img/arrow-undo.png'); ?>"/>
