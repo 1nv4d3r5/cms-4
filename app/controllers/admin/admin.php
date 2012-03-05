@@ -34,6 +34,16 @@ class ControllerAdmin extends ControllerTemplate
                 'content' => 'Welcome to the administration section.',
                 'user' => $this->user,
             ));
+        
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
+        {
+            case 'access':
+                $this->template->Variable('status_message',
+                    'You do not have permission to access that feature.');
+                break;
+        }
     }
 }
 ?>

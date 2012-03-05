@@ -60,7 +60,7 @@ Route::Set('admin_blog_list', 'admin/blog/list', 'ControllerAdminBlog', 'ActionL
 Route::Set('admin_auth_logout', 'admin/auth/logout', 'ControllerAdminAuth', 'ActionAuthLogout');
 Route::Set('admin_auth_login', 'admin/auth/login', 'ControllerAdminAuth', 'ActionAuthLogin');
 Route::Set('admin_auth', 'admin/auth(/status/(?<status>[^/]+))?', 'ControllerAdminAuth');
-Route::Set('admin', 'admin', 'ControllerAdmin');
+Route::Set('admin', 'admin(/status/(?<status>[^/]+))?', 'ControllerAdmin');
 
 //Route::Set('status_404', '404', 'ControllerStatus', 'Action404');
 

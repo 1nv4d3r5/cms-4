@@ -4,6 +4,14 @@ ControllerTemplate::Load('admin/admin');
 
 class ControllerAdminUser extends ControllerAdmin
 {
+    public function Before()
+    {
+        parent::Before();
+        
+        if (!$this->user['permission_manage_users'])
+            $this->request->Redirect('admin/status/access');
+    }
+    
     public function ActionIndex()
     {
         $this->request->Redirect('admin/user/list');

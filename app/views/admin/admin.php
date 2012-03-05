@@ -26,12 +26,17 @@
                     <?php echo $page_title; ?>
                 </h2>
                 <div class="page_content">
+                    <?php if (isset($status_message)): ?>
+                        <h3><?php echo $status_message; ?></h3>
+                    <? endif; ?>
                     <?php echo $content; ?>
                 </div>
             </div>
             <div class="menu_wrapper">
                 <ul class="menu">
-                    <li><a href="<?php echo URL::Absolute('admin/user'); ?>" class="menu_item">Users</a></li>
+                    <?php if ($user['permission_manage_users']): ?>
+                        <li><a href="<?php echo URL::Absolute('admin/user'); ?>" class="menu_item">Users</a></li>
+                    <?php endif; ?>
                     <li><a href="<?php echo URL::Absolute('admin/page'); ?>" class="menu_item">Pages</a></li>
                     <li><a href="<?php echo URL::Absolute('admin/blog'); ?>" class="menu_item">Blog</a></li>
                 </ul>
