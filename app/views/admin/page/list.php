@@ -38,13 +38,13 @@
                                 <div>Publish</div>
                             </a>
                         <?php endif; ?>
-                    <?php endif; ?>
-                    <?php if ($list_page['deletable']): ?>
-                        <a href="<?php echo URL::Absolute('admin/page/delete/' . $list_page['page_id']);?>"
-                            class="button" style="float: left; width: 100px;">
-                            <img src="<?php echo URL::Absolute('media/img/page-delete.png'); ?>"/>
-                            <div>Delete</div>
-                        </a>
+                        <?php if ($list_page['deletable']): ?>
+                            <a href="<?php echo URL::Absolute('admin/page/delete/' . $list_page['page_id']);?>"
+                                class="button" style="float: left; width: 100px;">
+                                <img src="<?php echo URL::Absolute('media/img/page-delete.png'); ?>"/>
+                                <div>Delete</div>
+                            </a>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </li>
