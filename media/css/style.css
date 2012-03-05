@@ -264,12 +264,24 @@ input.page-list-item-action-default {
     float: left;
 }
 
-div.user-menu {
+div.admin-section-menu {
     clear: both;
     height: 30px;
+    margin-top: 10px;
 }
 
 ul.admin-user-list {
     list-style: none;
     padding: 0;
+}
+
+input.page-title {
+    font-size: 1.4em;
+    margin: 0;
+    width: 588px;
+    padding: 5px;
+    border-top: 1px solid #CCCCCC;
+    border-left: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    outline: none;
 }

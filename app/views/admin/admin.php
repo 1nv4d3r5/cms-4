@@ -7,6 +7,9 @@
         <link href="http://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet" type="text/css"/>
         <link href="http://fonts.googleapis.com/css?family=Share" rel="stylesheet" type="text/css"/>
         <link href="<?php echo URL::Absolute('media/css/style.css'); ?>" rel="stylesheet" type="text/css"/>
+        <?php if (isset($head)): ?>
+            <?php echo $head; ?>
+        <?php endif; ?>
     </head>
     <body>
         <div class="wrapper">

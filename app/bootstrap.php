@@ -51,7 +51,16 @@ Route::Set('admin_user_unarchive', 'admin/user/unarchive/(?<user_id>[1-9]{1}[0-9
 // admin/page routes
 Route::Set('admin_page', 'admin/page', 'ControllerAdminPage');
 Route::Set('admin_page_list', 'admin/page/list', 'ControllerAdminPage', 'ActionList');
-
+Route::Set('admin_page_new', 'admin/page/new(/status/(?<status>[^/]+))?', 'ControllerAdminPage', 'ActionNew');
+Route::Set('admin_page_new_save', 'admin/page/new/save', 'ControllerAdminPage', 'ActionNewSave');
+Route::Set('admin_page_edit', 'admin/page/edit/(?<page_id>[1-9]{1}[0-9]*)(/status/(?<status>.+))?', 'ControllerAdminPage', 'ActionEdit');
+Route::Set('admin_page_edit_save', 'admin/page/edit/(?<page_id>[1-9]{1}[0-9]*)/save', 'ControllerAdminPage', 'ActionEditSave');
+/*
+Route::Set('admin_user_delete', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionDelete');
+Route::Set('admin_user_delete_confirmed', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminUser', 'ActionDeleteConfirmed');
+Route::Set('admin_user_archive', 'admin/user/archive/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionArchive');
+Route::Set('admin_user_unarchive', 'admin/user/unarchive/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionUnarchive');
+*/
 // admin/blog routes
 Route::Set('admin_blog', 'admin/blog', 'ControllerAdminBlog');
 Route::Set('admin_blog_list', 'admin/blog/list', 'ControllerAdminBlog', 'ActionList');
