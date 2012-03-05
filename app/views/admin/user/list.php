@@ -2,7 +2,7 @@
 <?php if (isset($status_message)): ?>
     <h3><?php echo $status_message; ?></h3>
 <?php endif; ?>
-<?php if (count($users) > 0): ?>
+<?php if (isset($users) && count($users) > 0): ?>
     <ul class="admin-user-list">
         <?php foreach ($users as $list_user): ?>
             <li>
