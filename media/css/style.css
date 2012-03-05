@@ -265,5 +265,11 @@ input.page-list-item-action-default {
 }
 
 div.user-menu {
-    margin-top: 10px;
+    clear: both;
+    height: 30px;
+}
+
+ul.admin-user-list {
+    list-style: none;
+    padding: 0;
 }
