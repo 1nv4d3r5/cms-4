@@ -57,6 +57,8 @@ Route::Set('admin_page_edit', 'admin/page/edit/(?<page_id>[1-9]{1}[0-9]*)(/statu
 Route::Set('admin_page_edit_save', 'admin/page/edit/(?<page_id>[1-9]{1}[0-9]*)/save', 'ControllerAdminPage', 'ActionEditSave');
 Route::Set('admin_page_publish', 'admin/page/publish/(?<page_id>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionPublish');
 Route::Set('admin_page_unpublish', 'admin/page/unpublish/(?<page_id>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionUnpublish');
+Route::Set('admin_page_delete', 'admin/page/delete/(?<page_id>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionDelete');
+Route::Set('admin_page_delete_confirmed', 'admin/page/delete/(?<page_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminPage', 'ActionDeleteConfirmed');
 /*
 Route::Set('admin_user_delete', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionDelete');
 Route::Set('admin_user_delete_confirmed', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminUser', 'ActionDeleteConfirmed');

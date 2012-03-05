@@ -48,6 +48,10 @@ class ControllerAdminPage extends ControllerAdmin
                 $list_view->Variable('status_message', 'Page has been successfully unpublished.');
                 break;
             
+            case 'not-unpublishable':
+                $list_view->Variable('status_message', 'Default pages cannot be unpublished.');
+                break;
+            
             case 'not-found':
                 $list_view->Variable('status_message', 'Page cannot be found.');
                 break;
@@ -184,13 +188,17 @@ class ControllerAdminPage extends ControllerAdmin
         $page_id = $this->request->parameter('page_id');
         
         $page = Database::current()
-                    ->Query('SELECT `page_id` FROM `cms_pages` WHERE `page_id`=\''
+                    ->Query('SELECT `page_id`, `default` FROM `cms_pages` WHERE `page_id`=\''
                         . Database::current()->Escape($page_id) . '\'')
                     ->Fetch();
         
         // Page does not exist
         if (!$page)
             $this->request->Redirect('admin/page/list/status/not-found');
+        
+        // Page is default
+        if ($page['default'])
+            $this->request->Redirect('admin/page/list/status/not-unpublishable');
         
         Database::current()
             ->Query('UPDATE `cms_pages` SET `published`=0 WHERE `page_id`=\''
@@ -204,7 +212,21 @@ class ControllerAdminPage extends ControllerAdmin
     {
         $page_id = $this->request->parameter('page_id');
         
-        $this->request->Redirect('admin/page/delete/' . $page_id . '/confirm');
+        $page = Database::current()
+                    ->Query('SELECT * FROM `cms_pages` WHERE `page_id`=\''
+                        . Database::current()->Escape($page_id) . '\'')
+                    ->Fetch();
+        
+        // Page does not exist
+        if (!$page)
+            $this->request->Redirect('admin/page/list/status/not-found');
+        
+        $this->template->Variables(array(
+                'page_title' => 'Confirm Page Deletion',
+                'content' => View::Factory('admin/page/delete', array(
+                        'page' => $page,
+                    )),
+            ));
     }
     
     public function ActionDeleteConfirmed()

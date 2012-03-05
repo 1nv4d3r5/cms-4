@@ -24,18 +24,20 @@
                             <div>Edit</div>
                         </a>
                     <?php endif; ?>
-                    <?php if ($list_page['published']): ?>
-                        <a href="<?php echo URL::Absolute('admin/page/unpublish/' . $list_page['page_id']);?>"
-                            class="button" style="float: left; width: 115px;">
-                            <img src="<?php echo URL::Absolute('media/img/page-unpublish.png'); ?>"/>
-                            <div>Unpublish</div>
-                        </a>
-                    <?php else: ?>
-                        <a href="<?php echo URL::Absolute('admin/page/publish/' . $list_page['page_id']);?>"
-                            class="button" style="float: left; width: 100px;">
-                            <img src="<?php echo URL::Absolute('media/img/page-publish.png'); ?>"/>
-                            <div>Publish</div>
-                        </a>
+                    <?php if (!$list_page['default']): ?>
+                        <?php if ($list_page['published']): ?>
+                            <a href="<?php echo URL::Absolute('admin/page/unpublish/' . $list_page['page_id']);?>"
+                                class="button" style="float: left; width: 115px;">
+                                <img src="<?php echo URL::Absolute('media/img/page-unpublish.png'); ?>"/>
+                                <div>Unpublish</div>
+                            </a>
+                        <?php else: ?>
+                            <a href="<?php echo URL::Absolute('admin/page/publish/' . $list_page['page_id']);?>"
+                                class="button" style="float: left; width: 100px;">
+                                <img src="<?php echo URL::Absolute('media/img/page-publish.png'); ?>"/>
+                                <div>Publish</div>
+                            </a>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <?php if ($list_page['deletable']): ?>
                         <a href="<?php echo URL::Absolute('admin/page/delete/' . $list_page['page_id']);?>"
