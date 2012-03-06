@@ -32,9 +32,17 @@ Route::RegisterControllers(array(
 
 // Define blog pages before dynamic page routes are generated. This prevents
 // any page from overriding any default route.
-Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionEntry');
-Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
-Route::Set('blog', 'blog', 'ControllerBlog');
+$blog_page = Database::current()
+                 ->Query('SELECT * FROM `cms_pages` WHERE `slug`=\'blog/entries\'')
+                 ->Fetch();
+
+// TODO: Find a better way to handle system pages. Perhaps create a module library?
+if ($blog_page['published'])
+{
+    Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionEntry');
+    Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
+    Route::Set('blog', 'blog', 'ControllerBlog');
+}
 
 // admin/user routes
 Route::Set('admin_user', 'admin/user', 'ControllerAdminUser');
