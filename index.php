@@ -1,18 +1,21 @@
 <?php
 error_reporting(E_ALL);
-ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 
 define('EXT', '.php');
 
 $app_path = 'app'; // app folder location relative to the path of this script
 $system_path = 'system'; // system folder location relative to this script
+$modules_path = 'modules'; // modules folder location relative to this script
 
 define('APPPATH', realpath($app_path) . DIRECTORY_SEPARATOR);
 unset($app_path);
 
 define('SYSPATH', realpath($system_path) . DIRECTORY_SEPARATOR);
 unset($system_path);
+
+define('MODPATH', realpath($modules_path) . DIRECTORY_SEPARATOR);
+unset($modules_path);
 
 // INIDIRECT tells all included files that they are not being accessed directly
 define('INDIRECT', true);

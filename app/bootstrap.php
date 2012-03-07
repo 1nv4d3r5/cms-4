@@ -12,6 +12,13 @@ CMS::Init(array(
         'base_url' => '/'
     ));
 
+// Initialize modules
+// TODO: Make modules more dynamic by allowing the programmer to specify an
+// init file to load the module.
+CMS::Modules(array(
+        'blog' => MODPATH . 'blog',
+    ));
+
 Route::RegisterControllers(array(
         'ControllerMain'   => 'main',
         'ControllerStatus' => 'status',

@@ -4,6 +4,7 @@ class CMS
 {
     protected static $base_url = '/';
     protected static $initialized = false;
+    protected static $modules = array();
     
     public static function base_url()
     {
@@ -52,6 +53,16 @@ class CMS
             Database::Factory(require(APPPATH . 'config/database' . EXT));
             
             CMS::$initialized = true;
+        }
+    }
+    
+    public static function Modules($modules = array())
+    {
+        CMS::$modules = $modules;
+        
+        foreach ($modules as $module_name => $module_path)
+        {
+            require_once $module_path . DIRECTORY_SEPARATOR . $module_name . EXT;
         }
     }
 }
