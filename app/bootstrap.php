@@ -32,24 +32,13 @@ Route::RegisterControllers(array(
         'ControllerAdminBlog' => 'admin/blog',
     ));
 
+// Initialize our blog module
+Blog::Init();
+
 // Define routes
 
 // Remember to order routes based on importance first. Once a route has been
 // matched, the route is considered finished. No other routes will be attempted.
-
-// Define blog pages before dynamic page routes are generated. This prevents
-// any page from overriding any default route.
-$blog_page = Database::current()
-                 ->Query('SELECT * FROM `cms_pages` WHERE `slug`=\'blog/entries\'')
-                 ->Fetch();
-
-// TODO: Find a better way to handle system pages. Perhaps create a module library?
-if ($blog_page['published'])
-{
-    Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionEntry');
-    Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
-    Route::Set('blog', 'blog', 'ControllerBlog');
-}
 
 // admin/user routes
 Route::Set('admin_user', 'admin/user', 'ControllerAdminUser');
@@ -74,15 +63,6 @@ Route::Set('admin_page_publish', 'admin/page/publish/(?<page_id>[1-9]{1}[0-9]*)'
 Route::Set('admin_page_unpublish', 'admin/page/unpublish/(?<page_id>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionUnpublish');
 Route::Set('admin_page_delete', 'admin/page/delete/(?<page_id>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionDelete');
 Route::Set('admin_page_delete_confirmed', 'admin/page/delete/(?<page_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminPage', 'ActionDeleteConfirmed');
-/*
-Route::Set('admin_user_delete', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionDelete');
-Route::Set('admin_user_delete_confirmed', 'admin/user/delete/(?<user_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminUser', 'ActionDeleteConfirmed');
-Route::Set('admin_user_archive', 'admin/user/archive/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionArchive');
-Route::Set('admin_user_unarchive', 'admin/user/unarchive/(?<user_id>[1-9]{1}[0-9]*)', 'ControllerAdminUser', 'ActionUnarchive');
-*/
-// admin/blog routes
-Route::Set('admin_blog', 'admin/blog', 'ControllerAdminBlog');
-Route::Set('admin_blog_list', 'admin/blog/list', 'ControllerAdminBlog', 'ActionList');
 
 // admin/auth routes
 Route::Set('admin_auth_logout', 'admin/auth/logout', 'ControllerAdminAuth', 'ActionAuthLogout');
