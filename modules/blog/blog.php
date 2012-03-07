@@ -23,11 +23,11 @@ class Blog
             Route::Set('blog_entry', 'blog/entry/(?<slug>[^/]+)', 'ControllerBlog', 'ActionEntry');
             Route::Set('blog_entries', 'blog/entries', 'ControllerBlog', 'ActionEntries');
             Route::Set('blog', 'blog', 'ControllerBlog');
-            
-            // admin/blog routes
-            Route::Set('admin_blog', 'admin/blog', 'ControllerAdminBlog');
-            Route::Set('admin_blog_list', 'admin/blog/list', 'ControllerAdminBlog', 'ActionList');
         }
+        
+        // admin/blog routes
+        Route::Set('admin_blog', 'admin/blog', 'ControllerAdminBlog');
+        Route::Set('admin_blog_list', 'admin/blog/list', 'ControllerAdminBlog', 'ActionList');
     }
 }
 ?>
