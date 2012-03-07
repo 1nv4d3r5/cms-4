@@ -74,12 +74,72 @@ class ControllerAdminPage extends ControllerAdmin
     
     public function ActionNew()
     {
+        $new_view = View::Factory('admin/page/new');
         
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
+        {
+            case 'title':
+                $new_view->Variable('status_message', 'Invalid page title.');
+                break;
+            
+            case 'exists':
+                $new_view->Variable('status_message', 'A page already exists with specified title.');
+                break;
+            
+            default:
+                if ($status !== null)
+                    $new_view->Variable('status_message', 'Unknown status: ' . status);
+                break;
+        }
+        
+        $this->template->Variables(array(
+                'head' => View::Factory('admin/page/head'),
+                'page_title' => 'New Page',
+                'content' => $new_view,
+            ));
     }
     
     public function ActionNewSave()
     {
+        $page_id = $this->request->parameter('page_id');
         
+        $title = $this->request->post('title');
+        $content = $this->request->post('content');
+        
+        // Invalid page title
+        if (strlen($title) <= 0)
+            $this->request->Redirect('admin/page/new/status/title');
+        
+        $page = Database::current()
+                    ->Query('SELECT `page_id` FROM `cms_pages` WHERE '
+                        . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\'')
+                    ->Fetch();
+        
+        // Page title already exists
+        if ($page)
+            $this->request->Redirect('admin/page/new/status/exists');
+        
+        // TODO: Check for database errors
+        Database::current()
+            ->Query('INSERT INTO `cms_pages`(`title`,`content`,`slug`,`date_created`)'
+                . ' VALUES('
+                . '\'' . Database::current()->Escape($title) . '\', '
+                . '\'' . Database::current()->Escape($content) . '\', '
+                . '\'' . Database::current()->Escape(Slug($title)) . '\', '
+                . 'NOW())')
+            ->Execute();
+        
+        // Insert into menu database
+        Database::current()
+            ->Query('INSERT INTO `cms_menu`(`page_id`,`position`)'
+                . 'VALUES('
+                . Database::current()->InsertID() . ', '
+                . '(SELECT COUNT(`page_id`) FROM (SELECT `page_id` FROM `cms_menu`) AS menu) + 1)')
+            ->Execute();
+        
+        $this->request->Redirect('admin/page/list/status/added');
     }
     
     public function ActionEdit()
@@ -116,6 +176,10 @@ class ControllerAdminPage extends ControllerAdmin
             case 'saved':
                 $edit_view->Variable('status_message', 'Changes has been successfully saved.');
                 break;
+            
+            case 'exists':
+                $edit_view->Variable('status_message', 'A page already exists with specified title.');
+                break;
         }
         
         $this->template->Variables(array(
@@ -149,6 +213,16 @@ class ControllerAdminPage extends ControllerAdmin
         if (strlen($title) <= 0)
             $this->request->Redirect('admin/page/edit/'
                 . $page_id . '/status/title');
+        
+        $old_page = Database::current()
+                        ->Query('SELECT `page_id` FROM `cms_pages` WHERE '
+                            . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\' '
+                            . 'AND `page_id`!=\'' . Database::current()->Escape($page_id) . '\'')
+                        ->Fetch();
+        
+        // Page title already exists
+        if ($old_page)
+            $this->request->Redirect('admin/page/edit/' . $page_id . '/status/exists');
         
         // TODO: Check for database errors
         Database::current()
@@ -231,6 +305,37 @@ class ControllerAdminPage extends ControllerAdmin
     
     public function ActionDeleteConfirmed()
     {
+        $page_id = $this->request->parameter('page_id');
+        
+        $page = Database::current()
+                    ->Query('SELECT * FROM `cms_pages` WHERE `page_id`=\''
+                        . Database::current()->Escape($page_id) . '\'')
+                    ->Fetch();
+        
+        // Page does not exist
+        if (!$page)
+            $this->request->Redirect('admin/page/list/status/not-found');
+        
+        // Delete from menu. WARNING: It is VERY important that this is done
+        // in a transaction. If this is not done in a transaction, there
+        // will be two pages stuck with the same menu ID if an error occurs.
+        Database::current()
+            ->Begin()
+            ->Query("UPDATE `cms_menu` SET `position`=`position` - 1 WHERE `position` > "
+                . "(SELECT `position` FROM (SELECT * FROM `cms_menu`) as tmp WHERE `page_id`='"
+                . Database::current()->Escape($page_id) . "')")
+            ->Execute()
+            ->Query("DELETE FROM `cms_menu` WHERE `page_id`='"
+                . Database::current()->Escape($page_id) . "')")
+            ->Execute()
+            ->Commit();
+        
+        // Delete from pages
+        Database::current()
+                ->Query('DELETE FROM `cms_pages` WHERE `page_id`=\''
+                    . Database::current()->Escape($page_id) . '\'')
+                ->Execute();
+        
         $this->request->Redirect('admin/page/list/status/deleted');
     }
 }

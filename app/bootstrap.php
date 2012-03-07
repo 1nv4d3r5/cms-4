@@ -14,26 +14,25 @@ CMS::Init(array(
 
 // Initialize modules
 // TODO: Make modules more dynamic by allowing the programmer to specify an
+// TODO: Make modules database-driven. This will allow the user to activate/deactivate modules through an interface
 // init file to load the module.
 CMS::Modules(array(
         'blog' => MODPATH . 'blog',
     ));
 
+// Initialize our blog module
+Blog::Init();
+
 Route::RegisterControllers(array(
         'ControllerMain'   => 'main',
         'ControllerStatus' => 'status',
-        'ControllerBlog'   => 'blog',
 
         // Admin Controllers
         'ControllerAdmin'  => 'admin/admin',
         'ControllerAdminAuth' => 'admin/auth',
         'ControllerAdminUser' => 'admin/user',
         'ControllerAdminPage' => 'admin/page',
-        'ControllerAdminBlog' => 'admin/blog',
     ));
-
-// Initialize our blog module
-Blog::Init();
 
 // Define routes
 

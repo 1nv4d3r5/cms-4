@@ -62,7 +62,7 @@ class Database
         if (strlen($this->current_sql) > 0)
             $query = mysql_query($this->current_sql, $this->link);
         
-        return $query;
+        return $this;
     }
     
     public function Fetch()
@@ -97,6 +97,29 @@ class Database
         }
         
         return null;
+    }
+    
+    public function Begin()
+    {
+        mysql_query('BEGIN', $this->link);
+        return $this;
+    }
+    
+    public function Commit()
+    {
+        mysql_query('COMMIT', $this->link);
+        return $this;
+    }
+    
+    public function Rollback()
+    {
+        mysql_query('ROLLBACK', $this->link);
+        return $this;
+    }
+    
+    public function InsertID()
+    {
+        return mysql_insert_id($this->link);
     }
 }
 
