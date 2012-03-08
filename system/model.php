@@ -46,11 +46,14 @@ class Model
     
     public function Validate()
     {
-        $errors = false;
+        $validated = true;
         $error_messages = $this->Messages();
+        $this->_errors = array();
         
         foreach ($this->Rules() as $field_name => $rules)
         {
+            $this->_errors[$field_name] = array();
+            
             foreach ($rules as $rule)
             {
                 $success = false;
@@ -101,20 +104,27 @@ class Model
                 
                 if (!$success)
                 {
-                    $errors = true;
+                    // Not successful, find appropriate error message if possible.
+                    // If no error message exists for the given error_name, we'll
+                    // just assign error_name.
+                    $validated = false;
                     if (array_key_exists($field_name, $error_messages))
                     {
                         if (array_key_exists($error_name, $error_messages[$field_name]))
                             $this->_errors[$field_name][$error_name] =
                                 $error_messages[$field_name][$error_name];
                         else
-                            $this->_errors[$field_name][$error_name] = $error_name;
+                            $this->_errors[$field_name][$error_name] = null;
+                    }
+                    else
+                    {
+                        $this->_errors[$field_name][$error_name] = null;
                     }
                 }
             }
         }
         
-        return $errors;
+        return $validated;
     }
  
     public function errors()
@@ -128,9 +138,7 @@ class Model
         foreach ($this->Rules() as $name => $value)
         {
             if (array_key_exists($name, $properties))
-            {
                 $this->$name = $properties[$name];
-            }
             else
                 $this->$name = null;
         }
@@ -139,10 +147,10 @@ class Model
     function __get($name)
     {
         if (array_key_exists($name, $this->_properties))
-        {
             return $this->_properties[$name];
-        }
-        return null;
+        
+        // Properties must be registered.
+        throw new Exception('Unknown property selected for model.');
     }
     
     function __set($name, $value)

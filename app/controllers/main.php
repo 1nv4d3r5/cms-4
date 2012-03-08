@@ -19,11 +19,29 @@ class ControllerMain extends ControllerTemplate
     
     public function ActionIndex()
     {
+        /*
         $page = Database::current()
                     ->Query("SELECT * FROM `cms_pages` WHERE `default`=1")
                     ->Fetch();
         
         $this->request->Redirect($page['slug']);
+         * 
+         */
+        
+        $user = new User(array(
+                'username' => 'A$',
+            ));
+        
+        $content = '';
+        
+        if (!$user->Validate())
+        {
+            $content = print_r($user->errors(), true);
+        }
+        
+        $this->template->Variables(array(
+            'page_title' => 'Test', 
+            'content' => $content,));
     }
     
     public function ActionPage()

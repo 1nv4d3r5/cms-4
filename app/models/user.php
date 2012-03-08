@@ -3,34 +3,48 @@ class User extends Model
 {
     protected function Rules()
     {
-        return array(
-            'user_id' => array(),
+        return array
+        (
+            'user_id' => array(
+                    array('RegEx', array('/^[0-9]*$/'))
+                ),
             'username' => array(
-                    array('regex', array('/[a-zA-Z0-9]+/')),
-                    array('min_length', array(3)),
-                    array('max_length', array(30)),
+                    array('RegEx', array('/^[a-zA-Z0-9]+$/')),
+                    array('MinLength', array(3)),
+                    array('MaxLength', array(30)),
                 ),
             'password' => array(
-                    array('not_null'),
+                    array('NotEmpty'),
                 ),
             'email' => array(
-                    array('email'),
+                    array('NotEmpty'),
+                    array('Email'),
                 ),
-            'first_name' => array(),
-            'last_name' => array(),
+            'first_name' => array(
+                    array('RegEx', array('/^[a-zA-Z]*$/')),
+                ),
+            'last_name' => array(
+                    array('RegEx', array('/^[a-zA-Z]*$/')),
+                ),
         );
     }
     
     protected function Messages()
     {
-        return array(
-                'username' => array(
-                        'regex' => 'Username must be alphnumeric.',
-                        'min_length' => 'Username must be three or more characters long.',
-                        'max_length' => 'Username must be less than 30 characters long.',
-                    ),
-                'password' => array('not_null', 'Password must not be empty.'),
-            );
+        return array
+        (
+            'username' => array(
+                    'RegEx' => 'Username must be alphnumeric.',
+                    'MinLength' => 'Username must be three or more characters long.',
+                    'MaxLength' => 'Username must be less than 30 characters long.',
+                ),
+            'password' => array(
+                    'NotEmpty' => 'Password must not be empty.'
+                ),
+            'email' => array(
+                    'NotEmpty' => 'Email must not be empty.'
+                ),
+        );
     }
 }
 ?>
