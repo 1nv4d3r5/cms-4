@@ -10,7 +10,7 @@ class Validate
     
     public static function RegEx($value, $pattern)
     {
-        return 1 === preg_match($pattern, $value);
+        return (bool)preg_match($pattern, $value);
     }
     
     public static function MaxLength($value, $length)
@@ -63,7 +63,7 @@ class Model
                     list($rule_name) = $rule;
 
                 // Add field value to the front of the parameter list
-                array_unshift($rule_args, $this[$field_name]);
+                array_unshift($rule_args, $this->$field_name);
 
                 /* $rule_name in the form of the following:
                 * array(obj, 'method')
@@ -93,6 +93,11 @@ class Model
                     $reflection = new ReflectionFunction($rule_name);
                     $success = $reflection->invokeArgs($rule_args);
                 }
+                else
+                {
+                    // Unhandled check.
+                    throw new Exception('Uknown validation method in model.');
+                }
                 
                 if (!$success)
                 {
@@ -101,7 +106,7 @@ class Model
                     {
                         if (array_key_exists($error_name, $error_messages[$field_name]))
                             $this->_errors[$field_name][$error_name] =
-                                $error_messages[$error_name];
+                                $error_messages[$field_name][$error_name];
                         else
                             $this->_errors[$field_name][$error_name] = $error_name;
                     }
@@ -126,6 +131,8 @@ class Model
             {
                 $this->$name = $properties[$name];
             }
+            else
+                $this->$name = null;
         }
     }
     
