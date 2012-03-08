@@ -59,9 +59,13 @@ abstract class Model
     
     function __construct($properties = array())
     {
-        foreach ($properties as $name => $value)
+        // Only copy properties that are in our ruleset. Ignore all other values
+        foreach ($this->Rules() as $name => $value)
         {
-            $this->$name = $value;
+            if (array_key_exists($name, $properties))
+            {
+                $this->$name = $properties[$name];
+            }
         }
     }
     
