@@ -5,6 +5,7 @@ class CMS
     protected static $base_url = '/';
     protected static $initialized = false;
     protected static $modules = array();
+    protected static $models = array();
     
     public static function base_url()
     {
@@ -31,6 +32,7 @@ class CMS
             require_once SYSPATH . 'view' . EXT;
             require_once SYSPATH . 'url' . EXT;
             require_once SYSPATH . 'auth' . EXT;
+            require_once SYSPATH . 'model' . EXT;
 
             Request::Init();
             Response::Init();
@@ -63,6 +65,16 @@ class CMS
         foreach ($modules as $module_name => $module_path)
         {
             require_once $module_path . DIRECTORY_SEPARATOR . $module_name . EXT;
+        }
+    }
+    
+    public static function Models($models = array())
+    {
+        CMS::$models = $models;
+        
+        foreach ($models as $model_path)
+        {
+            require_once $model_path . EXT;
         }
     }
 }

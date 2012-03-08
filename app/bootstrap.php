@@ -20,6 +20,10 @@ CMS::Modules(array(
         'blog' => MODPATH . 'blog',
     ));
 
+CMS::Models(array(
+        'user' => APPPATH . 'models/user',
+    ));
+
 // Initialize our blog module
 Blog::Init();
 
