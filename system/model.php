@@ -1,6 +1,35 @@
 <?php if (!defined('INDIRECT')) die();
 // TODO: Implement base Model class
-abstract class Model
+class Validate
+{
+    public static function Email($value)
+    {
+        // TODO: Implement email validation.
+        return true;
+    }
+    
+    public static function RegEx($value, $pattern)
+    {
+        return 1 === preg_match($pattern, $value);
+    }
+    
+    public static function MaxLength($value, $length)
+    {
+        return strlen($value) <= $length;
+    }
+    
+    public static function MinLength($value, $length)
+    {
+        return strlen($value) >= $length;
+    }
+    
+    public static function NotEmpty($value)
+    {
+        return !empty($value);
+    }
+}
+
+class Model
 {
     protected $_properties = array();
     protected $_errors = array();
@@ -14,75 +43,77 @@ abstract class Model
     {
         return array();
     }
- 
-    public function Errors()
+    
+    public function Validate()
     {
+        $errors = false;
         $error_messages = $this->Messages();
         
-        foreach ($this->_properties as $property)
-            $this->_errors[$property] = array();
-        
-        foreach ($this->Rules() as $name => $value)
+        foreach ($this->Rules() as $field_name => $rules)
         {
-            if (is_array($value) && count($value) > 0)
+            foreach ($rules as $rule)
             {
-                foreach ($value as $rule_name => $rule_attribute)
+                $success = false;
+                $rule_args = array();
+                $error_name = null;
+                
+                if (count($rule) > 1)
+                    list($rule_name, $rule_args) = $rule;
+                else
+                    list($rule_name) = $rule;
+
+                // Add field value to the front of the parameter list
+                array_unshift($rule_args, $this[$field_name]);
+
+                /* $rule_name in the form of the following:
+                * array(obj, 'method')
+                * array('Class', 'method')
+                */
+                if (is_array($rule_name))
                 {
-                    // TODO: I could create some type of standard validation
-                    // class to handle these pre-specified rules. For simplicity sake,
-                    // I'm just doing it in a switch for now.
-                    switch ($rule_name)
+                    list($rule_object, $rule_method) = $rule_name;
+                    $error_name = $rule_method;
+                    $reflection = new ReflectionMethod($rule_object, $rule_method);
+                    $success = $reflection->invokeArgs(is_object($rule_object) ?
+                        $rule_object : NULL, $rule_args);
+                }
+                /* $rule_name in the form of the following:
+                * 'method'
+                */
+                else if (is_string($rule_name) && method_exists('Validate', $rule_name))
+                {
+                    // $rule_name is really rule_method
+                    $error_name = $rule_name;
+                    $reflection = new ReflectionMethod('Validate', $rule_name);
+                    $success = $reflection->invokeArgs(NULL, $rule_args);
+                }
+                // global or lambda function
+                else if (is_callable($rule_name))
+                {
+                    $reflection = new ReflectionFunction($rule_name);
+                    $success = $reflection->invokeArgs($rule_args);
+                }
+                
+                if (!$success)
+                {
+                    $errors = true;
+                    if (array_key_exists($field_name, $error_messages))
                     {
-                        case 'min_length':
-                            $error = false;
-                            
-                            if (is_string($this->$name)
-                                && strlen($this->$name) < $rule_attribute)
-                                $error = true;
-                            else if (is_array($this->$name)
-                                && count($this->$name) < $rule_attribute)
-                                $error = true;
-                            
-                            // TODO: Handle other types?
-                            
-                            if ($error)
-                            {
-                                if (array_key_exists($name, $error_messages)
-                                    && is_array($error_messages[$name]) &&
-                                    array_key_exists('min_length', $error_messages[$name]))
-                                {
-                                    $this->_errors[$name]['min_length'] = $error_messages[$name]['min_length'];
-                                }
-                            }
-                            break;
-                            
-                        case 'max_length':
-                            $error = false;
-                            
-                            if (is_string($this->$name)
-                                && strlen($this->$name) > $rule_attribute)
-                                $error = true;
-                            else if (is_array($this->$name)
-                                && count($this->$name) > $rule_attribute)
-                                $error = true;
-                            
-                            // TODO: Handle other types?
-                            
-                            if ($error)
-                            {
-                                if (array_key_exists($name, $error_messages)
-                                    && is_array($error_messages[$name]) &&
-                                    array_key_exists('max_length', $error_messages[$name]))
-                                {
-                                    $this->_errors[$name]['max_length'] = $error_messages[$name]['max_length'];
-                                }
-                            }
-                            break;
+                        if (array_key_exists($error_name, $error_messages[$field_name]))
+                            $this->_errors[$field_name][$error_name] =
+                                $error_messages[$error_name];
+                        else
+                            $this->_errors[$field_name][$error_name] = $error_name;
                     }
                 }
             }
         }
         
+        return $errors;
+    }
+ 
+    public function errors()
+    {
         return $this->_errors;
     }
     
