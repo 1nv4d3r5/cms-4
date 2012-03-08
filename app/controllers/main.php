@@ -29,8 +29,10 @@ class ControllerMain extends ControllerTemplate
          */
         
         $user = new User(array(
-                
+                'username' => 'Aus'
             ));
+        
+        print_r($user->Errors());
     }
     
     public function ActionPage()
