@@ -264,10 +264,12 @@ class ControllerAdminUser extends ControllerAdmin
             $this->request->Redirect('admin/user/edit/' . $user_id . '/status/username');
         
         if (strlen($password) > 0 && strlen($confirm_password) > 0)
+        {
             if ($password != $confirm_password)
                 $this->request->Redirect('admin/user/edit/' . $user_id . '/status/password');
             else
                 $update_password = true;
+        }
         
         $user = Database::current()
                     ->Query('SELECT `user_id` FROM `cms_users` WHERE (`username`=\''
