@@ -31,6 +31,15 @@ class ControllerAdminBlog extends ControllerAdmin
         if (!$blog_entry_id)
             $this->request->Redirect('admin/blog/list/status/not-found');
         
+        $edit_view = View::Factory('admin/blog/edit', array(
+                'user'       => $this->user,
+                'blog_entry' => Database::current()
+                                    ->Query('SELECT * FROM `cms_blog_entries` WHERE '
+                                        . '`blog_entry_id`=\''
+                                        . Database::current()->Escape($blog_entry_id) . '\'')
+                                    ->Fetch(),
+            ));
+        
         $status = $this->request->parameter('status');
         
         switch ($status)
@@ -48,14 +57,7 @@ class ControllerAdminBlog extends ControllerAdmin
                 break;
         }
         
-        $edit_view = View::Factory('admin/blog/edit', array(
-                'user'       => $this->user,
-                'blog_entry' => Database::current()
-                                    ->Query('SELECT * FROM `cms_blog_entries` WHERE '
-                                        . '`blog_entry_id`=\''
-                                        . Database::current()->Escape($blog_entry_id) . '\'')
-                                    ->Fetch(),
-            ));
+        
         
         $this->template->Variables(array(
                 'head'       => View::Factory('admin/blog/head'),
