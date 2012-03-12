@@ -30,7 +30,24 @@ class ControllerAdminBlog extends ControllerAdmin
         $blog_entry_id = $this->request->parameter('blog_entry_id');
         if (!$blog_entry_id)
             $this->request->Redirect('admin/blog/list/status/not-found');
+        
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
+        {
+            case 'title':
+                $edit_view->Variable('status_message', 'Invalid title.');
+                break;
             
+            case 'saved':
+                $edit_view->Variable('status_message', 'Changes has been successfully saved.');
+                break;
+            
+            case 'exists':
+                $edit_view->Variable('status_message', 'A blog entry already exists with specified title.');
+                break;
+        }
+        
         $edit_view = View::Factory('admin/blog/edit', array(
                 'user'       => $this->user,
                 'blog_entry' => Database::current()
