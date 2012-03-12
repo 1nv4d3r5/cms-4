@@ -66,5 +66,54 @@ class ControllerAdminBlog extends ControllerAdmin
                 'content'    => $edit_view,
             ));
     }
+    
+    public function ActionEditSave()
+    {
+        $blog_entry_id = $this->request->parameter('blog_entry_id');
+        
+        $blog_entry = Database::current()
+                    ->Query('SELECT `blog_entry_id`,`editable` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                        . Database::current()->Escape($blog_entry_id) . '\'')
+                    ->Fetch();
+        
+        // Blog entry does not exist
+        if (!$blog_entry)
+            $this->request->Redirect('admin/blog/list/status/not-found');
+        
+        // Blog entry is not editable
+        if (!$blog_entry['editable'])
+            $this->request->Redirect('admin/blog/list/status/not-editable');
+        
+        $title = $this->request->post('title');
+        $content = $this->request->post('content');
+        
+        // Our only limitation is that the title has a length > 0
+        if (strlen($title) <= 0)
+            $this->request->Redirect('admin/blog/edit/'
+                . $blog_entry_id . '/status/title');
+        
+        $old_blog_entry = Database::current()
+                              ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE '
+                                  . '`slug`=\''
+                                  . Database::current()->Escape(Slug($title)) . '\' '
+                                  . 'AND `blog_entry_id`!=\''
+                                  . Database::current()->Escape($blog_entry_id) . '\'')
+                              ->Fetch();
+        
+        // Blog entry title already exists
+        if ($old_blog_entry)
+            $this->request->Redirect('admin/blog/edit/' . $blog_entry_id . '/status/exists');
+        
+        // TODO: Check for database errors
+        Database::current()
+            ->Query('UPDATE `cms_blog_entries` SET '
+                . '`title`=\'' . Database::current()->Escape($title) . '\', '
+                . '`content`=\'' . Database::current()->Escape($content) . '\', '
+                . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\' '
+                . 'WHERE `blog_entry_id`=\'' . Database::current()->Escape($blog_entry_id) . '\'')
+            ->Execute();
+        
+        $this->request->Redirect('admin/blog/edit/' . $blog_entry_id . '/status/saved');
+    }
 }
 ?>
