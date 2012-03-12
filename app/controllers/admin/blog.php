@@ -28,16 +28,19 @@ class ControllerAdminBlog extends ControllerAdmin
     public function ActionEdit()
     {
         $blog_entry_id = $this->request->parameter('blog_entry_id');
-        if (!$blog_entry_id)
+        
+        $blog_entry = Database::current()
+                          ->Query('SELECT * FROM `cms_blog_entries` WHERE '
+                              . '`blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Fetch();
+        
+        if (!$blog_entry)
             $this->request->Redirect('admin/blog/list/status/not-found');
         
         $edit_view = View::Factory('admin/blog/edit', array(
                 'user'       => $this->user,
-                'blog_entry' => Database::current()
-                                    ->Query('SELECT * FROM `cms_blog_entries` WHERE '
-                                        . '`blog_entry_id`=\''
-                                        . Database::current()->Escape($blog_entry_id) . '\'')
-                                    ->Fetch(),
+                'blog_entry' => $blog_entry,
             ));
         
         $status = $this->request->parameter('status');
@@ -56,8 +59,6 @@ class ControllerAdminBlog extends ControllerAdmin
                 $edit_view->Variable('status_message', 'A blog entry already exists with specified title.');
                 break;
         }
-        
-        
         
         $this->template->Variables(array(
                 'head'       => View::Factory('admin/blog/head'),
