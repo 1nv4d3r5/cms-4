@@ -24,5 +24,27 @@ class ControllerAdminBlog extends ControllerAdmin
                 'user' => $this->user,
             ));
     }
+    
+    public function ActionEdit()
+    {
+        $blog_entry_id = $this->request->parameter('blog_entry_id');
+        if (!$blog_entry_id)
+            $this->request->Redirect('admin/blog/list/status/not-found');
+            
+        $edit_view = View::Factory('admin/blog/edit', array(
+                'user'       => $this->user,
+                'blog_entry' => Database::current()
+                                    ->Query('SELECT * FROM `cms_blog_entries` WHERE '
+                                        . '`blog_entry_id`=\''
+                                        . Database::current()->Escape($blog_entry_id) . '\'')
+                                    ->Fetch(),
+            ));
+        
+        $this->template->Variables(array(
+                'head'       => View::Factory('admin/blog/head'),
+                'page_title' => 'Manage Blog Entry',
+                'content'    => $edit_view,
+            ));
+    }
 }
 ?>
