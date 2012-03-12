@@ -208,6 +208,10 @@ class ControllerAdminUser extends ControllerAdmin
                 $edit_view->Variable('status_message', 'Passwords do not match.');
                 break;
             
+            case 'exists':
+                $edit_view->Variable('status_message', 'Username or email already exists.');
+                break;
+            
             default:
                 if ($status !== null)
                     $edit_view->Variable('status_message', 'Unknown status: ' . $status);
@@ -264,6 +268,16 @@ class ControllerAdminUser extends ControllerAdmin
                 $this->request->Redirect('admin/user/edit/' . $user_id . '/status/password');
             else
                 $update_password = true;
+        
+        $user = Database::current()
+                    ->Query('SELECT `user_id` FROM `cms_users` WHERE (`username`=\''
+                        . Database::current()->Escape($username) . '\' OR '
+                        . '`email`=\'' . Database::current()->Escape($email) . '\') AND '
+                        . '`user_id` != \'' . Database::current()->Escape($user_id) . '\'')
+                    ->Fetch();
+        
+        if ($user)
+            $this->request->Redirect('admin/user/edit/' . $user_id . '/status/exists');
         
         if (!$error)
         {
