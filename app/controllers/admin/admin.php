@@ -24,7 +24,21 @@ class ControllerAdmin extends ControllerTemplate
         if ($this->user['archived'])
             $this->request->Redirect('admin/auth/status/archived');
         
-        $this->template->Variable('user', $this->user);
+        $site_name = Database::current()
+                         ->Query('SELECT `setting_value` FROM `cms_settings`'
+                             . ' WHERE `setting_key`=\'site_name\' LIMIT 1')
+                         ->Fetch();
+        
+        if ($site_name && isset($site_name['setting_value']))
+            $site_name = $site_name['setting_value'];
+        else
+            $site_name = 'CMS';
+        
+        $this->template->Variables(array(
+                'user'      => $this->user,
+                'title'     => $site_name,
+                'site_name' => $site_name,
+            ));
     }
     
     public function ActionIndex()

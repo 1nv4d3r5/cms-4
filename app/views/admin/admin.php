@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>CMS Administration</title>
+        <title><?php echo $site_name; ?> Administration</title>
         <link href="http://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet" type="text/css"/>
         <link href="http://fonts.googleapis.com/css?family=Share" rel="stylesheet" type="text/css"/>
         <link href="<?php echo URL::Absolute('media/css/style.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -16,7 +16,7 @@
             <div class="head_wrapper">
                 <h1 class="site_name">
                     <a href="<?php echo URL::Absolute('admin'); ?>">
-                        CMS Administration
+                        <?php echo $site_name; ?> Administration
                     </a>
                 </h1>
                 <div style="float: right; color: #FFFFFF; font-weight: bold; margin: 35px 0 0 0;">
