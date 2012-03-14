@@ -39,7 +39,7 @@ class Blog
             Route::Set('admin_blog_delete', 'admin/blog/delete/(?<blog_entry_id>[1-9]{1}[0-9]*)', 'ControllerAdminBlog', 'ActionDelete');
             Route::Set('admin_blog_delete_confirmed', 'admin/blog/delete/(?<blog_entry_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminBlog', 'ActionDeleteConfirmed');
             Route::Set('admin_blog_publish', 'admin/blog/publish/(?<blog_entry_id>[1-9]{1}[0-9]*)', 'ControllerAdminBlog', 'ActionPublish');
-            Route::Set('admin_blog_unpubish', 'admin/blog/unpublish/(?<blog_entry_id>[1-9]{1}[0-9]*)/confirmed', 'ControllerAdminBlog', 'ActionUnpublish');
+            Route::Set('admin_blog_unpubish', 'admin/blog/unpublish/(?<blog_entry_id>[1-9]{1}[0-9]*)', 'ControllerAdminBlog', 'ActionUnpublish');
             
             Blog::$initialized = true;
         }
