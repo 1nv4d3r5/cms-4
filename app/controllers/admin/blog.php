@@ -18,6 +18,41 @@ class ControllerAdminBlog extends ControllerAdmin
                                       ->FetchArray(),
             ));
         
+        // Get a possible status message
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
+        {
+            case 'added':
+                $list_view->Variable('status_message', 'Blog entry has been successfully added.');
+                break;
+            
+            case 'deleted':
+                $list_view->Variable('status_message', 'Blog entry has been successfully deleted.');
+                break;
+            
+            case 'published':
+                $list_view->Variable('status_message', 'Blog entry has been successfully published.');
+                break;
+            
+            case 'unpublished':
+                $list_view->Variable('status_message', 'Blog entry has been successfully unpublished.');
+                break;
+            
+            case 'not-found':
+                $list_view->Variable('status_message', 'Blog entry cannot be found.');
+                break;
+            
+            case 'not-editable':
+                $list_view->Variable('status_message', 'Blog entry cannot be edited.');
+                break;
+            
+            default:
+                if ($status !== null)
+                    $list_view->Variable('status_message', 'Unknown status: ' . $status);
+                break;
+        }
+        
         $this->template->Variables(array(
                 'page_title' => 'Manage Blog Entries',
                 'content' => $list_view,
