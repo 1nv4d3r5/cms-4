@@ -41,3 +41,6 @@ TODO: Figure out a good way to "modularize" special cases such as the blog featu
 
 Models
 TODO: Start using data models! This will make everything so much more organized.
+
+Breadcrumb, Pagination
+TODO: Add breadcrumb and pagination support.

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>CMS</title>
+        <title><?php echo $title; ?></title>
         <link href="http://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Share" rel="stylesheet" type="text/css">
         <link href="<?php echo URL::Absolute('media/css/style.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -12,9 +12,7 @@
         <div class="wrapper">
             <div class="head_wrapper">
                 <h1 class="site_name">
-                    <a href="<?php echo URL::Absolute(); ?>">
-                        CMS
-                    </a>
+                    <a href="<?php echo URL::Absolute(); ?>"><?php echo $site_name; ?></a>
                 </h1>
             </div>
             <div class="content_wrapper">

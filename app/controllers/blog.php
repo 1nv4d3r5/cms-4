@@ -24,7 +24,7 @@ class ControllerBlog extends ControllerMain
         
         $this->template->Variables(array(
                 'page_title' => $entry['title'],
-                'content' => $entry['content'],
+                'content'    => $entry['content'],
             ));
     }
     
