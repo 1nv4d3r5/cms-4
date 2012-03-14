@@ -1,0 +1,40 @@
+There's actually quite a bit to finish. Some of the major quirks in the CMS right
+now are the following:
+
+Status Pages
+I initially thought that status pages would be nice, for example, if a user
+is submitting a form from /page/my-form to /page/my-form/save and an error
+occurs (let's say their name is invalid), the form will then redirect the user
+to /page/my-form/status/invalid-name or something similar.
+
+What's the problem?
+The problem is that multiple messages can't be displayed in a status page. One
+solution would be to allow each "sub-directory" of status be another status
+indicator. For example: /page/my-form/status/invalid-name/invalid-password. This
+is great and all, but what if there's 20 errors? That would be one monster URL.
+
+What's the fix?
+The fix would be to create a system using sessions to store the current state
+that the user is in. When the user submits the form, the action would then validate
+the information from the POST variables. Some type of error object would then be constructed
+to manage all errors that occurred on the form. It doesn't really matter how these
+errors are stored, just as long as they stick with the user. A redirect would
+then be performed directing the user to a page called something like /page/my-form/status/error
+to display all of the errors. If there were no errors, the user would be directed
+to a success page, such as /page/my-form/success.
+
+Modules
+Modules are not really modules right now. They are more or less an abstraction
+in order to support custom pages. The blog "module" is a very good example because
+it only defines specific routes for specific pages. It's more or less a hack right now,
+because some pages of blog are stored in the database and some aren't. A good
+example to visualize the ugliness is the following:
+
+/blog/entries
+/blog/entry/<blog_entry_id>
+
+/blog/entries is stored in the cms_pages table, but because blog/entry is not
+meant to be accessed without an id, it can't be stored in the pages table.
+
+What's the fix?
+TODO: Figure out a good way to "modularize" special cases such as the blog feature.
