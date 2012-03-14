@@ -23,6 +23,12 @@ class Request
             // TODO: Clean super globals.
             Request::$initial->_post = $_POST;
             unset($_POST);
+            
+            Request::$initial->_get = $_GET;
+            unset($_GET);
+            
+            Request::$initial->_cookie = $_COOKIE;
+            unset($_COOKIE);
         }
         
         return Request::$initial;
@@ -48,6 +54,7 @@ class Request
     protected $_uri;
     protected $_parameters = array();
     protected $_post = array();
+    protected $_get = array();
     
     function __construct($uri)
     {
@@ -70,6 +77,24 @@ class Request
             return $this->_post;
         if (array_key_exists($key, $this->_post))
             return $this->_post[$key];
+        return null;
+    }
+    
+    public function get($key = null)
+    {
+        if ($key === null)
+            return $this->_get;
+        if (array_key_exists($key, $this->_get))
+            return $this->_get[$key];
+        return null;
+    }
+    
+    public function cookie($key = null)
+    {
+        if ($key === null)
+            return $this->_cookie;
+        if (array_key_exists($key, $this->_cookie))
+            return $this->_cookie[$key];
         return null;
     }
     
