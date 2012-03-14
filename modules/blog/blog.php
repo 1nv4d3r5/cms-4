@@ -31,8 +31,8 @@ class Blog
             // admin/blog routes
             Route::RegisterController('ControllerAdminBlog', 'admin/blog');
             Route::Set('admin_blog', 'admin/blog', 'ControllerAdminBlog');
-            Route::Set('admin_blog_list', 'admin/blog/list', 'ControllerAdminBlog', 'ActionList');
-            Route::Set('admin_blog_new', 'admin/blog/new', 'ControllerAdminBlog', 'ActionNew');
+            Route::Set('admin_blog_list', 'admin/blog/list(/status/(?<status>[^/]+))?', 'ControllerAdminBlog', 'ActionList');
+            Route::Set('admin_blog_new', 'admin/blog/new(/status/(?<status>[^/]+))?', 'ControllerAdminBlog', 'ActionNew');
             Route::Set('admin_blog_new_save', 'admin/blog/new/save', 'ControllerAdminBlog', 'ActionNewSave');
             Route::Set('admin_blog_edit', 'admin/blog/edit/(?<blog_entry_id>[1-9]{1}[0-9]*)(/status/(?<status>[^/]+))?', 'ControllerAdminBlog', 'ActionEdit');
             Route::Set('admin_blog_edit_save', 'admin/blog/edit/(?<blog_entry_id>[1-9]{1}[0-9]*)/save', 'ControllerAdminBlog', 'ActionEditSave');
