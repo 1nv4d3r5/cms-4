@@ -29,7 +29,26 @@ class ControllerAdminBlog extends ControllerAdmin
     {
         $new_view = View::Factory('admin/blog/new');
         
+        $status = $this->request->parameter('status');
+        
+        switch ($status)
+        {
+            case 'title':
+                $new_view->Variable('status_message', 'Invalid blog entry title.');
+                break;
+            
+            case 'exists':
+                $new_view->Variable('status_message', 'A blog entry already exists with specified title.');
+                break;
+            
+            default:
+                if ($status !== null)
+                    $new_view->Variable('status_message', 'Unknown status: ' . status);
+                break;
+        }
+        
         $this->template->Variables(array(
+                'head'       => View::Factory('admin/blog/head'),
                 'page_title' => 'New Blog Entry',
                 'content'    => $new_view,
             ));
@@ -37,7 +56,34 @@ class ControllerAdminBlog extends ControllerAdmin
     
     public function ActionNewSave()
     {
+        $title = $this->request->post('title');
+        $content = $this->request->post('content');
         
+        // Invalid blog entry title
+        if (strlen($title) <= 0)
+            $this->request->Redirect('admin/blog/new/status/title');
+        
+        $page = Database::current()
+                    ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE '
+                        . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\'')
+                    ->Fetch();
+        
+        // Blog entry title already exists
+        if ($page)
+            $this->request->Redirect('admin/blog/new/status/exists');
+        
+        // TODO: Check for database errors
+        Database::current()
+            ->Query('INSERT INTO `cms_blog_entries`(`user_id`,`title`,`content`,`slug`,`date_created`)'
+                . ' VALUES('
+                . '\'' . Database::current()->Escape($this->user['user_id']) . '\', '
+                . '\'' . Database::current()->Escape($title) . '\', '
+                . '\'' . Database::current()->Escape($content) . '\', '
+                . '\'' . Database::current()->Escape(Slug($title)) . '\', '
+                . 'NOW())')
+            ->Execute();
+        
+        $this->request->Redirect('admin/blog/list/status/added');
     }
     
     public function ActionEdit()
