@@ -8,7 +8,7 @@ class ControllerAdminBlog extends ControllerAdmin
     {
         $this->request->Redirect('admin/blog/list');
     }
-    
+  
     public function ActionList()
     {
         $list_view = View::Factory('admin/blog/list', array(
@@ -210,6 +210,95 @@ class ControllerAdminBlog extends ControllerAdmin
             ->Execute();
         
         $this->request->Redirect('admin/blog/edit/' . $blog_entry_id . '/status/saved');
+    }
+    
+    public function ActionPublish()
+    {
+        $blog_entry_id = $this->request->parameter('blog_entry_id');
+        
+        // Make sure blog entry exists
+        $blog_entry = Database::current()
+                          ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Fetch();
+        
+        // blog entry does not exist
+        if (!$blog_entry)
+            $this->request->Redirect('admin/blog/list/status/not-found');
+        
+        Database::current()
+            ->Query('UPDATE `cms_blog_entries` SET `published`=1 WHERE `blog_entry_id`=\''
+                . Database::current()->Escape($blog_entry_id) . '\'')
+            ->Execute();
+        
+        $this->request->Redirect('admin/blog/list/status/published');
+    }
+    
+    public function ActionUnpublish()
+    {
+        $blog_entry_id = $this->request->parameter('blog_entry_id');
+        
+        // Make sure blog entry exists
+        $blog_entry = Database::current()
+                          ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Fetch();
+        
+        // blog entry does not exist
+        if (!$blog_entry)
+            $this->request->Redirect('admin/blog/list/status/not-found');
+        
+        Database::current()
+            ->Query('UPDATE `cms_blog_entries` SET `published`=0 WHERE `blog_entry_id`=\''
+                . Database::current()->Escape($blog_entry_id) . '\'')
+            ->Execute();
+        
+        $this->request->Redirect('admin/blog/list/status/unpublished');
+    }
+    
+    public function ActionDelete()
+    {
+        $blog_entry_id = $this->request->parameter('blog_entry_id');
+        
+        // Make sure blog entry exists
+        $blog_entry = Database::current()
+                          ->Query('SELECT * FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Fetch();
+        
+        // blog entry does not exist
+        if (!$blog_entry)
+            $this->request->Redirect('admin/blog/list/status/not-found');
+        
+        $this->template->Variables(array(
+                'page_title' => 'Confirm Blog Entry Deletion',
+                'content' => View::Factory('admin/blog/delete', array(
+                        'blog_entry' => $blog_entry,
+                    )),
+            ));
+    }
+    
+    public function ActionDeleteConfirmed()
+    {
+        $blog_entry_id = $this->request->parameter('blog_entry_id');
+        
+        // Make sure blog entry exists
+        $blog_entry = Database::current()
+                          ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Fetch();
+        
+        // blog entry does not exist
+        if (!$blog_entry)
+            $this->request->Redirect('admin/blog/list/status/not-found');
+        
+        // Delete from blog_entries
+        Database::current()
+                ->Query('DELETE FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                    . Database::current()->Escape($blog_entry_id) . '\'')
+                ->Execute();
+        
+        $this->request->Redirect('admin/blog/list/status/deleted');
     }
 }
 ?>
