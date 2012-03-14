@@ -55,7 +55,6 @@ class View
         // Create variables that the current view will use.
         extract($this->variables, EXTR_SKIP);
         
-        // TODO: Allow the user to specify where they want their views folder to be.
         include APPPATH . 'views' . DIRECTORY_SEPARATOR . $this->file . EXT;
         
         // Get buffered data and destroy the output buffer

@@ -105,9 +105,10 @@ div.blog_entry_content p {
 .site_name {
     margin: 0;
     padding: 25px 0 0 15px;
-    width: 300px;
+    width: 400px;
     font-weight: normal;
     float: left;
+    overflow-x: hidden;
 }
 
 h1.site_name a {
