@@ -38,3 +38,6 @@ meant to be accessed without an id, it can't be stored in the pages table.
 
 What's the fix?
 TODO: Figure out a good way to "modularize" special cases such as the blog feature.
+
+Models
+TODO: Start using data models! This will make everything so much more organized.

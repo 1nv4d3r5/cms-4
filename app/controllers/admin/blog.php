@@ -25,6 +25,21 @@ class ControllerAdminBlog extends ControllerAdmin
             ));
     }
     
+    public function ActionNew()
+    {
+        $new_view = View::Factory('admin/blog/new');
+        
+        $this->template->Variables(array(
+                'page_title' => 'New Blog Entry',
+                'content'    => $new_view,
+            ));
+    }
+    
+    public function ActionNewSave()
+    {
+        
+    }
+    
     public function ActionEdit()
     {
         $blog_entry_id = $this->request->parameter('blog_entry_id');

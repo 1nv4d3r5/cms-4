@@ -13,9 +13,8 @@ CMS::Init(array(
     ));
 
 // Initialize modules
-// TODO: Make modules more dynamic by allowing the programmer to specify an
+// TODO: Make modules more dynamic by allowing the programmer to specify an init file to load the module.
 // TODO: Make modules database-driven. This will allow the user to activate/deactivate modules through an interface
-// init file to load the module.
 CMS::Modules(array(
         'blog' => MODPATH . 'blog',
     ));

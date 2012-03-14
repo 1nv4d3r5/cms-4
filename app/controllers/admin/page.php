@@ -103,8 +103,6 @@ class ControllerAdminPage extends ControllerAdmin
     
     public function ActionNewSave()
     {
-        $page_id = $this->request->parameter('page_id');
-        
         $title = $this->request->post('title');
         $content = $this->request->post('content');
         
