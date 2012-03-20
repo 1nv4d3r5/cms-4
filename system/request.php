@@ -22,13 +22,10 @@ class Request
             
             // TODO: Clean super globals.
             Request::$initial->_post = $_POST;
-            unset($_POST);
-            
             Request::$initial->_get = $_GET;
-            unset($_GET);
-            
             Request::$initial->_cookie = $_COOKIE;
-            unset($_COOKIE);
+            
+            unset($_POST, $_GET, $_COOKIE);
         }
         
         return Request::$initial;
@@ -41,6 +38,8 @@ class Request
     
     public static function Factory($uri = null)
     {
+        // If no URI is passed, we'll fallback to REQUEST_URI which will
+        // fallback to /
         if ($uri === null)
         {
             $uri = $_SERVER['REQUEST_URI'];
