@@ -1,1 +1,12 @@
 This content management system is being built for my Web Programming class.
+
+Install
+
+- Edit app/config/database.php to match your database configuration. MySQL is the only driver supported.
+- Edit app/bootstrap.php
+    - Change base_url if needed
+- If the base_url is changed in bootstrap.php, RewriteBase in .htaccess must be changed as well.
+- Import the cms.sql into your database.
+    - Default username: admin
+    - Default password: password
+    - Be sure to go to the administration section to change your password.

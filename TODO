@@ -44,3 +44,5 @@ TODO: Start using data models! This will make everything so much more organized.
 
 Breadcrumb, Pagination
 TODO: Add breadcrumb and pagination support.
+
+TODO: Add an option to change the default page.

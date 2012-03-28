@@ -8,6 +8,7 @@ setlocale(LC_ALL, 'en_US.utf-8');
 // Load CMS
 require_once SYSPATH . 'cms' . EXT;
 
+// Change base URL to the path where the CMS is installed.
 CMS::Init(array(
         'base_url' => '/'
     ));
