@@ -7,6 +7,10 @@
         <link href="http://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Share" rel="stylesheet" type="text/css">
         <style type="text/css">
+            img {
+                border: none;
+            }
+            
             div.wrapper {
                 width: 500px;
                 margin-left: auto;
