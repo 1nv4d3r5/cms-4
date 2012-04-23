@@ -199,7 +199,7 @@ class ControllerAdminPage extends ControllerAdmin
             
             case 'saved':
                 $edit_view->Variable('status_message',
-                        'Changes has been successfully saved.');
+                        'Changes have been successfully saved.');
                 break;
             
             case 'exists':
