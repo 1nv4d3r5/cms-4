@@ -6,13 +6,15 @@
     <h3><?php echo $status_message; ?></h3>
 <?php endif; ?>
 
-<form action="<?php echo URL::Absolute('admin/user/new/save'); ?>" method="post" id="save_form">
+<form action="<?php echo URL::Absolute('admin/user/new/save'); ?>"
+    method="post" id="save_form">
     <table>
         <tr>
             <td>Username</td>
             <td>
                 <input type="text" name="username" value=
-                    "<?php echo isset($new_user['username']) ? $new_user['username'] : ''; ?>"/>
+                    "<?php echo isset($new_user['username']) ?
+                        $new_user['username'] : ''; ?>"/>
             </td>
         </tr>
         <tr>
@@ -26,25 +28,29 @@
         <tr>
             <td>Email</td>
             <td><input type="text" name="email" value=
-                    "<?php echo isset($new_user['email']) ? $new_user['email'] : ''; ?>"/></td>
+                    "<?php echo isset($new_user['email']) ? $new_user['email']
+                    : ''; ?>"/></td>
         </tr>
         <tr>
             <td>First Name</td>
             <td><input type="text" name="first_name" value=
-                    "<?php echo isset($new_user['first_name']) ? $new_user['first_name'] : ''; ?>"/></td>
+                    "<?php echo isset($new_user['first_name']) ?
+                        $new_user['first_name'] : ''; ?>"/></td>
         </tr>
         <tr>
             <td>Last Name</td>
             <td><input type="text" name="last_name" value=
-                    "<?php echo isset($new_user['last_name']) ? $new_user['last_name'] : ''; ?>"/></td>
+                    "<?php echo isset($new_user['last_name']) ?
+                        $new_user['last_name'] : ''; ?>"/></td>
         </tr>
         <tr>
             <td>Manage Users</td>
-            <td><input type="checkbox" name="permission_manage_users" value="true"
-                <?php if (isset($new_user['permission_manage_users'])
-                        && $new_user['permission_manage_users'] == 1)
-                    echo 'checked="checked"';
-                ?>/></td>
+            <td><input type="checkbox" name="permission_manage_users"
+                    value="true"
+                    <?php if (isset($new_user['permission_manage_users'])
+                            && $new_user['permission_manage_users'] == 1)
+                        echo 'checked="checked"';
+                    ?>/></td>
         </tr>
         <tr>
             <td>Edit Pages</td>
@@ -64,7 +70,8 @@
         </tr>
         <tr>
             <td>Edit Blog Entries</td>
-            <td><input type="checkbox" name="permission_blog_entry_edit" value="true"
+            <td><input type="checkbox" name="permission_blog_entry_edit"
+                       value="true"
                 <?php if (isset($new_user['permission_blog_entry_edit'])
                         && $new_user['permission_blog_entry_edit'] == 1)
                     echo 'checked="checked"';
@@ -72,7 +79,8 @@
         </tr>
         <tr>
             <td>Add Blog Entries</td>
-            <td><input type="checkbox" name="permission_blog_entry_add" value="true"
+            <td><input type="checkbox" name="permission_blog_entry_add"
+                       value="true"
                 <?php if (isset($new_user['permission_blog_entry_add'])
                         && $new_user['permission_blog_entry_add'] == 1)
                     echo 'checked="checked"';
@@ -80,7 +88,8 @@
         </tr>
         <tr>
             <td>Credit Blog Entries to Users</td>
-            <td><input type="checkbox" name="permission_blog_entry_credit_users" value="true"
+            <td><input type="checkbox" name="permission_blog_entry_credit_users"
+                       value="true"
                 <?php if (isset($new_user['permission_blog_entry_credit_users'])
                         && $new_user['permission_blog_entry_credit_users'] == 1)
                     echo 'checked="checked"';
@@ -88,10 +97,13 @@
         </tr>
         <tr>
             <td colspan="2">
-                <a href="javascript:void(0);" class="button" style="width: 90px;"
-                    onclick="document.getElementById('save_form').submit(); return false;">
-                    <img src="<?php echo URL::Absolute('media/img/user-add.png'); ?>"/>
-                    <div>Save</div>
+                <a href="javascript:void(0);" class="button"
+                   style="width: 90px;"
+                   onclick="document.getElementById('save_form').submit();
+                       return false;">
+                   <img src="<?php echo URL::Absolute(
+                       'media/img/user-add.png'); ?>"/>
+                   <div>Save</div>
                 </a>
             </td>
         </tr>
