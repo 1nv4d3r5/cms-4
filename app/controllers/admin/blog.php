@@ -285,10 +285,10 @@ class ControllerAdminBlog extends ControllerAdmin
                 . '`user_id`,`date`,`action`) VALUES(\''
                 . Database::current()->Escape($blog_entry_id) . '\',\''
                 . Database::current()->Escape($this->user['user_id'])
-                . '\', NOW(), \'published\')')
+                . '\', NOW(), \'publish\')')
             ->Execute();
         
-        $this->request->Redirect('admin/blog/list/status/publish');
+        $this->request->Redirect('admin/blog/list/status/published');
     }
     
     public function ActionUnpublish()
