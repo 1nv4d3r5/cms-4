@@ -22,6 +22,11 @@
             <div class="content_wrapper">
                 <h2 class="page_title">
                     <?php echo $page_title; ?>
+                    <?php if (isset($page_id) && isset($user) && $user &&
+                            $user['permission_pages_edit']): ?>
+                    <a href="<?php echo URL::Absolute(
+                            'admin/page/edit/' . $page_id) ?>">Edit</a>
+                    <?php endif; ?>
                 </h2>
                 <div class="page_content">
                     <?php echo $content; ?>
@@ -38,7 +43,6 @@
                         </a>
                     </li>
                     <?php endforeach; ?>
-                    
                 </ul>
             </div>
         </div>

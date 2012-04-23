@@ -27,6 +27,7 @@ class ControllerMain extends ControllerTemplate
             $site_name = 'CMS';
         
         $this->template->Variables(array(
+                'user'      => Auth::Factory()->user(),
                 'title'     => $site_name,
                 'site_name' => $site_name,
             ));
@@ -51,6 +52,7 @@ class ControllerMain extends ControllerTemplate
         
         // Add template information based on page.
         $this->template->Variables(array(
+            'page_id'    => $page['page_id'],
             'page_title' => $page['title'], 
             'content' => $page['content'],));
     }
