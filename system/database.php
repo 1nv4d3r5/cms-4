@@ -41,7 +41,8 @@ class Database
     
     public function Connect()
     {
-        $this->link = mysql_connect($this->hostname, $this->username, $this->password);
+        $this->link = mysql_connect($this->hostname, $this->username,
+                $this->password);
         
         if (!$this->link || !mysql_select_db($this->database, $this->link))
             die(mysql_error());

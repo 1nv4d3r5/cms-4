@@ -23,7 +23,8 @@ class Route
     
     public static function Set($name, $path, $controller, $action = null)
     {
-        return Route::$routes[$name] = new Route($name, $path, $controller, $action);
+        return Route::$routes[$name] = new Route($name, $path, $controller,
+                $action);
     }
     
     public static function Get($name)
@@ -47,7 +48,8 @@ class Route
         // Find Route matching the provided URI.
         foreach (Route::$routes as $route)
         {
-            if (preg_match('`^' . CMS::base_url() . $route->path . '$`', $uri, $matches))
+            if (preg_match('`^' . CMS::base_url() . $route->path . '$`', $uri,
+                    $matches))
             {
                 // Filter out all numeric keys. This is done to reduce
                 // redundant data. If the route has named matches, then

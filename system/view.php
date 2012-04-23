@@ -18,9 +18,10 @@ class View
     function __toString()
     {
         /* If a View instance is cast to a string, we'll go ahead and render.
-         * This allows a view factory to be used as a string. For example, the following
-         * could happen while inside a controller:
-         * $this->response->body(View::Factory('myview', array('var1' => 'Hello, world!')));
+         * This allows a view factory to be used as a string. For example, the
+         * following could happen while inside a controller:
+         * $this->response->body(View::Factory('myview',
+         *      array('var1' => 'Hello, world!')));
          */
         return $this->Render();
     }

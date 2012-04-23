@@ -34,7 +34,8 @@ if ($route)
     // doesn't realize that $route->controller could contain subclasses
     // that extend Controller.
     
-    $controller = new $route->controller(Request::Initial(), Response::Initial());
+    $controller = new $route->controller(Request::Initial(),
+            Response::Initial());
     
     // Template construction usually happens before the action is invoked.
     $controller->Before();

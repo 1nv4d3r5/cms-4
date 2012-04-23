@@ -6,7 +6,8 @@ class URL
         $hostname = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] 
             : $_SERVER['SERVER_NAME'];
         
-        return $protocol . '://' . $hostname . CMS::base_url() . ltrim($uri, '/');
+        return $protocol . '://' . $hostname . CMS::base_url()
+                . ltrim($uri, '/');
     }
 }
 ?>

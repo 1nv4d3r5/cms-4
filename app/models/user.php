@@ -35,8 +35,10 @@ class User extends Model
         (
             'username' => array(
                     'RegEx' => 'Username must be alphnumeric.',
-                    'MinLength' => 'Username must be three or more characters long.',
-                    'MaxLength' => 'Username must be less than 30 characters long.',
+                    'MinLength' =>
+                        'Username must be three or more characters long.',
+                    'MaxLength' =>
+                        'Username must be less than 30 characters long.',
                 ),
             'password' => array(
                     'NotEmpty' => 'Password must not be empty.'

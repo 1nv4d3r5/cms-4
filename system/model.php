@@ -76,14 +76,16 @@ class Model
                 {
                     list($rule_object, $rule_method) = $rule_name;
                     $error_name = $rule_method;
-                    $reflection = new ReflectionMethod($rule_object, $rule_method);
+                    $reflection = new ReflectionMethod($rule_object,
+                            $rule_method);
                     $success = $reflection->invokeArgs(is_object($rule_object) ?
                         $rule_object : NULL, $rule_args);
                 }
                 /* $rule_name in the form of the following:
                 * 'method'
                 */
-                else if (is_string($rule_name) && method_exists('Validate', $rule_name))
+                else if (is_string($rule_name) && method_exists('Validate',
+                        $rule_name))
                 {
                     // $rule_name is really rule_method
                     $error_name = $rule_name;
@@ -104,13 +106,14 @@ class Model
                 
                 if (!$success)
                 {
-                    // Not successful, find appropriate error message if possible.
-                    // If no error message exists for the given error_name, we'll
-                    // just assign error_name.
+                    // Not successful, find appropriate error message if
+                    // possible. If no error message exists for the given
+                    // error_name, we'll just assign error_name.
                     $validated = false;
                     if (array_key_exists($field_name, $error_messages))
                     {
-                        if (array_key_exists($error_name, $error_messages[$field_name]))
+                        if (array_key_exists($error_name,
+                                $error_messages[$field_name]))
                             $this->_errors[$field_name][$error_name] =
                                 $error_messages[$field_name][$error_name];
                         else
