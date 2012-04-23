@@ -303,7 +303,7 @@ class ControllerAdminPage extends ControllerAdmin
                     . '`date`,`action`) VALUES(\''
                     . Database::current()->Escape($page_id) . '\',\''
                     . Database::current()->Escape($this->user['user_id'])
-                    . '\', NOW(), \'published\')')
+                    . '\', NOW(), \'publish\')')
                 ->Execute();
         
         $this->request->Redirect('admin/page/list/status/published');
@@ -340,7 +340,7 @@ class ControllerAdminPage extends ControllerAdmin
                     . '`date`,`action`) VALUES(\''
                     . Database::current()->Escape($page_id) . '\',\''
                     . Database::current()->Escape($this->user['user_id'])
-                    . '\', NOW(), \'unpublished\')')
+                    . '\', NOW(), \'unpublish\')')
                 ->Execute();
         
         $this->request->Redirect('admin/page/list/status/unpublished');
