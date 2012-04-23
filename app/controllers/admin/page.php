@@ -142,6 +142,15 @@ class ControllerAdminPage extends ControllerAdmin
                 . 'NOW())')
             ->Execute();
         
+        $page_id = Database::current()->InsertID();
+        
+        // Insert into history
+        Database::current()
+                ->Query('INSERT INTO `cms_page_history`(`page_id`,`user_id`,'
+                    . '`date`,`action`) VALUES(\'' . $page_id . '\',\''
+                    . $this->user['user_id'] . '\', NOW(), \'new\')')
+                ->Execute();
+        
         // Insert into menu database
         Database::current()
             ->Query('INSERT INTO `cms_menu`(`page_id`,`position`)'
