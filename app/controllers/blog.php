@@ -40,6 +40,25 @@ class ControllerBlog extends ControllerMain
             // TODO: Load real date settings from settings table.
             $entries[$key]['date_created'] = date('F d, Y',
                 strtotime($entry['date_created']));
+            $entries[$key]['user'] = Database::current()
+                           ->Query('SELECT `username` FROM `cms_users` '
+                                   . ' WHERE `user_id`=\''
+                                   . $entries[$key]['user_id'] . '\'')
+                           ->Fetch();
+            
+            $entries[$key]['last_user'] = Database::current()
+                    ->Query('SELECT `cms_blog_entry_history`.`user_id`,'
+                            . '`username`,`action`,`date` '
+                            . 'FROM `cms_blog_entry_history` '
+                            . 'JOIN `cms_users` ON '
+                            . '`cms_blog_entry_history`'
+                            . '.`user_id`=`cms_users`.`user_id` '
+                            . 'WHERE `blog_entry_id`=\''
+                            . $entries[$key]['blog_entry_id'] . '\''
+                            . ' AND `action`=\'edit\' '
+                            . 'ORDER BY `cms_blog_entry_history`.`date` DESC '
+                            . 'LIMIT 1')
+                    ->Fetch();
         }
         
         $this->template->Variables(array(
