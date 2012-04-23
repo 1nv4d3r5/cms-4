@@ -24,7 +24,7 @@ class ControllerAdminPage extends ControllerAdmin
         $pages = Database::current()
             ->Query("SELECT * FROM `cms_menu` RIGHT JOIN `cms_pages` "
                 . "ON `cms_menu`.`page_id`=`cms_pages`.`page_id` "
-                . "ORDER BY `cms_menu`.`position` DESC;")
+                . "ORDER BY `cms_menu`.`position` ASC;")
             ->FetchArray();
         
         $list_view = View::Factory('admin/page/list', array(
@@ -171,7 +171,7 @@ class ControllerAdminPage extends ControllerAdmin
                 . 'FROM `cms_menu`) AS menu) + 1)')
             ->Execute();
         
-        //$this->request->Redirect('admin/page/list/status/added');
+        $this->request->Redirect('admin/page/list/status/added');
     }
     
     public function ActionEdit()
