@@ -10,7 +10,7 @@ foreach ($entries as $entry):
         </a>
         <?php if (isset($user) && $user &&
                 $user['permission_blog_entry_edit']): ?>
-        <a href="<?php URL::Absolute('admin/blog/edit/'
+        <a href="<?php echo URL::Absolute('admin/blog/edit/'
                 . $entry['blog_entry_id']); ?>">Edit</a>
         <?php endif; ?>
         <span class="blog_entry_date">

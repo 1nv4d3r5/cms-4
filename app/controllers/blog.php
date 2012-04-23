@@ -64,6 +64,7 @@ class ControllerBlog extends ControllerMain
         $this->template->Variables(array(
                 'page_title' => 'Blog Entries',
                 'content' => View::Factory('blog/entries', array(
+                        'user'    => Auth::Factory()->user(),
                         'entries' => $entries,
                     )),
             ));
