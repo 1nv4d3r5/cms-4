@@ -33,8 +33,6 @@ class ControllerAdminPage extends ControllerAdmin
                 'pages' => $pages,
             ));
         
-        
-        
         // Get a possible status message
         $status = $this->request->parameter('status');
         
@@ -73,6 +71,11 @@ class ControllerAdminPage extends ControllerAdmin
             case 'not-editable':
                 $list_view->Variable('status_message',
                         'Page cannot be edited.');
+                break;
+            
+            case 'moved':
+                $list_view->Variable('status_message',
+                        'Page moved successfully');
                 break;
             
             default:
@@ -410,6 +413,44 @@ class ControllerAdminPage extends ControllerAdmin
                 ->Execute();
         
         $this->request->Redirect('admin/page/list/status/deleted');
+    }
+    
+    public function ActionMove()
+    {
+        $page_from_id = $this->request->parameter('page_id_from');
+        $page_to_id = $this->request->parameter('page_id_to');
+        
+        Database::current()->Begin();
+        
+        $page_from = Database::current()
+                ->Query('SELECT * FROM `cms_menu` WHERE `page_id`='
+                        . '\'' . Database::current()->escape($page_from_id)
+                        . '\'')
+                ->Fetch();
+        
+        $page_to = Database::current()
+                ->Query('SELECT * FROM `cms_menu` WHERE `page_id`='
+                        . '\'' . Database::current()->escape($page_to_id)
+                        . '\'')
+                ->Fetch();
+        
+        Database::current()
+                ->Query('UPDATE `cms_menu` SET `position`=\''
+                        . $page_from['position'] . '\' '
+                        . 'WHERE `page_id`=\''
+                        . Database::current()->escape($page_to_id) . '\'')
+                ->Execute();
+        
+        Database::current()
+                ->Query('UPDATE `cms_menu` SET `position`=\''
+                        . $page_to['position'] . '\' '
+                        . 'WHERE `page_id`=\''
+                        . Database::current()->escape($page_from_id) . '\'')
+                ->Execute();
+        
+        Database::current()->Commit();
+        
+        $this->request->Redirect('admin/page/list/status/moved');
     }
 }
 ?>

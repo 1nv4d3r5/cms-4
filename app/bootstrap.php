@@ -98,6 +98,9 @@ Route::Set('admin_page_delete', 'admin/page/delete/(?<page_id>[1-9]{1}[0-9]*)',
 Route::Set('admin_page_delete_confirmed',
         'admin/page/delete/(?<page_id>[1-9]{1}[0-9]*)/confirmed',
         'ControllerAdminPage', 'ActionDeleteConfirmed');
+Route::Set('admin_page_move',
+        'admin/page/move/(?<page_id_from>[1-9]{1}[0-9]*)/'
+        . '(?<page_id_to>[1-9]{1}[0-9]*)', 'ControllerAdminPage', 'ActionMove');
 
 // admin/auth routes
 Route::Set('admin_auth_logout', 'admin/auth/logout', 'ControllerAdminAuth',
