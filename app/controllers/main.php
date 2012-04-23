@@ -10,10 +10,10 @@ class ControllerMain extends ControllerTemplate
         // Generate menus for the page.
         $this->template->Variable('menu_items', 
             Database::current()
-                ->Query("SELECT * FROM `cms_menu` JOIN `cms_pages` "
+                ->Query("SELECT * FROM `cms_menu` RIGHT JOIN `cms_pages` "
                     . "ON `cms_menu`.`page_id`=`cms_pages`.`page_id` "
                     . "WHERE `cms_pages`.`published`=1 "
-                    . "ORDER BY `cms_menu`.`position` ASC;")
+                    . "ORDER BY `cms_menu`.`position` DESC;")
                 ->FetchArray());
         
         $site_name = Database::current()

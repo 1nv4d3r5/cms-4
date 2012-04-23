@@ -22,10 +22,9 @@ class ControllerAdminPage extends ControllerAdmin
     public function ActionList()
     {
         $pages = Database::current()
-            ->Query("SELECT * FROM `cms_menu` JOIN `cms_pages` "
+            ->Query("SELECT * FROM `cms_menu` RIGHT JOIN `cms_pages` "
                 . "ON `cms_menu`.`page_id`=`cms_pages`.`page_id` "
-                . "WHERE `cms_pages`.`published`=1 "
-                . "ORDER BY `cms_menu`.`position` ASC;")
+                . "ORDER BY `cms_menu`.`position` DESC;")
             ->FetchArray();
         
         $list_view = View::Factory('admin/page/list', array(
@@ -172,7 +171,7 @@ class ControllerAdminPage extends ControllerAdmin
                 . 'FROM `cms_menu`) AS menu) + 1)')
             ->Execute();
         
-        $this->request->Redirect('admin/page/list/status/added');
+        //$this->request->Redirect('admin/page/list/status/added');
     }
     
     public function ActionEdit()
@@ -398,8 +397,8 @@ class ControllerAdminPage extends ControllerAdmin
             ->Query('UPDATE `cms_menu` '
                 . 'SET `position`=`position` - 1 '
                 . 'WHERE `position` > (SELECT `position` FROM '
-                . '(SELECT * FROM `cms_menu`) as tmp WHERE `page_id`=\''
-                . Database::current()->Escape($page_id) . ')\'')
+                . '(SELECT * FROM `cms_menu`) as tmp WHERE `page_id`='
+                . Database::current()->Escape($page_id) . ')')
             ->Execute()
             ->Query("DELETE FROM `cms_menu` WHERE `page_id`='"
                 . Database::current()->Escape($page_id) . "')")
