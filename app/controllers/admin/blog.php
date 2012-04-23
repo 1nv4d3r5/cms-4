@@ -133,6 +133,17 @@ class ControllerAdminBlog extends ControllerAdmin
                 . 'NOW())')
             ->Execute();
         
+        $blog_entry_id = Database::current()->InsertID();
+        
+        // Insert into history
+        Database::current()
+                ->Query('INSERT INTO `cms_blog_entry_history`(`blog_entry_id`,'
+                    . '`user_id`,`date`,`action`) VALUES(\''
+                    . Database::current()->Escape($blog_entry_id) . '\',\''
+                    . Database::current()->Escape($this->user['user_id'])
+                    . '\', NOW(), \'new\')')
+                ->Execute();
+        
         $this->request->Redirect('admin/blog/list/status/added');
     }
     
@@ -232,6 +243,15 @@ class ControllerAdminBlog extends ControllerAdmin
                 . Database::current()->Escape($blog_entry_id) . '\'')
             ->Execute();
         
+        // Insert into history
+        Database::current()
+            ->Query('INSERT INTO `cms_blog_entry_history`(`blog_entry_id`,'
+                . '`user_id`,`date`,`action`) VALUES(\''
+                . Database::current()->Escape($blog_entry_id) . '\',\''
+                . Database::current()->Escape($this->user['user_id'])
+                . '\', NOW(), \'edit\')')
+            ->Execute();
+        
         $this->request->Redirect('admin/blog/edit/' . $blog_entry_id
                 . '/status/saved');
     }
@@ -259,6 +279,15 @@ class ControllerAdminBlog extends ControllerAdmin
                 . Database::current()->Escape($blog_entry_id) . '\'')
             ->Execute();
         
+        // Insert into history
+        Database::current()
+            ->Query('INSERT INTO `cms_blog_entry_history`(`blog_entry_id`,'
+                . '`user_id`,`date`,`action`) VALUES(\''
+                . Database::current()->Escape($blog_entry_id) . '\',\''
+                . Database::current()->Escape($this->user['user_id'])
+                . '\', NOW(), \'published\')')
+            ->Execute();
+        
         $this->request->Redirect('admin/blog/list/status/published');
     }
     
@@ -283,6 +312,15 @@ class ControllerAdminBlog extends ControllerAdmin
             ->Query('UPDATE `cms_blog_entries` SET `published`=0 WHERE '
                 . '`blog_entry_id`=\''
                 . Database::current()->Escape($blog_entry_id) . '\'')
+            ->Execute();
+        
+        // Insert into history
+        Database::current()
+            ->Query('INSERT INTO `cms_blog_entry_history`(`blog_entry_id`,'
+                . '`user_id`,`date`,`action`) VALUES(\''
+                . Database::current()->Escape($blog_entry_id) . '\',\''
+                . Database::current()->Escape($this->user['user_id'])
+                . '\', NOW(), \'unpublished\')')
             ->Execute();
         
         $this->request->Redirect('admin/blog/list/status/unpublished');
