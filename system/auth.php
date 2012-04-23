@@ -99,8 +99,8 @@ class Auth
                     $this->user = Database::current()
                                         ->Query("SELECT * FROM `cms_auth` "
                                             . "JOIN `cms_users` "
-                                            . "ON `cms_auth`.`user_id`='
-                                            . '`cms_users`.`user_id` "
+                                            . "ON `cms_auth`.`user_id`="
+                                            . "`cms_users`.`user_id` "
                                             . "WHERE `cms_auth`.`cookie`='" 
                                             . Database::current()
                                                   ->Escape($current_cookie)
