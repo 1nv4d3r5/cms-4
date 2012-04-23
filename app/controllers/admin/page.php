@@ -262,6 +262,13 @@ class ControllerAdminPage extends ControllerAdmin
                 . Database::current()->Escape($page_id) . '\'')
             ->Execute();
         
+        // Insert into history
+        Database::current()
+                ->Query('INSERT INTO `cms_page_history`(`page_id`,`user_id`,'
+                    . '`date`,`action`) VALUES(\'' . $page_id . '\',\''
+                    . $this->user['user_id'] . '\', NOW(), \'edit\')')
+                ->Execute();
+        
         $this->request->Redirect('admin/page/edit/' . $page_id
                 . '/status/saved');
     }
@@ -285,6 +292,13 @@ class ControllerAdminPage extends ControllerAdmin
             ->Query('UPDATE `cms_pages` SET `published`=1 WHERE `page_id`=\''
                 . Database::current()->Escape($page_id) . '\'')
             ->Execute();
+        
+        // Insert into history
+        Database::current()
+                ->Query('INSERT INTO `cms_page_history`(`page_id`,`user_id`,'
+                    . '`date`,`action`) VALUES(\'' . $page_id . '\',\''
+                    . $this->user['user_id'] . '\', NOW(), \'published\')')
+                ->Execute();
         
         $this->request->Redirect('admin/page/list/status/published');
     }
@@ -313,6 +327,13 @@ class ControllerAdminPage extends ControllerAdmin
             ->Query('UPDATE `cms_pages` SET `published`=0 WHERE `page_id`=\''
                 . Database::current()->Escape($page_id) . '\'')
             ->Execute();
+        
+        // Insert into history
+        Database::current()
+                ->Query('INSERT INTO `cms_page_history`(`page_id`,`user_id`,'
+                    . '`date`,`action`) VALUES(\'' . $page_id . '\',\''
+                    . $this->user['user_id'] . '\', NOW(), \'unpublished\')')
+                ->Execute();
         
         $this->request->Redirect('admin/page/list/status/unpublished');
     }
