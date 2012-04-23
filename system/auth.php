@@ -41,8 +41,8 @@ class Auth
         
         $user = Database::current()
                     ->Query("SELECT * FROM `cms_users` WHERE"
-                        . " `username`='$username' AND'
-                        . ' `password`='$password' LIMIT 1")
+                        . " `username`='$username' AND"
+                        . " `password`='$password' LIMIT 1")
                     ->Fetch();
         
         if ($user)
