@@ -6,11 +6,16 @@
     <ul class="admin-user-list">
         <?php foreach ($pages as $list_page): ?>
             <li>
-                <div style="width: 320px; overflow-x: hidden; display: inline-block; vertical-align: top; padding-top: 4px;">
-                    <a href="<?php echo URL::Absolute('admin/page/edit/' . $list_page['page_id']);?>"
-                        style="font-size: 1.4em; font-weight: bold; vertical-align: middle;">
+                <div style="width: 320px; overflow-x: hidden;
+                    display: inline-block; vertical-align: top;
+                    padding-top: 4px;">
+                    <a href="<?php echo URL::Absolute('admin/page/edit/'
+                        . $list_page['page_id']);?>"
+                        style="font-size: 1.4em; font-weight: bold;
+                        vertical-align: middle;">
                         <?php if ($list_page['default']): ?>
-                            <img src="<?php echo URL::Absolute('media/img/page-default.png'); ?>"
+                            <img src="<?php echo URL::Absolute(
+                                 'media/img/page-default.png'); ?>"
                                  style="width: 22px; height: 22px;"/>
                         <?php endif; ?>
                         <?php echo $list_page['title']; ?>
@@ -18,30 +23,44 @@
                 </div>
                 <div style="display: inline-block;">
                     <?php if ($list_page['editable']): ?>
-                        <a href="<?php echo URL::Absolute('admin/page/edit/' . $list_page['page_id']);?>"
+                        <a href="<?php echo URL::Absolute('admin/page/edit/'
+                            . $list_page['page_id']);?>"
                             class="button" style="float: left; width: 80px;">
-                            <img src="<?php echo URL::Absolute('media/img/page-edit.png'); ?>"/>
+                            <img src="<?php echo URL::Absolute(
+                                'media/img/page-edit.png'); ?>"/>
                             <div>Edit</div>
                         </a>
                     <?php endif; ?>
                     <?php if (!$list_page['default']): ?>
                         <?php if ($list_page['published']): ?>
-                            <a href="<?php echo URL::Absolute('admin/page/unpublish/' . $list_page['page_id']);?>"
-                                class="button" style="float: left; width: 115px;">
-                                <img src="<?php echo URL::Absolute('media/img/page-unpublish.png'); ?>"/>
+                            <a href="<?php echo URL::Absolute(
+                                'admin/page/unpublish/'
+                                . $list_page['page_id']);?>"
+                                class="button"
+                                style="float: left; width: 115px;">
+                                <img src="<?php echo URL::Absolute(
+                                    'media/img/page-unpublish.png'); ?>"/>
                                 <div>Unpublish</div>
                             </a>
                         <?php else: ?>
-                            <a href="<?php echo URL::Absolute('admin/page/publish/' . $list_page['page_id']);?>"
-                                class="button" style="float: left; width: 100px;">
-                                <img src="<?php echo URL::Absolute('media/img/page-publish.png'); ?>"/>
+                            <a href="<?php echo URL::Absolute(
+                                'admin/page/publish/'
+                                . $list_page['page_id']);?>"
+                                class="button"
+                                style="float: left; width: 100px;">
+                                <img src="<?php echo URL::Absolute(
+                                    'media/img/page-publish.png'); ?>"/>
                                 <div>Publish</div>
                             </a>
                         <?php endif; ?>
                         <?php if ($list_page['deletable']): ?>
-                            <a href="<?php echo URL::Absolute('admin/page/delete/' . $list_page['page_id']);?>"
-                                class="button" style="float: left; width: 100px;">
-                                <img src="<?php echo URL::Absolute('media/img/page-delete.png'); ?>"/>
+                            <a href="<?php echo URL::Absolute(
+                                'admin/page/delete/'
+                                . $list_page['page_id']);?>"
+                                class="button"
+                                style="float: left; width: 100px;">
+                                <img src="<?php echo URL::Absolute(
+                                    'media/img/page-delete.png'); ?>"/>
                                 <div>Delete</div>
                             </a>
                         <?php endif; ?>

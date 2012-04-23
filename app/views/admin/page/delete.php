@@ -8,7 +8,8 @@
     <img src="<?php echo URL::Absolute('media/img/arrow-undo.png'); ?>"/>
     <div>Cancel</div>
 </a>
-<a href="<?php echo URL::Absolute('admin/page/delete/' . $page['page_id'] . '/confirmed');?>"
+<a href="<?php echo URL::Absolute('admin/page/delete/' . $page['page_id']
+    . '/confirmed');?>"
     class="button" style="float: left; width: 100px;">
     <img src="<?php echo URL::Absolute('media/img/page-delete.png'); ?>"/>
     <div>Delete</div>
