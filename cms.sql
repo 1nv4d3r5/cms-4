@@ -28,6 +28,21 @@ CREATE TABLE `cms_blog_entries` (
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `cms_blog_entry_history`
+--
+
+DROP TABLE IF EXISTS `cms_blog_entry_history`;
+CREATE TABLE `cms_blog_entry_history` (
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `blog_entry_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `action` varchar(255) NOT NULL COMMENT 'Action performed on blog entry ("ADD", "EDIT", "DELETE", etc.)',
+  `data` text NOT NULL,
+  PRIMARY KEY (`history_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `cms_menu`
 -- Important Note: cms_menu REQUIRES InnoDB for transactional purposes that
 -- MyISAM cannot provide.
