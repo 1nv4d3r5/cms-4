@@ -8,7 +8,8 @@ class ControllerAdminPage extends ControllerAdmin
     {
         parent::Before();
         
-        // If a user can't edit pages, then they cannot even add/delete/publish/unpublish pages.
+        // If a user can't edit pages, then they cannot even
+        // add/delete/publish/unpublish pages.
         if (!$this->user['permission_pages_edit'])
             $this->request->Redirect('admin/status/access');
     }
@@ -33,36 +34,44 @@ class ControllerAdminPage extends ControllerAdmin
         switch ($status)
         {
             case 'added':
-                $list_view->Variable('status_message', 'Page has been successfully added.');
+                $list_view->Variable('status_message',
+                        'Page has been successfully added.');
                 break;
             
             case 'deleted':
-                $list_view->Variable('status_message', 'Page has been successfully deleted.');
+                $list_view->Variable('status_message',
+                        'Page has been successfully deleted.');
                 break;
             
             case 'published':
-                $list_view->Variable('status_message', 'Page has been successfully published.');
+                $list_view->Variable('status_message',
+                        'Page has been successfully published.');
                 break;
             
             case 'unpublished':
-                $list_view->Variable('status_message', 'Page has been successfully unpublished.');
+                $list_view->Variable('status_message',
+                        'Page has been successfully unpublished.');
                 break;
             
             case 'not-unpublishable':
-                $list_view->Variable('status_message', 'Default pages cannot be unpublished.');
+                $list_view->Variable('status_message',
+                        'Default pages cannot be unpublished.');
                 break;
             
             case 'not-found':
-                $list_view->Variable('status_message', 'Page cannot be found.');
+                $list_view->Variable('status_message',
+                        'Page cannot be found.');
                 break;
             
             case 'not-editable':
-                $list_view->Variable('status_message', 'Page cannot be edited.');
+                $list_view->Variable('status_message',
+                        'Page cannot be edited.');
                 break;
             
             default:
                 if ($status !== null)
-                    $list_view->Variable('status_message', 'Unknown status: ' . $status);
+                    $list_view->Variable('status_message',
+                            'Unknown status: ' . $status);
                 break;
         }
         
@@ -81,16 +90,19 @@ class ControllerAdminPage extends ControllerAdmin
         switch ($status)
         {
             case 'title':
-                $new_view->Variable('status_message', 'Invalid page title.');
+                $new_view->Variable('status_message',
+                        'Invalid page title.');
                 break;
             
             case 'exists':
-                $new_view->Variable('status_message', 'A page already exists with specified title.');
+                $new_view->Variable('status_message',
+                        'A page already exists with specified title.');
                 break;
             
             default:
                 if ($status !== null)
-                    $new_view->Variable('status_message', 'Unknown status: ' . status);
+                    $new_view->Variable('status_message',
+                            'Unknown status: ' . status);
                 break;
         }
         
@@ -112,7 +124,8 @@ class ControllerAdminPage extends ControllerAdmin
         
         $page = Database::current()
                     ->Query('SELECT `page_id` FROM `cms_pages` WHERE '
-                        . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\'')
+                        . '`slug`=\''
+                        . Database::current()->Escape(Slug($title)) . '\'')
                     ->Fetch();
         
         // Page title already exists
@@ -121,8 +134,8 @@ class ControllerAdminPage extends ControllerAdmin
         
         // TODO: Check for database errors
         Database::current()
-            ->Query('INSERT INTO `cms_pages`(`title`,`content`,`slug`,`date_created`)'
-                . ' VALUES('
+            ->Query('INSERT INTO `cms_pages`(`title`,`content`,`slug`,'
+                . '`date_created`) VALUES('
                 . '\'' . Database::current()->Escape($title) . '\', '
                 . '\'' . Database::current()->Escape($content) . '\', '
                 . '\'' . Database::current()->Escape(Slug($title)) . '\', '
@@ -134,7 +147,8 @@ class ControllerAdminPage extends ControllerAdmin
             ->Query('INSERT INTO `cms_menu`(`page_id`,`position`)'
                 . 'VALUES('
                 . Database::current()->InsertID() . ', '
-                . '(SELECT COUNT(`page_id`) FROM (SELECT `page_id` FROM `cms_menu`) AS menu) + 1)')
+                . '(SELECT COUNT(`page_id`) FROM (SELECT `page_id` '
+                . 'FROM `cms_menu`) AS menu) + 1)')
             ->Execute();
         
         $this->request->Redirect('admin/page/list/status/added');
@@ -146,7 +160,8 @@ class ControllerAdminPage extends ControllerAdmin
         
         $page = Database::current()
                     ->Query('SELECT * FROM `cms_pages` WHERE '
-                        . '`page_id`=\'' . Database::current()->Escape($page_id) . '\'')
+                        . '`page_id`=\''
+                        . Database::current()->Escape($page_id) . '\'')
                     ->Fetch();
         
         // Page does not exist
@@ -172,11 +187,13 @@ class ControllerAdminPage extends ControllerAdmin
                 break;
             
             case 'saved':
-                $edit_view->Variable('status_message', 'Changes has been successfully saved.');
+                $edit_view->Variable('status_message',
+                        'Changes has been successfully saved.');
                 break;
             
             case 'exists':
-                $edit_view->Variable('status_message', 'A page already exists with specified title.');
+                $edit_view->Variable('status_message',
+                        'A page already exists with specified title.');
                 break;
         }
         
@@ -192,7 +209,8 @@ class ControllerAdminPage extends ControllerAdmin
         $page_id = $this->request->parameter('page_id');
         
         $page = Database::current()
-                    ->Query('SELECT `page_id`,`editable` FROM `cms_pages` WHERE `page_id`=\''
+                    ->Query('SELECT `page_id`,`editable` FROM `cms_pages` '
+                        . 'WHERE `page_id`=\''
                         . Database::current()->Escape($page_id) . '\'')
                     ->Fetch();
         
@@ -214,24 +232,29 @@ class ControllerAdminPage extends ControllerAdmin
         
         $old_page = Database::current()
                         ->Query('SELECT `page_id` FROM `cms_pages` WHERE '
-                            . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\' '
-                            . 'AND `page_id`!=\'' . Database::current()->Escape($page_id) . '\'')
+                            . '`slug`=\''
+                            . Database::current()->Escape(Slug($title)) . '\' '
+                            . 'AND `page_id`!=\''
+                            . Database::current()->Escape($page_id) . '\'')
                         ->Fetch();
         
         // Page title already exists
         if ($old_page)
-            $this->request->Redirect('admin/page/edit/' . $page_id . '/status/exists');
+            $this->request->Redirect('admin/page/edit/' . $page_id
+                    . '/status/exists');
         
         // TODO: Check for database errors
         Database::current()
             ->Query('UPDATE `cms_pages` SET '
                 . '`title`=\'' . Database::current()->Escape($title) . '\', '
-                . '`content`=\'' . Database::current()->Escape($content) . '\', '
-                . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\' '
-                . 'WHERE `page_id`=\'' . Database::current()->Escape($page_id) . '\'')
+                . '`content`=\'' . Database::current()->Escape($content)
+                . '\', `slug`=\'' . Database::current()->Escape(Slug($title))
+                . '\' WHERE `page_id`=\''
+                . Database::current()->Escape($page_id) . '\'')
             ->Execute();
         
-        $this->request->Redirect('admin/page/edit/' . $page_id . '/status/saved');
+        $this->request->Redirect('admin/page/edit/' . $page_id
+                . '/status/saved');
     }
     
     public function ActionPublish()
@@ -239,7 +262,9 @@ class ControllerAdminPage extends ControllerAdmin
         $page_id = $this->request->parameter('page_id');
         
         $page = Database::current()
-                    ->Query('SELECT `page_id` FROM `cms_pages` WHERE `page_id`=\''
+                    ->Query('SELECT `page_id` '
+                        . 'FROM `cms_pages` '
+                        . 'WHERE `page_id`=\''
                         . Database::current()->Escape($page_id) . '\'')
                     ->Fetch();
         
@@ -260,7 +285,9 @@ class ControllerAdminPage extends ControllerAdmin
         $page_id = $this->request->parameter('page_id');
         
         $page = Database::current()
-                    ->Query('SELECT `page_id`, `default` FROM `cms_pages` WHERE `page_id`=\''
+                    ->Query('SELECT `page_id`, `default` '
+                        . 'FROM `cms_pages` '
+                        . 'WHERE `page_id`=\''
                         . Database::current()->Escape($page_id) . '\'')
                     ->Fetch();
         
@@ -270,7 +297,8 @@ class ControllerAdminPage extends ControllerAdmin
         
         // Page is default
         if ($page['default'])
-            $this->request->Redirect('admin/page/list/status/not-unpublishable');
+            $this->request->Redirect(
+                    'admin/page/list/status/not-unpublishable');
         
         Database::current()
             ->Query('UPDATE `cms_pages` SET `published`=0 WHERE `page_id`=\''
@@ -319,9 +347,11 @@ class ControllerAdminPage extends ControllerAdmin
         // will be two pages stuck with the same menu ID if an error occurs.
         Database::current()
             ->Begin()
-            ->Query("UPDATE `cms_menu` SET `position`=`position` - 1 WHERE `position` > "
-                . "(SELECT `position` FROM (SELECT * FROM `cms_menu`) as tmp WHERE `page_id`='"
-                . Database::current()->Escape($page_id) . "')")
+            ->Query('UPDATE `cms_menu` '
+                . 'SET `position`=`position` - 1 '
+                . 'WHERE `position` > (SELECT `position` FROM '
+                . '(SELECT * FROM `cms_menu`) as tmp WHERE `page_id`=\''
+                . Database::current()->Escape($page_id) . ')\'')
             ->Execute()
             ->Query("DELETE FROM `cms_menu` WHERE `page_id`='"
                 . Database::current()->Escape($page_id) . "')")

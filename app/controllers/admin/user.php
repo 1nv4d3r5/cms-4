@@ -33,36 +33,44 @@ class ControllerAdminUser extends ControllerAdmin
         switch ($status)
         {
             case 'added':
-                $list_view->Variable('status_message', 'User has been successfully added.');
+                $list_view->Variable('status_message',
+                        'User has been successfully added.');
                 break;
             
             case 'deleted':
-                $list_view->Variable('status_message', 'User has been successfully deleted.');
+                $list_view->Variable('status_message',
+                        'User has been successfully deleted.');
                 break;
             
             case 'delete-current':
-                $list_view->Variable('status_message', 'Users cannot delete themselves.');
+                $list_view->Variable('status_message',
+                        'Users cannot delete themselves.');
                 break;
             
             case 'archived':
-                $list_view->Variable('status_message', 'User has been successfully archived.');
+                $list_view->Variable('status_message',
+                        'User has been successfully archived.');
                 break;
             
             case 'archive-current':
-                $list_view->Variable('status_message', 'Users cannot archive themselves.');
+                $list_view->Variable('status_message',
+                        'Users cannot archive themselves.');
                 break;
             
             case 'unarchived':
-                $list_view->Variable('status_message', 'User has been successfully unarchived.');
+                $list_view->Variable('status_message',
+                        'User has been successfully unarchived.');
                 break;
             
             case 'not-found':
-                $list_view->Variable('status_message', 'User cannot be found.');
+                $list_view->Variable('status_message',
+                        'User cannot be found.');
                 break;
             
             default:
                 if ($status !== null)
-                    $list_view->Variable('status_message', 'Unknown status: ' . $status);
+                    $list_view->Variable('status_message',
+                            'Unknown status: ' . $status);
                 break;
         }
         
@@ -85,7 +93,8 @@ class ControllerAdminUser extends ControllerAdmin
                 break;
             
             case 'password':
-                $new_view->Variable('status_message', 'Passwords do not match.');
+                $new_view->Variable('status_message',
+                        'Passwords do not match.');
                 break;
             
             case 'email':
@@ -93,12 +102,14 @@ class ControllerAdminUser extends ControllerAdmin
                 break;
             
             case 'exists':
-                $new_view->Variable('status_message', 'Username or email is already in use.');
+                $new_view->Variable('status_message',
+                        'Username or email is already in use.');
                 break;
             
             default:
                 if ($status !== null)
-                    $new_view->Variable('status_message', 'Unknown status: ' . status);
+                    $new_view->Variable('status_message',
+                            'Unknown status: ' . status);
                 break;
         }
         
@@ -119,12 +130,16 @@ class ControllerAdminUser extends ControllerAdmin
         $email = $this->request->post('email');
         $first_name = $this->request->post('first_name');
         $last_name = $this->request->post('last_name');
-        $permission_manage_users = $this->request->post('permission_manage_users');
+        $permission_manage_users = $this->request->post(
+                'permission_manage_users');
         $permission_pages_edit = $this->request->post('permission_pages_edit');
         $permission_pages_add = $this->request->post('permission_pages_add');
-        $permission_blog_entry_edit = $this->request->post('permission_blog_entry_edit');
-        $permission_blog_entry_add = $this->request->post('permission_blog_entry_add');
-        $permission_blog_entry_credit_users = $this->request->post('permission_blog_entry_credit_users');
+        $permission_blog_entry_edit = $this->request->post(
+                'permission_blog_entry_edit');
+        $permission_blog_entry_add = $this->request->post(
+                'permission_blog_entry_add');
+        $permission_blog_entry_credit_users = $this->request->post(
+                'permission_blog_entry_credit_users');
         
         // TODO: Check for valid input
         $error = false;
@@ -142,8 +157,11 @@ class ControllerAdminUser extends ControllerAdmin
         // Check if user exists
         $user = Database::current()
                     ->Query('SELECT * FROM `cms_users` WHERE '
-                        . '`username`=\'' . Database::current()->Escape(strtolower($username)) . '\' OR '
-                        . '`email`=\'' . Database::current()->Escape(strtolower($email)) . '\'')
+                        . '`username`=\''
+                        . Database::current()->Escape(strtolower($username))
+                        . '\' OR `email`=\''
+                        . Database::current()->Escape(strtolower($email))
+                        . '\'')
                     ->Fetch();
         
         if ($user)
@@ -155,7 +173,8 @@ class ControllerAdminUser extends ControllerAdmin
                 ->Query('INSERT INTO `cms_users`(`username`,`password`,`email`,'
                     . '`first_name`,`last_name`,`permission_manage_users`,'
                     . '`permission_pages_edit`,`permission_pages_add`,'
-                    . '`permission_blog_entry_edit`,`permission_blog_entry_add`,'
+                    . '`permission_blog_entry_edit`,'
+                    . '`permission_blog_entry_add`,'
                     . '`permission_blog_entry_credit_users`)'
                     . 'VALUES('
                     . '\'' . Database::current()->Escape($username) . '\', '
@@ -191,13 +210,15 @@ class ControllerAdminUser extends ControllerAdmin
         if (!$user)
             $this->request->Redirect('admin/user/list/status/not-found');
         
-        $edit_view = View::Factory('admin/user/edit', array('edit_user' => $user));
+        $edit_view = View::Factory('admin/user/edit',
+                array('edit_user' => $user));
         
         $status = $this->request->parameter('status');
         switch ($status)
         {
             case 'saved':
-                $edit_view->Variable('status_message', 'Changes has been successfully saved.');
+                $edit_view->Variable('status_message',
+                        'Changes has been successfully saved.');
                 break;
             
             case 'username':
@@ -205,16 +226,19 @@ class ControllerAdminUser extends ControllerAdmin
                 break;
             
             case 'password':
-                $edit_view->Variable('status_message', 'Passwords do not match.');
+                $edit_view->Variable('status_message',
+                        'Passwords do not match.');
                 break;
             
             case 'exists':
-                $edit_view->Variable('status_message', 'Username or email already exists.');
+                $edit_view->Variable('status_message',
+                        'Username or email already exists.');
                 break;
             
             default:
                 if ($status !== null)
-                    $edit_view->Variable('status_message', 'Unknown status: ' . $status);
+                    $edit_view->Variable('status_message',
+                            'Unknown status: ' . $status);
                 break;
         }
         
@@ -231,7 +255,8 @@ class ControllerAdminUser extends ControllerAdmin
         // Check if user exists
         $user = Database::current()
                     ->Query('SELECT `user_id` FROM `cms_users` WHERE '
-                        . '`user_id`=\'' . Database::current()->Escape($user_id) . '\'')
+                        . '`user_id`=\''
+                        . Database::current()->Escape($user_id) . '\'')
                     ->Fetch();
         
         // User doesn't exist
@@ -249,58 +274,79 @@ class ControllerAdminUser extends ControllerAdmin
         $email = $this->request->post('email');
         $first_name = $this->request->post('first_name');
         $last_name = $this->request->post('last_name');
-        $permission_manage_users = $this->request->post('permission_manage_users');
+        $permission_manage_users = $this->request->post(
+                'permission_manage_users');
         $permission_pages_edit = $this->request->post('permission_pages_edit');
         $permission_pages_add = $this->request->post('permission_pages_add');
-        $permission_blog_entry_edit = $this->request->post('permission_blog_entry_edit');
-        $permission_blog_entry_add = $this->request->post('permission_blog_entry_add');
-        $permission_blog_entry_credit_users = $this->request->post('permission_blog_entry_credit_users');
+        $permission_blog_entry_edit = $this->request->post(
+                'permission_blog_entry_edit');
+        $permission_blog_entry_add = $this->request->post(
+                'permission_blog_entry_add');
+        $permission_blog_entry_credit_users = $this->request->post(
+                'permission_blog_entry_credit_users');
         
         $error = false;
         
         $update_password = false;
         
         if (strlen($username) <= 0)
-            $this->request->Redirect('admin/user/edit/' . $user_id . '/status/username');
+            $this->request->Redirect('admin/user/edit/' . $user_id
+                    . '/status/username');
         
         if (strlen($password) > 0 && strlen($confirm_password) > 0)
         {
             if ($password != $confirm_password)
-                $this->request->Redirect('admin/user/edit/' . $user_id . '/status/password');
+                $this->request->Redirect('admin/user/edit/' . $user_id
+                        . '/status/password');
             else
                 $update_password = true;
         }
         
         $user = Database::current()
-                    ->Query('SELECT `user_id` FROM `cms_users` WHERE (`username`=\''
+                    ->Query('SELECT `user_id` '
+                        . 'FROM `cms_users` WHERE (`username`=\''
                         . Database::current()->Escape($username) . '\' OR '
-                        . '`email`=\'' . Database::current()->Escape($email) . '\') AND '
-                        . '`user_id` != \'' . Database::current()->Escape($user_id) . '\'')
+                        . '`email`=\'' . Database::current()->Escape($email)
+                        . '\') AND `user_id` != \''
+                        . Database::current()->Escape($user_id) . '\'')
                     ->Fetch();
         
         if ($user)
-            $this->request->Redirect('admin/user/edit/' . $user_id . '/status/exists');
+            $this->request->Redirect('admin/user/edit/' . $user_id
+                    . '/status/exists');
         
         if (!$error)
         {
             Database::current()
                 ->Query('UPDATE `cms_users` SET '
-                    . '`username`=\'' . Database::current()->Escape($username) . '\', '
-                    . (($update_password) ? '`password`=\'' . sha1($password) . '\', ' : '')
-                    . '`email`=\'' . Database::current()->Escape($email) . '\', '
-                    . '`first_name`=\'' . Database::current()->Escape($first_name) . '\', '
-                    . '`last_name`=\'' . Database::current()->Escape($last_name) . '\', '
-                    . '`permission_manage_users`=' . (($permission_manage_users == 'true') ? 1 : 0) . ', '
-                    . '`permission_pages_edit`=' . (($permission_pages_edit == 'true') ? 1 : 0) . ', '
-                    . '`permission_pages_add`=' . (($permission_pages_add == 'true') ? 1 : 0) . ', '
-                    . '`permission_blog_entry_edit`=' . (($permission_blog_entry_edit == 'true') ? 1 : 0) . ', '
-                    . '`permission_blog_entry_add`=' . (($permission_blog_entry_add == 'true') ? 1 : 0) . ', '
-                    . '`permission_blog_entry_credit_users`=' . (($permission_blog_entry_credit_users == 'true') ? 1 : 0) . ' '
-                    . 'WHERE `user_id`=\'' . Database::current()->Escape($user_id) . '\'')
+                    . '`username`=\'' . Database::current()->Escape($username)
+                    . '\', ' . (($update_password) ? '`password`=\''
+                    . sha1($password) . '\', ' : '')
+                    . '`email`=\'' . Database::current()->Escape($email)
+                    . '\', '
+                    . '`first_name`=\''
+                    . Database::current()->Escape($first_name) . '\', '
+                    . '`last_name`=\''
+                    . Database::current()->Escape($last_name) . '\', '
+                    . '`permission_manage_users`='
+                    . (($permission_manage_users == 'true') ? 1 : 0) . ', '
+                    . '`permission_pages_edit`='
+                    . (($permission_pages_edit == 'true') ? 1 : 0) . ', '
+                    . '`permission_pages_add`='
+                    . (($permission_pages_add == 'true') ? 1 : 0) . ', '
+                    . '`permission_blog_entry_edit`='
+                    . (($permission_blog_entry_edit == 'true') ? 1 : 0) . ', '
+                    . '`permission_blog_entry_add`='
+                    . (($permission_blog_entry_add == 'true') ? 1 : 0) . ', '
+                    . '`permission_blog_entry_credit_users`='
+                    . (($permission_blog_entry_credit_users == 'true') ? 1 : 0)
+                    . ' WHERE `user_id`=\''
+                    . Database::current()->Escape($user_id) . '\'')
                 ->Execute();
         }
         
-        $this->request->Redirect('admin/user/edit/' . $user_id . '/status/saved');
+        $this->request->Redirect('admin/user/edit/' . $user_id
+                . '/status/saved');
     }
     
     public function ActionDelete()

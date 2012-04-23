@@ -11,11 +11,13 @@ class ControllerAdminBlog extends ControllerAdmin
   
     public function ActionList()
     {
+        $blog_entries = Database::current()
+                            ->Query('SELECT * FROM `cms_blog_entries`')
+                            ->FetchArray();
+        
         $list_view = View::Factory('admin/blog/list', array(
                 'user'         => $this->user,
-                'blog_entries' => Database::current()
-                                      ->Query('SELECT * FROM `cms_blog_entries`')
-                                      ->FetchArray(),
+                'blog_entries' => $blog_entries,
             ));
         
         // Get a possible status message
@@ -24,32 +26,39 @@ class ControllerAdminBlog extends ControllerAdmin
         switch ($status)
         {
             case 'added':
-                $list_view->Variable('status_message', 'Blog entry has been successfully added.');
+                $list_view->Variable('status_message',
+                        'Blog entry has been successfully added.');
                 break;
             
             case 'deleted':
-                $list_view->Variable('status_message', 'Blog entry has been successfully deleted.');
+                $list_view->Variable('status_message',
+                        'Blog entry has been successfully deleted.');
                 break;
             
             case 'published':
-                $list_view->Variable('status_message', 'Blog entry has been successfully published.');
+                $list_view->Variable('status_message',
+                        'Blog entry has been successfully published.');
                 break;
             
             case 'unpublished':
-                $list_view->Variable('status_message', 'Blog entry has been successfully unpublished.');
+                $list_view->Variable('status_message',
+                        'Blog entry has been successfully unpublished.');
                 break;
             
             case 'not-found':
-                $list_view->Variable('status_message', 'Blog entry cannot be found.');
+                $list_view->Variable('status_message',
+                        'Blog entry cannot be found.');
                 break;
             
             case 'not-editable':
-                $list_view->Variable('status_message', 'Blog entry cannot be edited.');
+                $list_view->Variable('status_message',
+                        'Blog entry cannot be edited.');
                 break;
             
             default:
                 if ($status !== null)
-                    $list_view->Variable('status_message', 'Unknown status: ' . $status);
+                    $list_view->Variable('status_message',
+                            'Unknown status: ' . $status);
                 break;
         }
         
@@ -69,16 +78,19 @@ class ControllerAdminBlog extends ControllerAdmin
         switch ($status)
         {
             case 'title':
-                $new_view->Variable('status_message', 'Invalid blog entry title.');
+                $new_view->Variable('status_message',
+                        'Invalid blog entry title.');
                 break;
             
             case 'exists':
-                $new_view->Variable('status_message', 'A blog entry already exists with specified title.');
+                $new_view->Variable('status_message',
+                        'A blog entry already exists with specified title.');
                 break;
             
             default:
                 if ($status !== null)
-                    $new_view->Variable('status_message', 'Unknown status: ' . status);
+                    $new_view->Variable('status_message',
+                            'Unknown status: ' . status);
                 break;
         }
         
@@ -99,8 +111,9 @@ class ControllerAdminBlog extends ControllerAdmin
             $this->request->Redirect('admin/blog/new/status/title');
         
         $page = Database::current()
-                    ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE '
-                        . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\'')
+                    ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries`'
+                            . 'WHERE `slug`=\''
+                            . Database::current()->Escape(Slug($title)) . '\'')
                     ->Fetch();
         
         // Blog entry title already exists
@@ -109,9 +122,11 @@ class ControllerAdminBlog extends ControllerAdmin
         
         // TODO: Check for database errors
         Database::current()
-            ->Query('INSERT INTO `cms_blog_entries`(`user_id`,`title`,`content`,`slug`,`date_created`)'
+            ->Query('INSERT INTO `cms_blog_entries`(`user_id`,`title`,`content`'
+                . ',`slug`,`date_created`)'
                 . ' VALUES('
-                . '\'' . Database::current()->Escape($this->user['user_id']) . '\', '
+                . '\'' . Database::current()->Escape($this->user['user_id'])
+                . '\', '
                 . '\'' . Database::current()->Escape($title) . '\', '
                 . '\'' . Database::current()->Escape($content) . '\', '
                 . '\'' . Database::current()->Escape(Slug($title)) . '\', '
@@ -128,7 +143,8 @@ class ControllerAdminBlog extends ControllerAdmin
         $blog_entry = Database::current()
                           ->Query('SELECT * FROM `cms_blog_entries` WHERE '
                               . '`blog_entry_id`=\''
-                              . Database::current()->Escape($blog_entry_id) . '\'')
+                              . Database::current()->Escape($blog_entry_id)
+                              . '\'')
                           ->Fetch();
         
         if (!$blog_entry)
@@ -148,11 +164,13 @@ class ControllerAdminBlog extends ControllerAdmin
                 break;
             
             case 'saved':
-                $edit_view->Variable('status_message', 'Changes has been successfully saved.');
+                $edit_view->Variable('status_message',
+                        'Changes has been successfully saved.');
                 break;
             
             case 'exists':
-                $edit_view->Variable('status_message', 'A blog entry already exists with specified title.');
+                $edit_view->Variable('status_message',
+                        'A blog entry already exists with specified title.');
                 break;
         }
         
@@ -168,7 +186,8 @@ class ControllerAdminBlog extends ControllerAdmin
         $blog_entry_id = $this->request->parameter('blog_entry_id');
         
         $blog_entry = Database::current()
-                    ->Query('SELECT `blog_entry_id`,`editable` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                    ->Query('SELECT `blog_entry_id`,`editable` '
+                        . 'FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
                         . Database::current()->Escape($blog_entry_id) . '\'')
                     ->Fetch();
         
@@ -189,27 +208,32 @@ class ControllerAdminBlog extends ControllerAdmin
                 . $blog_entry_id . '/status/title');
         
         $old_blog_entry = Database::current()
-                              ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE '
+                              ->Query('SELECT `blog_entry_id` '
+                                  . 'FROM `cms_blog_entries` WHERE '
                                   . '`slug`=\''
-                                  . Database::current()->Escape(Slug($title)) . '\' '
-                                  . 'AND `blog_entry_id`!=\''
-                                  . Database::current()->Escape($blog_entry_id) . '\'')
+                                  . Database::current()->Escape(Slug($title))
+                                  . '\' AND `blog_entry_id`!=\''
+                                  . Database::current()->Escape($blog_entry_id)
+                                  . '\'')
                               ->Fetch();
         
         // Blog entry title already exists
         if ($old_blog_entry)
-            $this->request->Redirect('admin/blog/edit/' . $blog_entry_id . '/status/exists');
+            $this->request->Redirect('admin/blog/edit/' . $blog_entry_id
+                    . '/status/exists');
         
         // TODO: Check for database errors
         Database::current()
             ->Query('UPDATE `cms_blog_entries` SET '
                 . '`title`=\'' . Database::current()->Escape($title) . '\', '
-                . '`content`=\'' . Database::current()->Escape($content) . '\', '
-                . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\' '
-                . 'WHERE `blog_entry_id`=\'' . Database::current()->Escape($blog_entry_id) . '\'')
+                . '`content`=\'' . Database::current()->Escape($content) . '\','
+                . '`slug`=\'' . Database::current()->Escape(Slug($title))
+                . '\' WHERE `blog_entry_id`=\''
+                . Database::current()->Escape($blog_entry_id) . '\'')
             ->Execute();
         
-        $this->request->Redirect('admin/blog/edit/' . $blog_entry_id . '/status/saved');
+        $this->request->Redirect('admin/blog/edit/' . $blog_entry_id
+                . '/status/saved');
     }
     
     public function ActionPublish()
@@ -218,8 +242,11 @@ class ControllerAdminBlog extends ControllerAdmin
         
         // Make sure blog entry exists
         $blog_entry = Database::current()
-                          ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
-                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Query('SELECT `blog_entry_id` '
+                              . 'FROM `cms_blog_entries` '
+                              . 'WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id)
+                              . '\'')
                           ->Fetch();
         
         // blog entry does not exist
@@ -227,7 +254,8 @@ class ControllerAdminBlog extends ControllerAdmin
             $this->request->Redirect('admin/blog/list/status/not-found');
         
         Database::current()
-            ->Query('UPDATE `cms_blog_entries` SET `published`=1 WHERE `blog_entry_id`=\''
+            ->Query('UPDATE `cms_blog_entries` SET `published`=1 '
+                . 'WHERE `blog_entry_id`=\''
                 . Database::current()->Escape($blog_entry_id) . '\'')
             ->Execute();
         
@@ -240,8 +268,11 @@ class ControllerAdminBlog extends ControllerAdmin
         
         // Make sure blog entry exists
         $blog_entry = Database::current()
-                          ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
-                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Query('SELECT `blog_entry_id`'
+                              . ' FROM `cms_blog_entries`'
+                              . ' WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id)
+                              . '\'')
                           ->Fetch();
         
         // blog entry does not exist
@@ -249,7 +280,8 @@ class ControllerAdminBlog extends ControllerAdmin
             $this->request->Redirect('admin/blog/list/status/not-found');
         
         Database::current()
-            ->Query('UPDATE `cms_blog_entries` SET `published`=0 WHERE `blog_entry_id`=\''
+            ->Query('UPDATE `cms_blog_entries` SET `published`=0 WHERE '
+                . '`blog_entry_id`=\''
                 . Database::current()->Escape($blog_entry_id) . '\'')
             ->Execute();
         
@@ -262,8 +294,10 @@ class ControllerAdminBlog extends ControllerAdmin
         
         // Make sure blog entry exists
         $blog_entry = Database::current()
-                          ->Query('SELECT * FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
-                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Query('SELECT * FROM `cms_blog_entries` '
+                              . 'WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id)
+                              . '\'')
                           ->Fetch();
         
         // blog entry does not exist
@@ -284,8 +318,11 @@ class ControllerAdminBlog extends ControllerAdmin
         
         // Make sure blog entry exists
         $blog_entry = Database::current()
-                          ->Query('SELECT `blog_entry_id` FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
-                              . Database::current()->Escape($blog_entry_id) . '\'')
+                          ->Query('SELECT `blog_entry_id` '
+                              . 'FROM `cms_blog_entries` '
+                              . 'WHERE `blog_entry_id`=\''
+                              . Database::current()->Escape($blog_entry_id)
+                              . '\'')
                           ->Fetch();
         
         // blog entry does not exist
@@ -294,7 +331,8 @@ class ControllerAdminBlog extends ControllerAdmin
         
         // Delete from blog_entries
         Database::current()
-                ->Query('DELETE FROM `cms_blog_entries` WHERE `blog_entry_id`=\''
+                ->Query('DELETE FROM `cms_blog_entries` '
+                    . 'WHERE `blog_entry_id`=\''
                     . Database::current()->Escape($blog_entry_id) . '\'')
                 ->Execute();
         
