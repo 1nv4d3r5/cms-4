@@ -18,7 +18,7 @@
                 </div>
                 <div style="display: inline-block;">
                     <?php if (isset($list_entry['editable']) &&
-                              $list_entry['editable']): ?>
+                              $list_entry['editable'] && $user['permission_blog_entry_edit']): ?>
                         <a href="<?php echo URL::Absolute('admin/blog/edit/'
                                 . $list_entry['blog_entry_id']);?>"
                             class="button" style="float: left; width: 80px;">
@@ -60,7 +60,7 @@
 <?php else: ?>
     <h3>No blog entries.</h3>
 <?php endif; ?>
-<?php if ($user['permission_pages_add']): ?>
+<?php if ($user['permission_blog_entry_add']): ?>
     <div class="admin-section-menu">
         <a href="<?php echo URL::Absolute('admin/blog/new');?>"
             class="button" style="float: left; width: 90px;">

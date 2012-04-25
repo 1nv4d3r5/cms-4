@@ -10,6 +10,15 @@
     <textarea name="content" class="mceAdvanced"
         style="width: 600px; height: 400px;"
         ><?php echo $blog_entry['content']; ?></textarea>
+    Change Author:
+    <select name="author">
+        <option value="0">-</option>
+    <?php foreach ($users as $other_user): ?>
+        <option value="<?php echo $other_user['user_id']; ?>">
+            <?php echo $other_user['username']; ?>
+        </option>
+    <?php endforeach; ?>
+    </select>
     <div class="admin-section-menu">
         <a href="javascript:void(0);" class="button"
            style="float: left; width: 140px;"

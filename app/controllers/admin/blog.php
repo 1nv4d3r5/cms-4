@@ -12,7 +12,8 @@ class ControllerAdminBlog extends ControllerAdmin
     public function ActionList()
     {
         $blog_entries = Database::current()
-                            ->Query('SELECT * FROM `cms_blog_entries`')
+                            ->Query('SELECT * FROM `cms_blog_entries`'
+                                    . ' ORDER BY `date_created` DESC')
                             ->FetchArray();
         
         $list_view = View::Factory('admin/blog/list', array(
@@ -161,8 +162,13 @@ class ControllerAdminBlog extends ControllerAdmin
         if (!$blog_entry)
             $this->request->Redirect('admin/blog/list/status/not-found');
         
+        $users = Database::current()
+                ->Query("SELECT * FROM `cms_users` WHERE `archived`=0")
+                ->FetchArray();
+        
         $edit_view = View::Factory('admin/blog/edit', array(
                 'user'       => $this->user,
+                'users'      => $users,
                 'blog_entry' => $blog_entry,
             ));
         
@@ -212,6 +218,7 @@ class ControllerAdminBlog extends ControllerAdmin
         
         $title = $this->request->post('title');
         $content = $this->request->post('content');
+        $author_id = $this->request->post('author');
         
         // Our only limitation is that the title has a length > 0
         if (strlen($title) <= 0)
@@ -238,8 +245,11 @@ class ControllerAdminBlog extends ControllerAdmin
             ->Query('UPDATE `cms_blog_entries` SET '
                 . '`title`=\'' . Database::current()->Escape($title) . '\', '
                 . '`content`=\'' . Database::current()->Escape($content) . '\','
-                . '`slug`=\'' . Database::current()->Escape(Slug($title))
-                . '\' WHERE `blog_entry_id`=\''
+                . '`slug`=\'' . Database::current()->Escape(Slug($title)) . '\','
+                . ((0 != $author_id) ?
+                        '`user_id`=\'' . Database::current()->Escape($author_id)
+                        . '\'' : '')
+                . ' WHERE `blog_entry_id`=\''
                 . Database::current()->Escape($blog_entry_id) . '\'')
             ->Execute();
         
